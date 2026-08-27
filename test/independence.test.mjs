@@ -24,6 +24,12 @@ test("Claude plugin remains independently installable", async () => {
   }
 });
 
+test("Claude Agent SDK peers are plugin-owned runtime dependencies", async () => {
+  const manifest = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
+  assert.equal(manifest.dependencies?.["@anthropic-ai/sdk"], "^0.120.0");
+  assert.equal(manifest.dependencies?.["@modelcontextprotocol/sdk"], "^1.29.0");
+});
+
 test("tracked build artifacts contain no checkout-specific path", async () => {
   for (const entry of await readdir(join(root, "lib"), { withFileTypes: true })) {
     if (!entry.isFile() || (!entry.name.endsWith(".js") && !entry.name.endsWith(".map"))) continue;
