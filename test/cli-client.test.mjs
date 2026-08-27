@@ -79,6 +79,51 @@ console.log(JSON.stringify({ type: "result", result: "ok" }));
   assertFlag(args, "--permission-mode", "plan");
 });
 
+test("Claude CLI inherits process env but ignores undocumented per-message env", async (context) => {
+  const directory = await mkdtemp(join(tmpdir(), "relay-claude-cli-env-"));
+  context.after(() => rm(directory, { recursive: true, force: true }));
+  const previousInherited = process.env.RELAY_CLAUDE_CLI_INHERITED;
+  const previousInjected = process.env.RELAY_CLAUDE_CLI_INJECTED;
+  context.after(() => {
+    restoreEnv("RELAY_CLAUDE_CLI_INHERITED", previousInherited);
+    restoreEnv("RELAY_CLAUDE_CLI_INJECTED", previousInjected);
+  });
+  process.env.RELAY_CLAUDE_CLI_INHERITED = "from-parent-process";
+  delete process.env.RELAY_CLAUDE_CLI_INJECTED;
+  const envPath = join(directory, "env.json");
+  const scriptPath = join(directory, "fake-claude.mjs");
+  await writeFile(scriptPath, `
+import { writeFileSync } from "node:fs";
+writeFileSync(process.argv[2], JSON.stringify({
+  inherited: process.env.RELAY_CLAUDE_CLI_INHERITED ?? null,
+  injected: process.env.RELAY_CLAUDE_CLI_INJECTED ?? null,
+}));
+console.log(JSON.stringify({ type: "result", result: "ok" }));
+`);
+
+  const client = new ClaudeCliClient({ command: process.execPath, args: [scriptPath, envPath] });
+  await client.start();
+  const session = await client.createSession({
+    sessionId: "33333333-3333-4333-8333-333333333333",
+    cwd: directory,
+  });
+  const completed = onceTurnCompleted(client);
+  await client.sendMessage(session.id, {
+    text: "hello",
+    env: {
+      RELAY_CLAUDE_CLI_INHERITED: "from-message-env",
+      RELAY_CLAUDE_CLI_INJECTED: "from-message-env",
+    },
+  });
+  await completed;
+
+  const env = JSON.parse(await readFile(envPath, "utf8"));
+  assert.deepEqual(env, {
+    inherited: "from-parent-process",
+    injected: null,
+  });
+});
+
 function onceTurnCompleted(client) {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error("timed out waiting for turn completion")), 1_000);
@@ -96,4 +141,9 @@ function assertFlag(args, flag, value) {
   const index = args.indexOf(flag);
   assert.notEqual(index, -1, `${flag} is present`);
   assert.equal(args[index + 1], value);
+}
+
+function restoreEnv(name, value) {
+  if (value === undefined) delete process.env[name];
+  else process.env[name] = value;
 }
