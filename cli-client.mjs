@@ -99,7 +99,7 @@ export class ClaudeCliClient extends EventEmitter {
     const child = spawn(this.command, cliArgs, {
       cwd: message.cwd ?? session.cwd ?? process.cwd(),
       stdio: ["ignore", "pipe", "pipe"],
-      env: { ...process.env, ...(message.env ?? {}) },
+      env: { ...process.env },
     });
     child.relayClaudeSessionId = session.id;
     session.created = true;
