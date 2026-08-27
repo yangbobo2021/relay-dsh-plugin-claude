@@ -3,6 +3,29 @@ import test from "node:test";
 
 import { ClaudeSdkClient } from "../sdk-client.mjs";
 
+test("Claude SDK requests summarized adaptive thinking without replacing effort", async () => {
+  let queryParams = null;
+  const sdk = {
+    query(params) {
+      queryParams = params;
+      return queryObject(async function* () {
+        yield { type: "result", session_id: params.options.sessionId, uuid: "u1", subtype: "success", is_error: false, result: "done" };
+      });
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+  const session = await client.createSession({ sessionId: "55555555-5555-4555-8555-555555555555" });
+  const activity = [];
+  client.on("activity", message => activity.push(message));
+
+  await client.sendMessage(session.id, { text: "explain the change", effort: "low" });
+  await untilTurnCompleted(activity);
+
+  assert.equal(queryParams.options.effort, "low");
+  assert.deepEqual(queryParams.options.thinking, { type: "adaptive", display: "summarized" });
+});
+
 test("Claude SDK client pauses on canUseTool and resumes after Relay approval", async () => {
   let queryParams = null;
   const sdk = {

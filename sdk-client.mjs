@@ -117,6 +117,10 @@ export class ClaudeSdkClient extends EventEmitter {
       cwd: message.cwd ?? session.cwd ?? process.cwd(),
       model: message.model ?? session.config?.model,
       effort: message.effort ?? session.config?.effort,
+      // Without a summarized display the model streams thinking blocks whose text is empty, so the
+      // reasoning projection below receives a signature and a token count and has nothing to show.
+      // Effort still decides how much thinking happens; display decides whether it is readable.
+      thinking: { type: "adaptive", display: "summarized" },
       permissionMode: sdkPermissionMode(message),
       settingSources: message.settingSources ?? session.config?.settingSources ?? ["user", "project", "local"],
       systemPrompt: message.systemPrompt ?? session.config?.systemPrompt,
