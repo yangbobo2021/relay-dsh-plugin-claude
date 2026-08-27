@@ -6,7 +6,17 @@ import { installManagedPreset } from "./preset.js";
 export { installClaudeSessionEventType } from "./dsh-plugin.js";
 
 export const name = "relay-dsh-plugin-claude";
-export const inject = ["agents", "llm", "sessions", "sessionPersistence", "tools", "typert", "webServer"];
+export const inject = [
+  "agents",
+  "approval",
+  "llm",
+  "sessions",
+  "sessionPersistence",
+  "tools",
+  "typert",
+  "userQuestions",
+  "webServer",
+];
 
 export async function apply(ctx, config = {}) {
   const host = new PluginHost();

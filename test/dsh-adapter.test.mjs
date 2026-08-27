@@ -186,6 +186,92 @@ test("Claude SDK permission and question requests use DSH services", async () =>
   assert.deepEqual(runtime.resolved.at(-1).response.answers, { "How detailed?": "Detailed" });
 });
 
+test("DSH approval denial and cancellation stay fail-closed", async () => {
+  const agent = fakeAgent();
+  const adapter = { dshSessionForClaudeSession: () => agent.id };
+
+  for (const outcome of ["rejected", "cancelled", "unavailable"]) {
+    const runtime = new InteractionRuntime();
+    const ctx = {
+      agents: { get: () => agent },
+      approval: { async request() { return outcome; } },
+    };
+    await handleClaudeSdkRequest(ctx, {
+      adapter,
+      runtime,
+      request: {
+        id: `approval-${outcome}`,
+        method: "tool/requestApproval",
+        params: { sessionId: "claude-1", toolName: "Bash", input: { command: "false" } },
+      },
+    });
+
+    assert.equal(runtime.rejected.length, 0);
+    assert.equal(runtime.resolved[0].response.action, "decline");
+    assert.equal(runtime.resolved[0].response.message, `DSH approval returned ${outcome}.`);
+  }
+});
+
+test("Claude interaction failures reject instead of bypassing DSH services", async () => {
+  const agent = fakeAgent();
+  const serviceCalls = { approvals: 0, questions: 0 };
+  const ctx = {
+    agents: { get: id => id === agent.id ? agent : null },
+    approval: {
+      async request() {
+        serviceCalls.approvals += 1;
+        return "allowed-once";
+      },
+    },
+    userQuestions: {
+      async ask() {
+        serviceCalls.questions += 1;
+        throw Object.assign(new Error("question cancelled"), { code: "ASK_ABORTED" });
+      },
+    },
+  };
+  const adapter = { dshSessionForClaudeSession: id => id === "claude-1" ? agent.id : null };
+  const runtime = new InteractionRuntime();
+
+  await handleClaudeSdkRequest(ctx, {
+    adapter,
+    runtime,
+    request: {
+      id: "unknown-session",
+      method: "tool/requestApproval",
+      params: { sessionId: "claude-missing", toolName: "Write", input: {} },
+    },
+  });
+  await handleClaudeSdkRequest(ctx, {
+    adapter,
+    runtime,
+    request: {
+      id: "unsupported-request",
+      method: "tool/unknownInteraction",
+      params: { sessionId: "claude-1" },
+    },
+  });
+  await handleClaudeSdkRequest(ctx, {
+    adapter,
+    runtime,
+    request: {
+      id: "cancelled-question",
+      method: "tool/requestUserInput",
+      params: {
+        sessionId: "claude-1",
+        input: { questions: [{ question: "Continue?", header: "Confirm" }] },
+      },
+    },
+  });
+
+  assert.equal(runtime.resolved.length, 0);
+  assert.equal(serviceCalls.approvals, 0);
+  assert.equal(serviceCalls.questions, 1);
+  assert.match(runtime.rejected[0].error.message, /no owning live DSH Session/);
+  assert.match(runtime.rejected[1].error.message, /Unsupported Claude interaction/);
+  assert.equal(runtime.rejected[2].error.code, "ASK_ABORTED");
+});
+
 test("Claude forwards generic DSH tools through a provider-neutral executor", async () => {
   const calls = [];
   const runtime = new FakeRuntime();
