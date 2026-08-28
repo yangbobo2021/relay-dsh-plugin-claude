@@ -40,6 +40,7 @@ const HOST_EXTERNALS = [
   /^node:/,
   /^@deepseek-ai\//,
   /^@anthropic-ai\/claude-agent-sdk$/,
+  /^sharp$/,
   /^zod$/,
 ]
 

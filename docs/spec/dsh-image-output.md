@@ -9,9 +9,9 @@ Claude can create or inspect an image during a turn and mention its local path i
 For a successfully completed ordinary conversation turn, the adapter performs one output conversion before emitting `finish`:
 
 1. Select the last visible assistant text block as the final answer.
-2. Extract local image paths in mention order. Accepted forms are Markdown image/link targets, inline code, quoted paths, and bare absolute or relative paths without spaces. Fenced code is ignored. Remote, data, and `file:` URLs are ignored. Recognized but unsupported image extensions produce a preview diagnostic.
+2. Extract local image paths in mention order. Accepted forms are Markdown image/link targets, inline code, quoted paths, and bare absolute or relative paths without spaces. Fenced code is ignored. Remote, data, and `file:` URLs are ignored. Recognized but unsupported image extensions produce a preview diagnostic. SVG is a supported conversion input, not a DSH output media type.
 3. Resolve each path against the owning DSH Session working directory and require its real path to remain inside that directory. Symlink escapes are rejected.
-4. Read the completed file once, reject a concurrent size or modification-time change, and pass the bytes to the DSH attachment service. The attachment service remains responsible for content validation, normalization, dimensions, and configured limits.
+4. Read the completed file once and reject a concurrent size, identity, or modification-time change. Raster bytes pass directly to the DSH attachment service. SVG bytes are rendered once, in memory, into PNG and the PNG bytes pass to the attachment service. No converted file is created in the Session workspace.
 5. Emit a standard DSH assistant image block for each durable attachment, after the final text and before `finish`.
 
 The source file is never read while rendering conversation history. A later overwrite or deletion cannot change the already persisted assistant image.
@@ -22,7 +22,10 @@ Failed, cancelled, and auxiliary turns do not promote output images. A recognize
 
 ## Security and compatibility
 
-- Supported output media types are PNG, JPEG, WebP, and GIF.
+- Supported DSH output media types are PNG, JPEG, WebP, and GIF. SVG input always becomes PNG output.
+- SVG source input is capped at the smaller of 2 MiB and DSH's configured per-image byte limit. Rendering uses 72 DPI so CSS pixel dimensions remain stable, DSH's configured pixel and dimension limits (with 64,000,000 pixels and 8192 per side as fallbacks), and a hard three-second conversion timeout.
+- Only the already-snapshotted SVG byte buffer is passed to the static renderer. It receives no source filename or base URL, cannot resolve workspace-relative resources, does not fetch network resources, and does not execute scripts or event handlers.
+- The converted PNG must also satisfy DSH's byte, pixel, dimension, count, aggregate-message, content-validation, and normalization policies before an image block is emitted.
 - Path conversion has no effect on ordinary text with no accepted local image path.
 - The adapter does not fetch network URLs and does not expose arbitrary files outside the Session workspace.
 - The image block contract is provider-neutral: `{ type: "image", attachment: ImageAttachmentRef }`.
@@ -42,3 +45,7 @@ Failed, cancelled, and auxiliary turns do not promote output images. A recognize
 10. Failed, cancelled, and auxiliary turns emit no promoted images.
 11. Existing text-only, input-image, tool activity, approval, title, and session-continuation behavior remains unchanged.
 12. Emitted block chunks assemble to a persisted assistant image block consumable by the standard DSH conversation image renderer.
+13. A valid SVG becomes exactly one PNG attachment at its declared CSS-pixel dimensions; mixed SVG/raster paths retain mention order and duplicates remain deduplicated.
+14. Editing or deleting the source SVG after message completion does not affect the persisted PNG attachment, and no sibling PNG is created in the workspace.
+15. Malformed SVG, source/output byte overflow, dimension/pixel overflow, timeout, or rasterizer failure leaves the answer intact and emits a stable diagnostic without a partial image block.
+16. SVG scripts and event handlers never execute, and local or network resource references are not loaded during conversion.

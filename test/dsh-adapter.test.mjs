@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { deflateSync } from "node:zlib";
+import sharp from "sharp";
 
 import { BlockAssembler } from "@deepseek-ai/dsh-llm";
 import { ClaudeDshAdapter, CLAUDE_ACTIVITY_EVENT } from "../claude-adapter.js";
@@ -159,6 +160,37 @@ test("a final-answer path becomes a durable standard DSH assistant image block",
   assert.deepEqual(attachments.images.get(image.attachment.attachmentId).data, versionThree);
 });
 
+test("a final-answer SVG becomes a durable PNG in the standard DSH block stream", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-svg-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  const source = join(cwd, "final.svg");
+  await writeFile(source, '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8"><rect width="12" height="8" fill="#1565c0"/></svg>');
+  const runtime = new FakeRuntime({ answerText: "Generated `./final.svg`." });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent({ cwd });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "generate an SVG" }])));
+  const persisted = Buffer.from(attachments.saved[0].data);
+  await writeFile(source, '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>');
+  await rm(source);
+  const assembler = new BlockAssembler();
+  for (const chunk of chunks) assembler.push(chunk);
+  const metadata = await sharp(persisted).metadata();
+
+  assert.deepEqual(assembler.blocks().map(block => block.type), ["reasoning", "text", "image"]);
+  const image = assembler.blocks().at(-1);
+  assert.equal(image.attachment.mediaType, "image/png");
+  assert.equal(image.attachment.name, "final.png");
+  assert.deepEqual({ format: metadata.format, width: metadata.width, height: metadata.height }, {
+    format: "png",
+    width: 12,
+    height: 8,
+  });
+  assert.deepEqual(attachments.images.get(image.attachment.attachmentId).data, persisted);
+});
+
 test("missing final paths preserve Claude text and append a clear preview diagnostic", async (context) => {
   const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-missing-"));
   context.after(() => rm(cwd, { recursive: true, force: true }));
@@ -179,8 +211,8 @@ test("missing final paths preserve Claude text and append a clear preview diagno
 test("failed Claude turns never promote image paths", async (context) => {
   const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-failed-"));
   context.after(() => rm(cwd, { recursive: true, force: true }));
-  await writeFile(join(cwd, "partial.png"), "partial");
-  const runtime = new FakeRuntime({ answerText: "Partial `./partial.png`.", status: "failed" });
+  await writeFile(join(cwd, "partial.svg"), '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>');
+  const runtime = new FakeRuntime({ answerText: "Partial `./partial.svg`.", status: "failed" });
   const attachments = fakeAttachments({});
   const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
   const agent = fakeAgent({ cwd });
@@ -791,6 +823,8 @@ function fakeAttachments(images) {
     saved: [],
     imageLimits: {
       maxImageBytes: 1024 * 1024,
+      maxImagePixels: 64_000_000,
+      maxImageDimension: 8192,
       maxImagesPerMessage: 10,
       maxMessageImageBytes: 4 * 1024 * 1024,
       mediaTypes: ["image/png", "image/jpeg", "image/webp", "image/gif"],
