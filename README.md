@@ -189,9 +189,12 @@ default SDK backend. If a developer explicitly selects the CLI fallback, the
 plugin refuses contributed DSH tools and image input instead of silently
 dropping them.
 
-When Claude's successful final answer references a PNG, JPG, WebP, or GIF in
-the Session workspace, the plugin snapshots that completed file into DSH's
-attachment store and emits a standard assistant image block. Conversation
+When Claude's successful final answer references a PNG, JPG, WebP, GIF, or SVG
+in the Session workspace, the plugin snapshots that completed file into DSH's
+attachment store and emits a standard assistant image block. SVG input is
+rendered once, in memory, to a constrained PNG before it enters DSH; no sibling
+PNG is created in the workspace, and external resources or scripts are not
+loaded. Conversation
 history uses the immutable attachment, so later edits or deletion of the source
 file do not change the image already shown in the message. Remote URLs and paths
 outside the Session workspace are never imported.

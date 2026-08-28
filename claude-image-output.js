@@ -1,5 +1,6 @@
 import { basename, extname, isAbsolute, relative, resolve, sep } from "node:path";
 import { open, realpath, stat } from "node:fs/promises";
+import sharp from "sharp";
 
 const MEDIA_TYPES = new Map([
   [".gif", "image/gif"],
@@ -10,24 +11,40 @@ const MEDIA_TYPES = new Map([
 ]);
 
 const IMAGE_SUFFIX = String.raw`\.(?:png|jpe?g|webp|gif|bmp|svg|tiff?|avif|heic)`;
+const IMAGE_PATH_END = new RegExp(`${IMAGE_SUFFIX}$`, "i");
+const BARE_PATH_BOUNDARY = String.raw`[\s(\[{:*=~（【《「『“‘，。；：！？、]`;
+const BARE_PATH_END_CHAR = String.raw`[\s)\]}>,;:!?*~，。；：！？、）】》」』”’]`;
+const BARE_PATH_END = String.raw`(?:${BARE_PATH_END_CHAR}|\.(?=$|${BARE_PATH_END_CHAR}))`;
+const BARE_PATH_CONTENT = String.raw`[^\s<>"'“”‘’「」『』*~()\[\]{}=:,;!?，。；：！？、（）【】《》]+?`;
+const MARKDOWN_PATH = new RegExp(String.raw`!?\[[^\]\r\n]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["'][^"']*["'])?\s*\)`, "gi");
+const INLINE_CODE_PATH = new RegExp("`([^`\\r\\n]+" + IMAGE_SUFFIX + ")`", "gi");
+const QUOTED_PATH = new RegExp("[\"']([^\"'\\r\\n]+" + IMAGE_SUFFIX + ")[\"']", "gi");
+const URI_REFERENCE = /(?!(?:[a-z]:[\\/]))(?:[a-z][a-z0-9+.-]*:\/\/|data:|file:|blob:|mailto:|\/\/)[^\s<>"'“”‘’]+/gi;
+const SVG_EXTENSION = ".svg";
+const SVG_SOURCE_MAX_BYTES = 2 * 1024 * 1024;
+const SVG_RASTER_DENSITY = 72;
+const SVG_RASTER_TIMEOUT_SECONDS = 3;
+const DEFAULT_MAX_IMAGE_PIXELS = 64_000_000;
+const DEFAULT_MAX_IMAGE_DIMENSION = 8192;
 
 export function extractFinalAnswerImagePaths(text) {
   const visible = withoutFencedCode(String(text ?? ""));
   const matches = [];
-  collectMatches(matches, visible, new RegExp(String.raw`!?\[[^\]\r\n]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["'][^"']*["'])?\s*\)`, "gi"), 1, 2);
-  collectMatches(matches, visible, new RegExp("`([^`\\r\\n]+" + IMAGE_SUFFIX + ")`", "gi"), 1);
-  collectMatches(matches, visible, new RegExp("[\"']([^\"'\\r\\n]+" + IMAGE_SUFFIX + ")[\"']", "gi"), 1);
+  collectMatches(matches, visible, MARKDOWN_PATH, 1, 2);
+  collectMatches(matches, visible, INLINE_CODE_PATH, 1);
+  collectMatches(matches, visible, QUOTED_PATH, 1);
+  const bareVisible = maskMatches(visible, MARKDOWN_PATH, INLINE_CODE_PATH, QUOTED_PATH, URI_REFERENCE);
   collectMatches(
     matches,
-    visible,
-    new RegExp("(?:^|[\\s(\\[])((?:\\.{0,2}/|/)[^\\s<>\"'`]+?" + IMAGE_SUFFIX + ")(?=$|[\\s)\\],.;:!?])", "gi"),
+    bareVisible,
+    new RegExp(String.raw`(?:^|${BARE_PATH_BOUNDARY})((?:[a-z]:[\\/])?${BARE_PATH_CONTENT}${IMAGE_SUFFIX})(?=$|${BARE_PATH_END})`, "gi"),
     1,
   );
   matches.sort((left, right) => left.index - right.index);
   const seen = new Set();
   return matches.flatMap(({ path }) => {
     const normalized = normalizeMention(path);
-    if (!normalized || isRemoteReference(normalized) || seen.has(normalized)) return [];
+    if (!normalized || !IMAGE_PATH_END.test(normalized) || isRemoteReference(normalized) || seen.has(normalized)) return [];
     seen.add(normalized);
     return [normalized];
   });
@@ -40,6 +57,7 @@ export async function promoteFinalAnswerImages({
   structuredImages = [],
   structuredImageData = [],
   signal,
+  svgRasterizer = rasterizeSvgToPng,
 }) {
   const paths = extractFinalAnswerImagePaths(text);
   if (paths.length === 0) {
@@ -73,7 +91,7 @@ export async function promoteFinalAnswerImages({
   for (const path of paths) {
     signal?.throwIfAborted();
     try {
-      images.push(await snapshotWorkspaceImage(path, cwd, attachments, signal));
+      images.push(await snapshotWorkspaceImage(path, cwd, attachments, signal, svgRasterizer));
     } catch (error) {
       if (signal?.aborted) throw signal.reason ?? error;
       failures.push(failure(path, error.code ?? "CLAUDE_IMAGE_OUTPUT_IMPORT_FAILED", outputFailureReason(error)));
@@ -128,15 +146,17 @@ export async function materializeDshToolImages(result, attachments, signal) {
   };
 }
 
-async function snapshotWorkspaceImage(path, cwd, attachments, signal) {
+async function snapshotWorkspaceImage(path, cwd, attachments, signal, svgRasterizer) {
   const root = await realpath(resolve(cwd ?? process.cwd()));
   const target = await realpath(resolve(root, path));
   const targetRelative = relative(root, target);
   if (targetRelative === ".." || targetRelative.startsWith(`..${sep}`) || isAbsolute(targetRelative)) {
     throw outputImageError("the path is outside the session workspace", "CLAUDE_IMAGE_OUTPUT_OUTSIDE_WORKSPACE");
   }
-  const mediaType = MEDIA_TYPES.get(extname(target).toLowerCase());
-  if (!mediaType) {
+  const extension = extname(target).toLowerCase();
+  const mediaType = MEDIA_TYPES.get(extension);
+  const isSvg = extension === SVG_EXTENSION;
+  if (!mediaType && !isSvg) {
     throw outputImageError("the image type is unsupported", "CLAUDE_IMAGE_OUTPUT_TYPE_UNSUPPORTED");
   }
   const handle = await open(target, "r");
@@ -144,7 +164,10 @@ async function snapshotWorkspaceImage(path, cwd, attachments, signal) {
   try {
     const before = await handle.stat();
     if (!before.isFile()) throw outputImageError("the path is not a file", "CLAUDE_IMAGE_OUTPUT_NOT_FILE");
-    const maxBytes = attachments.imageLimits?.maxImageBytes;
+    const configuredMaxBytes = attachments.imageLimits?.maxImageBytes;
+    const maxBytes = isSvg
+      ? Math.min(validLimit(configuredMaxBytes, Number.POSITIVE_INFINITY), SVG_SOURCE_MAX_BYTES)
+      : configuredMaxBytes;
     if (Number.isSafeInteger(maxBytes) && before.size > maxBytes) {
       throw outputImageError("the image exceeds the configured size limit", "CLAUDE_IMAGE_OUTPUT_TOO_LARGE");
     }
@@ -171,7 +194,81 @@ async function snapshotWorkspaceImage(path, cwd, attachments, signal) {
   } finally {
     await handle.close();
   }
+  if (isSvg) {
+    const rendered = await svgRasterizer(data, svgRasterLimits(attachments), signal);
+    return attachments.saveImage({
+      data: rendered,
+      mediaType: "image/png",
+      name: `${basename(target, extension)}.png`,
+    });
+  }
   return attachments.saveImage({ data, mediaType, name: basename(target) });
+}
+
+export async function rasterizeSvgToPng(data, limits = {}, signal) {
+  signal?.throwIfAborted();
+  const maxPixels = validLimit(limits.maxPixels, DEFAULT_MAX_IMAGE_PIXELS);
+  const maxDimension = validLimit(limits.maxDimension, DEFAULT_MAX_IMAGE_DIMENSION);
+  const maxBytes = validLimit(limits.maxBytes, Number.POSITIVE_INFINITY);
+  try {
+    const pipeline = sharp(data, {
+      density: SVG_RASTER_DENSITY,
+      failOn: "error",
+      limitInputPixels: maxPixels,
+      sequentialRead: true,
+      unlimited: false,
+    }).timeout({ seconds: SVG_RASTER_TIMEOUT_SECONDS });
+    const metadata = await pipeline.metadata();
+    validateSvgMetadata(metadata, maxPixels, maxDimension);
+    signal?.throwIfAborted();
+    const { data: png, info } = await pipeline
+      .png({ adaptiveFiltering: true, compressionLevel: 9 })
+      .toBuffer({ resolveWithObject: true });
+    signal?.throwIfAborted();
+    validateRasterDimensions(info.width, info.height, maxPixels, maxDimension);
+    if (png.byteLength > maxBytes) {
+      throw outputImageError("the converted PNG exceeds the configured size limit", "CLAUDE_IMAGE_OUTPUT_TOO_LARGE");
+    }
+    return png;
+  } catch (error) {
+    if (signal?.aborted) throw signal.reason ?? error;
+    if (error?.code?.startsWith("CLAUDE_IMAGE_OUTPUT_")) throw error;
+    if (/timeout/i.test(error?.message ?? "")) {
+      throw outputImageError("SVG conversion exceeded the time limit", "CLAUDE_IMAGE_OUTPUT_SVG_TIMEOUT");
+    }
+    if (/pixel limit|dimensions? exceed|width or height/i.test(error?.message ?? "")) {
+      throw outputImageError("the SVG exceeds the configured pixel dimensions", "CLAUDE_IMAGE_OUTPUT_SVG_DIMENSIONS");
+    }
+    throw outputImageError("the SVG is invalid or cannot be rendered safely", "CLAUDE_IMAGE_OUTPUT_SVG_INVALID");
+  }
+}
+
+function svgRasterLimits(attachments) {
+  return {
+    maxBytes: validLimit(attachments?.imageLimits?.maxImageBytes, Number.POSITIVE_INFINITY),
+    maxPixels: validLimit(attachments?.imageLimits?.maxImagePixels, DEFAULT_MAX_IMAGE_PIXELS),
+    maxDimension: validLimit(attachments?.imageLimits?.maxImageDimension, DEFAULT_MAX_IMAGE_DIMENSION),
+  };
+}
+
+function validateSvgMetadata(metadata, maxPixels, maxDimension) {
+  if (metadata?.format !== "svg") {
+    throw outputImageError("the file extension is SVG but its content is not", "CLAUDE_IMAGE_OUTPUT_SVG_INVALID");
+  }
+  validateRasterDimensions(metadata.width, metadata.height, maxPixels, maxDimension);
+}
+
+function validateRasterDimensions(width, height, maxPixels, maxDimension) {
+  if (!Number.isSafeInteger(width) || width <= 0 || !Number.isSafeInteger(height) || height <= 0) {
+    throw outputImageError("the SVG does not have valid pixel dimensions", "CLAUDE_IMAGE_OUTPUT_SVG_INVALID");
+  }
+  if (width > maxDimension || height > maxDimension || width * height > maxPixels) {
+    throw outputImageError("the SVG exceeds the configured pixel dimensions", "CLAUDE_IMAGE_OUTPUT_SVG_DIMENSIONS");
+  }
+}
+
+function validLimit(value, fallback) {
+  return Number.isSafeInteger(value) && value > 0 ? value : fallback;
 }
 
 function collectMatches(matches, text, expression, ...groups) {
@@ -186,12 +283,20 @@ function withoutFencedCode(text) {
   return text.replace(/(^|\n)[ \t]*(```|~~~)[^\n]*\n[\s\S]*?(?:\n[ \t]*\2(?=\n|$)|$)/g, match => match.replace(/[^\n]/g, " "));
 }
 
+function maskMatches(text, ...expressions) {
+  return expressions.reduce(
+    (masked, expression) => masked.replace(expression, match => match.replace(/[^\n]/g, " ")),
+    text,
+  );
+}
+
 function normalizeMention(path) {
   return String(path ?? "").trim().replace(/^<|>$/g, "");
 }
 
 function isRemoteReference(path) {
-  return /^(?:https?:|data:|file:)/i.test(path);
+  if (/^[a-z]:[\\/]/i.test(path)) return false;
+  return /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(path);
 }
 
 function deduplicateAttachments(images) {
