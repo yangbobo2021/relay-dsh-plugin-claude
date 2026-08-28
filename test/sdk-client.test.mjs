@@ -26,6 +26,86 @@ test("Claude SDK requests summarized adaptive thinking without replacing effort"
   assert.deepEqual(queryParams.options.thinking, { type: "adaptive", display: "summarized" });
 });
 
+test("Claude SDK sends ordered multimodal user messages on new and resumed Sessions", async () => {
+  const received = [];
+  const options = [];
+  const sdk = {
+    query(params) {
+      options.push(params.options);
+      return queryObject(async function* () {
+        const messages = [];
+        for await (const message of params.prompt) messages.push(message);
+        received.push(messages);
+        yield { type: "result", session_id: params.options.sessionId ?? params.options.resume, uuid: "u1", subtype: "success", is_error: false, result: "done" };
+      });
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+  const session = await client.createSession({ sessionId: "66666666-6666-4666-8666-666666666666" });
+  const activity = [];
+  client.on("activity", message => activity.push(message));
+
+  await client.sendMessage(session.id, { content: [
+    { type: "image", mediaType: "image/png", data: "AQID" },
+    { type: "text", text: "first image" },
+  ] });
+  await untilTurnCount(activity, 1);
+  await client.sendMessage(session.id, { content: [
+    { type: "text", text: "second image" },
+    { type: "image", mediaType: "image/jpeg", data: "BAUG" },
+  ] });
+  await untilTurnCount(activity, 2);
+
+  assert.equal(options[0].sessionId, session.id);
+  assert.equal(options[0].resume, undefined);
+  assert.equal(options[1].sessionId, undefined);
+  assert.equal(options[1].resume, session.id);
+  assert.deepEqual(received, [
+    [{
+      type: "user",
+      message: { role: "user", content: [
+        { type: "image", source: { type: "base64", media_type: "image/png", data: "AQID" } },
+        { type: "text", text: "first image" },
+      ] },
+      parent_tool_use_id: null,
+    }],
+    [{
+      type: "user",
+      message: { role: "user", content: [
+        { type: "text", text: "second image" },
+        { type: "image", source: { type: "base64", media_type: "image/jpeg", data: "BAUG" } },
+      ] },
+      parent_tool_use_id: null,
+    }],
+  ]);
+});
+
+test("Claude SDK rejects invalid image content before query()", async () => {
+  let queries = 0;
+  const client = new ClaudeSdkClient({ sdk: {
+    query() {
+      queries += 1;
+      throw new Error("must not run");
+    },
+  } });
+  await client.start();
+  const session = await client.createSession({ sessionId: "77777777-7777-4777-8777-777777777777" });
+
+  await assert.rejects(client.sendMessage(session.id, { content: [
+    { type: "image", mediaType: "image/svg+xml", data: "PHN2Zz4=" },
+  ] }), error => error.code === "CLAUDE_IMAGE_INPUT_INVALID");
+  assert.equal(queries, 0);
+});
+
+test("Claude SDK models advertise image input", async () => {
+  const client = new ClaudeSdkClient({ sdk: { query() {} } });
+  await client.start();
+  const models = await client.listModels();
+  assert.equal(models.length > 0, true);
+  assert.equal(models.every(model => JSON.stringify(model.inputModalities) === JSON.stringify(["text", "image"])), true);
+});
+
 test("Claude SDK client pauses on canUseTool and resumes after Relay approval", async () => {
   let queryParams = null;
   const sdk = {
@@ -241,6 +321,14 @@ async function untilTurnCompleted(activity) {
   const deadline = Date.now() + 1_000;
   while (!activity.some(message => message.method === "turn/completed")) {
     if (Date.now() > deadline) throw new Error("timed out waiting for turn/completed");
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
+}
+
+async function untilTurnCount(activity, count) {
+  const deadline = Date.now() + 1_000;
+  while (activity.filter(message => message.method === "turn/completed").length < count) {
+    if (Date.now() > deadline) throw new Error(`timed out waiting for ${count} completed turns`);
     await new Promise(resolve => setTimeout(resolve, 0));
   }
 }

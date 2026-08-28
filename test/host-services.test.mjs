@@ -9,6 +9,10 @@ import { inject } from "../host-plugin.js";
 
 const INTERACTION_SERVICES = ["approval", "userQuestions"];
 
+test("the Host plugin declares the DSH attachment service used for image input", () => {
+  assert.ok(inject.includes("attachments"));
+});
+
 test("the Host plugin declares every DSH interaction service it consumes", () => {
   for (const service of INTERACTION_SERVICES) {
     assert.ok(inject.includes(service), `missing required Host injection: ${service}`);
@@ -44,6 +48,7 @@ test("Claude interaction requests resolve through sibling DSH service providers"
         return "allowed-once";
       },
     },
+    attachments: {},
     userQuestions: {
       async ask(input) {
         calls.questions.push(input);

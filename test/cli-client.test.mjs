@@ -15,6 +15,20 @@ test("Claude CLI rejects DSH tools instead of silently omitting them", async () 
   }), /cannot expose DSH tools/);
 });
 
+test("Claude CLI advertises text-only input and rejects images before spawning", async () => {
+  const client = new ClaudeCliClient({ command: "/command-that-must-not-run" });
+  await client.start();
+  const models = await client.listModels();
+  const session = await client.createSession({ sessionId: "55555555-5555-4555-8555-555555555555" });
+
+  assert.equal(models.every(model => JSON.stringify(model.inputModalities) === JSON.stringify(["text"])), true);
+  await assert.rejects(client.sendMessage(session.id, {
+    text: "describe",
+    content: [{ type: "image", mediaType: "image/png", data: "AQID" }],
+  }), /cannot accept image input/);
+  assert.equal(client.processes.size, 0);
+});
+
 test("Claude CLI client uses session, settings, effort, and permission flags", async (context) => {
   const directory = await mkdtemp(join(tmpdir(), "relay-claude-cli-"));
   context.after(() => rm(directory, { recursive: true, force: true }));

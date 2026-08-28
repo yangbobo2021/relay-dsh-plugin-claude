@@ -66,6 +66,28 @@ test("ephemeral Claude sessions are released", async () => {
   await runtime.close();
 });
 
+test("Claude runtime preserves multimodal content and callbacks for the SDK client", async () => {
+  const client = new FakeClaudeClient();
+  const runtime = new ClaudeSessionRuntime({ client, cwd: "/workspace/relay" });
+  await runtime.initialize();
+  const session = await runtime.createSession();
+  const executeDshTool = async () => ({ isError: false, content: [] });
+
+  await runtime.sendMessage(session.id, {
+    text: "",
+    content: [{ type: "image", mediaType: "image/png", data: "AQID" }],
+    dshTools: [{ name: "probe" }],
+    executeDshTool,
+  });
+
+  assert.deepEqual(client.sent[0].message.content, [
+    { type: "image", mediaType: "image/png", data: "AQID" },
+  ]);
+  assert.deepEqual(client.sent[0].message.dshTools, [{ name: "probe" }]);
+  assert.equal(client.sent[0].message.executeDshTool, executeDshTool);
+  await runtime.close();
+});
+
 class FakeClaudeClient extends EventEmitter {
   constructor() {
     super();
@@ -101,7 +123,14 @@ class FakeClaudeClient extends EventEmitter {
   }
 
   async sendMessage(sessionId, message) {
-    this.sent.push({ sessionId, message: structuredClone(message) });
+    this.sent.push({
+      sessionId,
+      message: {
+        ...message,
+        content: structuredClone(message.content),
+        dshTools: structuredClone(message.dshTools),
+      },
+    });
     const id = `turn-${++this.turnSequence}`;
     queueMicrotask(() => {
       this.emit("activity", { method: "item/started", params: {

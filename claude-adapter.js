@@ -5,12 +5,13 @@ export const CLAUDE_PROVIDER = "relay-claude";
 export const CLAUDE_ACTIVITY_EVENT = "relay-claude/activity";
 
 export class ClaudeDshAdapter extends LlmAdapter {
-  constructor({ runtime, ready, linkStore = null, logger = console }) {
+  constructor({ runtime, ready, linkStore = null, attachments = null, logger = console }) {
     super();
     this.runtime = runtime;
     this.ready = ready;
     this.logger = logger;
     this.linkStore = linkStore;
+    this.attachments = attachments;
     this.links = new Map();
     this.settings = new Map();
     this.pendingSessions = new Map();
@@ -35,7 +36,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
         id: model.id,
         name: model.displayName ?? model.id,
         description: model.description,
-        inputModalities: ["text", "image"],
+        inputModalities: model.inputModalities ?? ["text"],
       }));
   }
 
@@ -46,7 +47,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
       provider,
       id: model,
       name: info?.displayName ?? model,
-      inputModalities: ["text", "image"],
+      inputModalities: info?.inputModalities ?? ["text"],
       ...(Array.isArray(info?.supportedReasoningEfforts)
         ? {
             reasoning: {
@@ -163,8 +164,10 @@ export class ClaudeDshAdapter extends LlmAdapter {
     }
     const sessionId = String(options.sessionId ?? "");
     if (!sessionId) throw new Error("Relay Claude adapter requires a DSH session id");
-    const text = latestUserText(options.messages);
-    if (!text) throw new Error("Relay Claude adapter received no user text");
+    const candidate = latestUserContent(options.messages, this.attachments, options.signal);
+    const content = Array.isArray(candidate) ? candidate : await candidate;
+    if (content.length === 0) throw new Error("Relay Claude adapter received no user content");
+    const text = content.filter(block => block.type === "text").map(block => block.text).join("\n").trim();
     const agent = this.agents.get(sessionId);
     if (!agent) throw new Error(`Relay Claude adapter has no attached agent for ${sessionId}`);
     const nativePermissions = permissionConfiguration(agent.session.events);
@@ -197,7 +200,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
 
     let turnId = null;
     try {
-      const started = await this.runtime.sendMessage(claudeSessionId, { text, ...config, dshTools, executeDshTool });
+      const started = await this.runtime.sendMessage(claudeSessionId, { text, content, ...config, dshTools, executeDshTool });
       turnId = started.id;
       const state = createStreamState();
       let completedTurn = null;
@@ -506,20 +509,83 @@ function reasoningEffortName(value) {
   return String(value) === "xhigh" ? "Extra high" : humanize(value);
 }
 
-function latestUserText(messages) {
+function latestUserContent(messages, attachments, signal) {
   for (let index = messages.length - 1; index >= 0; index -= 1) {
     const message = messages[index];
     if (message?.role !== "user") continue;
-    const text = (message.content ?? [])
-      .filter(block => block.type === "text")
-      .map(block => block.text)
-      .join("\n")
-      .trim();
-    if (!text) continue;
-    if (message.source?.kind === "user" || isRelayActivation(message.source)) return text;
+    if (message.source?.kind !== "user" && !isRelayActivation(message.source)) continue;
+    const blocks = message.content ?? [];
+    const content = blocks.some(block => block?.type === "image")
+      ? readClaudeContent(blocks, attachments, signal)
+      : textContent(blocks);
+    if (Array.isArray(content) && content.length === 0) continue;
+    return content;
   }
-  return "";
+  return [];
 }
+
+function textContent(blocks) {
+  const text = blocks
+    .filter(block => block?.type === "text")
+    .map(block => String(block.text ?? ""))
+    .join("\n")
+    .trim();
+  return text ? [{ type: "text", text }] : [];
+}
+
+async function readClaudeContent(blocks, attachments, signal) {
+  const content = [];
+  for (const block of blocks) {
+    if (block?.type === "text" && String(block.text ?? "").trim()) {
+      content.push({ type: "text", text: String(block.text) });
+    }
+    if (block?.type === "image") content.push(await readClaudeImage(block, attachments, signal));
+  }
+  return content;
+}
+
+async function readClaudeImage(block, attachments, signal) {
+  signal?.throwIfAborted();
+  const ref = block?.attachment;
+  const id = String(ref?.attachmentId ?? "unknown");
+  if (!ref || !CLAUDE_IMAGE_MEDIA_TYPES.has(ref.mediaType)) {
+    throw claudeImageError(
+      `Claude cannot read image attachment ${id}: media type ${ref?.mediaType ?? "unknown"} is unsupported.`,
+      "CLAUDE_IMAGE_TYPE_UNSUPPORTED",
+    );
+  }
+  if (typeof attachments?.readImage !== "function") {
+    throw claudeImageError(
+      `Claude cannot read image attachment ${id}: the DSH attachment service is unavailable.`,
+      "CLAUDE_IMAGE_ATTACHMENTS_UNAVAILABLE",
+    );
+  }
+  let stored;
+  try {
+    stored = await attachments.readImage(ref, signal);
+  } catch (error) {
+    if (signal?.aborted) throw signal.reason ?? error;
+    throw claudeImageError(
+      `Claude cannot read image attachment ${id}: the attachment is missing or corrupt.`,
+      "CLAUDE_IMAGE_READ_FAILED",
+      error,
+    );
+  }
+  const mediaType = stored?.ref?.mediaType;
+  if (!CLAUDE_IMAGE_MEDIA_TYPES.has(mediaType) || !(stored?.data instanceof Uint8Array)) {
+    throw claudeImageError(
+      `Claude cannot read image attachment ${id}: the attachment store returned invalid image data.`,
+      "CLAUDE_IMAGE_READ_FAILED",
+    );
+  }
+  return { type: "image", mediaType, data: Buffer.from(stored.data).toString("base64") };
+}
+
+function claudeImageError(message, code, cause) {
+  return Object.assign(new Error(message, cause ? { cause } : undefined), { code });
+}
+
+const CLAUDE_IMAGE_MEDIA_TYPES = new Set(["image/png", "image/jpeg", "image/gif", "image/webp"]);
 
 function auxiliaryInput(messages) {
   return messages.map((message) => {
