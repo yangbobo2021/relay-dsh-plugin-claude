@@ -23,8 +23,7 @@ test('English and Chinese READMEs form a complete newcomer path', () => {
     assert.match(readme, /New Session/)
     assert.match(readme, /Standard mode/)
     assert.match(readme, /https:\/\/github\.com\/yangbobo2021\/Relay/)
-    assert.match(readme, /dsh-plugin-suite-demo\.gif/)
-    assert.match(readme, /dsh-plugin-suite-demo\.mp4\?raw=1/)
+    assert.doesNotMatch(readme, /dsh-plugin-suite-demo\.(?:gif|mp4)/)
   }
   assert.match(english, /English \| \[中文\]\(README\.zh\.md\)/)
   assert.match(chinese, /\[English\]\(README\.md\) \| 中文/)
