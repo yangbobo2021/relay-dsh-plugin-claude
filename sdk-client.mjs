@@ -159,7 +159,13 @@ export class ClaudeSdkClient extends EventEmitter {
   }
 
   async consumeQuery(session, turnId, query) {
-    const state = { currentMessageId: null, text: new Map(), reasoning: new Map(), activities: new Set() };
+    const state = {
+      currentMessageId: null,
+      text: new Map(),
+      reasoning: new Map(),
+      activities: new Set(),
+      tools: new Map(),
+    };
     let completed = false;
     try {
       for await (const message of query) {
@@ -314,6 +320,7 @@ function normalizeSdkMessage(message, state) {
       }
       if (block.type === "tool_use") {
         const item = { type: "toolUse", id: block.id, name: block.name, input: block.input, status: "inProgress" };
+        state.tools.set(String(block.id), { name: block.name, input: block.input });
         if (!state.activities.has(item.id)) {
           state.activities.add(item.id);
           events.push({ method: "item/started", params: { item } });
@@ -324,13 +331,18 @@ function normalizeSdkMessage(message, state) {
   if (message.type === "user") {
     for (const block of message.message?.content ?? []) {
       if (block.type !== "tool_result") continue;
+      const tool = state.tools.get(String(block.tool_use_id)) ?? {};
+      const images = structuredImagesFrom(block.content, message.tool_use_result);
       events.push({
         method: "item/completed",
         params: {
           item: {
             type: "toolUse",
             id: block.tool_use_id,
-            output: block.content,
+            name: tool.name,
+            input: tool.input,
+            output: redactStructuredImages(block.content),
+            ...(images.length > 0 ? { images } : {}),
             status: block.is_error ? "failed" : "completed",
           },
         },
@@ -352,6 +364,47 @@ function normalizeSdkMessage(message, state) {
     });
   }
   return events;
+}
+
+function structuredImagesFrom(...values) {
+  const images = [];
+  const seenObjects = new Set();
+  const seenImages = new Set();
+  const visit = (value) => {
+    if (!value || typeof value !== "object" || seenObjects.has(value)) return;
+    seenObjects.add(value);
+    if (value.type === "image") {
+      const mediaType = value.mediaType ?? value.mimeType ?? value.source?.media_type ?? value.file?.type;
+      const data = value.data ?? value.source?.data ?? value.file?.base64;
+      if (CLAUDE_IMAGE_MEDIA_TYPES.has(mediaType) && typeof data === "string") {
+        const key = `${mediaType}:${data}`;
+        if (!seenImages.has(key)) {
+          seenImages.add(key);
+          images.push({ mediaType, data, name: value.name ?? value.file?.name });
+        }
+      }
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) visit(item);
+      return;
+    }
+    for (const item of Object.values(value)) visit(item);
+  };
+  for (const value of values) visit(value);
+  return images;
+}
+
+function redactStructuredImages(value) {
+  if (Array.isArray(value)) return value.map(redactStructuredImages);
+  if (!value || typeof value !== "object") return value;
+  if (value.type === "image") {
+    return {
+      type: "image",
+      mediaType: value.mediaType ?? value.mimeType ?? value.source?.media_type ?? value.file?.type ?? "unknown",
+      omitted: true,
+    };
+  }
+  return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, redactStructuredImages(item)]));
 }
 
 function streamItemId(state, type, index) {

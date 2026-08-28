@@ -157,6 +157,8 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 - Model and reasoning selection
 - Streaming answers and tool activity in the native DSH conversation
 - Image-and-text prompts through the default Claude Agent SDK backend
+- Durable in-conversation previews for workspace images referenced by Claude's
+  final answer
 - DSH approval and user-question flows
 - Interruption and session continuation
 - Generic DSH tools exposed through an in-process Claude SDK MCP server
@@ -166,6 +168,13 @@ DSH permissions and Claude approval behavior. The tool bridge requires the
 default SDK backend. If a developer explicitly selects the CLI fallback, the
 plugin refuses contributed DSH tools and image input instead of silently
 dropping them.
+
+When Claude's successful final answer references a PNG, JPG, WebP, or GIF in
+the Session workspace, the plugin snapshots that completed file into DSH's
+attachment store and emits a standard assistant image block. Conversation
+history uses the immutable attachment, so later edits or deletion of the source
+file do not change the image already shown in the message. Remote URLs and paths
+outside the Session workspace are never imported.
 
 ## Plugin Boundary and Relay
 

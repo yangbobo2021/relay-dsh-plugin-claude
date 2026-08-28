@@ -149,6 +149,7 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 - 模型和 reasoning 选择
 - 在 DSH 原生对话中流式显示回答和工具活动
 - 通过默认 Claude Agent SDK 后端发送图片与文字组合输入
+- 在对话中持久展示 Claude 最终回答所引用的工作区图片
 - DSH 原生审批和用户提问流程
 - 中断和会话延续
 - 通过进程内 Claude SDK MCP Server 提供通用 DSH 工具
@@ -156,6 +157,11 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 工具通过当前 Agent 的 DSH 工具运行时执行，并继续受到 DSH 权限和 Claude
 审批机制约束。工具桥接依赖默认 SDK 后端。如果开发者明确选择 CLI fallback，
 插件会拒绝 DSH 贡献工具和图片输入，而不是静默丢弃它们。
+
+Claude 成功完成回答后，如果最终回答引用了当前 Session 工作区内的 PNG、
+JPG、WebP 或 GIF，插件会立即把完成后的文件快照保存到 DSH 附件库，并输出
+标准 assistant 图片块。历史消息只读取不可变附件，因此源文件之后被修改或
+删除，也不会改变消息中已经展示的图片。远程 URL 和工作区外路径不会被导入。
 
 ## 插件边界及与 Relay 的关系
 

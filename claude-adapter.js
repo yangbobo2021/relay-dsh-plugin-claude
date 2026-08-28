@@ -1,4 +1,8 @@
 import { LlmAdapter } from "@deepseek-ai/dsh-llm";
+import {
+  materializeDshToolImages,
+  promoteFinalAnswerImages,
+} from "./claude-image-output.js";
 
 export const CLAUDE_PRESET = "relay-claude";
 export const CLAUDE_PROVIDER = "relay-claude";
@@ -179,16 +183,28 @@ export class ClaudeDshAdapter extends LlmAdapter {
     });
     const dshTools = structuredClone(options.tools ?? []);
     const availableTools = new Set(dshTools.map(tool => tool.name));
+    const structuredImages = [];
+    const structuredCallIds = new Set();
     const executeDshTool = async ({ name, arguments: args, callId, signal }) => {
       if (!availableTools.has(name)) throw new Error(`DSH tool ${name} is not available for this DSH turn.`);
       if (!agent.ctx?.tools?.execute) throw new Error("The owning DSH Agent has no tool runtime");
-      return agent.ctx.tools.execute({
+      const result = await agent.ctx.tools.execute({
         callId,
         name,
         arguments: args,
         agent,
         signal: signal ?? options.signal ?? new AbortController().signal,
       });
+      const materialized = await materializeDshToolImages(
+        result,
+        this.attachments,
+        signal ?? options.signal,
+      );
+      if (materialized.attachments.length > 0) {
+        structuredCallIds.add(String(callId));
+        structuredImages.push(...materialized.attachments);
+      }
+      return materialized.result;
     };
     const claudeSessionId = await this.ensureSession(sessionId);
     const queue = new ActivityQueue(options.signal, "Claude");
@@ -202,7 +218,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
     try {
       const started = await this.runtime.sendMessage(claudeSessionId, { text, content, ...config, dshTools, executeDshTool });
       turnId = started.id;
-      const state = createStreamState();
+      const state = createStreamState({ structuredImages, structuredCallIds });
       let completedTurn = null;
       while (!completedTurn) {
         const message = await queue.next();
@@ -211,12 +227,12 @@ export class ClaudeDshAdapter extends LlmAdapter {
         if (message.method === "turn/completed") {
           if (params.turn?.id !== turnId) continue;
           for (const item of params.turn.items ?? []) {
-            for (const chunk of this.completeItem(agent, claudeSessionId, turnId, item, state)) yield chunk;
+            for (const chunk of await this.completeItem(agent, claudeSessionId, turnId, item, state, options.signal)) yield chunk;
           }
           completedTurn = params.turn;
           break;
         }
-        for (const chunk of this.projectActivity(agent, claudeSessionId, turnId, message, state)) yield chunk;
+        for (const chunk of await this.projectActivity(agent, claudeSessionId, turnId, message, state, options.signal)) yield chunk;
       }
       for (const block of state.blocks.values()) {
         if (block.closed) continue;
@@ -229,6 +245,15 @@ export class ClaudeDshAdapter extends LlmAdapter {
           reason: { kind: "error", failure: { message: completedTurn.error?.message ?? "Claude turn failed", code: "CLAUDE_TURN_FAILED" } },
         };
       } else {
+        const promotion = await promoteFinalAnswerImages({
+          text: finalAssistantText(state),
+          cwd: agent.session.header.cwd,
+          attachments: this.attachments,
+          structuredImages: state.structuredImages,
+          structuredImageData: state.structuredImageData,
+          signal: options.signal,
+        });
+        for (const chunk of imageOutputChunks(state, promotion.images, promotion.failures)) yield chunk;
         yield { type: "finish", reason: { kind: "stop" }, replayState: { claudeSessionId, turnId } };
       }
     } catch (error) {
@@ -309,7 +334,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
     }
   }
 
-  projectActivity(agent, claudeSessionId, turnId, message, state) {
+  async projectActivity(agent, claudeSessionId, turnId, message, state, signal) {
     const params = message.params ?? {};
     if (message.method === "item/reasoning/summaryTextDelta" || message.method === "item/reasoning/textDelta") {
       return textDelta(state, params.itemId, "reasoning", params.delta ?? "");
@@ -321,16 +346,21 @@ export class ClaudeDshAdapter extends LlmAdapter {
       if (isActivityItem(params.item)) this.appendActivity(agent, claudeSessionId, turnId, params.item, "started", state);
       return [];
     }
-    if (message.method === "item/completed") return this.completeItem(agent, claudeSessionId, turnId, params.item, state);
+    if (message.method === "item/completed") return this.completeItem(agent, claudeSessionId, turnId, params.item, state, signal);
     return [];
   }
 
-  completeItem(agent, claudeSessionId, turnId, item, state) {
+  async completeItem(agent, claudeSessionId, turnId, item, state, signal) {
     if (!item?.id || state.completed.has(item.id)) return [];
     state.completed.add(item.id);
     if (item.type === "reasoning") return completeTextItem(state, item.id, "reasoning", reasoningText(item));
     if (item.type === "agentMessage") return completeTextItem(state, item.id, "text", item.text ?? "");
     if (isActivityItem(item)) this.appendActivity(agent, claudeSessionId, turnId, item, "completed", state);
+    if (Array.isArray(item.images) && !state.structuredCallIds.has(String(item.id))) {
+      for (const [index, image] of item.images.entries()) {
+        state.structuredImageData.push({ ...image, id: `${item.id}-${index}` });
+      }
+    }
     return [];
   }
 
@@ -400,7 +430,7 @@ class ActivityQueue {
   }
 }
 
-function createStreamState() {
+function createStreamState({ structuredImages = [], structuredCallIds = new Set() } = {}) {
   return {
     nextIndex: 0,
     blocks: new Map(),
@@ -408,6 +438,9 @@ function createStreamState() {
     activityItems: new Map(),
     startedActivities: new Set(),
     completedActivities: new Set(),
+    structuredImages,
+    structuredImageData: [],
+    structuredCallIds,
   };
 }
 
@@ -442,6 +475,35 @@ function completeTextItem(state, id, type, completeText) {
   if (!block.closed) {
     block.closed = true;
     chunks.push({ type: "block-end", index: block.index, block: { type, text: block.text } });
+  }
+  return chunks;
+}
+
+function finalAssistantText(state) {
+  return [...state.blocks.values()]
+    .filter(block => block.type === "text" && block.text.trim())
+    .sort((left, right) => right.index - left.index)[0]?.text ?? "";
+}
+
+function imageOutputChunks(state, images, failures) {
+  const chunks = [];
+  if (failures.length > 0) {
+    const text = failures.map(({ path, reason }) => (
+      `Image preview unavailable for ${JSON.stringify(path)}: ${reason}.`
+    )).join("\n");
+    const index = state.nextIndex++;
+    chunks.push(
+      { type: "block-start", index, blockType: "text" },
+      { type: "text-delta", index, text },
+      { type: "block-end", index, block: { type: "text", text } },
+    );
+  }
+  for (const attachment of images) {
+    const index = state.nextIndex++;
+    chunks.push(
+      { type: "block-start", index, blockType: "image" },
+      { type: "block-end", index, block: { type: "image", attachment } },
+    );
   }
   return chunks;
 }
