@@ -45,6 +45,30 @@ node --test test/image-output.test.mjs test/dsh-adapter.test.mjs test/sdk-client
 | Failed turn does not insert an image | `failed Claude turns never promote image paths` |
 | Existing flows remain intact | Full suite covers CLI fail-closed behavior, image input, text streaming, tool activity, approvals, questions, session continuation, auxiliary title sessions, packaging, and release metadata |
 
+## Real DSH Web visual evidence
+
+The merged plugin was packed as `relay-dsh-plugin-claude@0.1.1-rc.4`, installed
+into an isolated `DSH_HOME`, and loaded by official DSH Web `0.1.1-rc.2`.
+A real Claude Code session then completed these two acceptance turns:
+
+1. Claude returned a final answer containing the relative path
+   `white-bg-blue-square.png`; DSH rendered the existing 64 x 64 PNG beneath
+   the final answer.
+2. Claude invoked Bash to create `claude-image-output-e2e.png` at 600 x 400,
+   returned that relative path in its final answer, and DSH rendered the new
+   PNG in the same assistant message.
+
+The second turn provides the strongest end-to-end evidence because the image
+did not exist until Claude's approved tool call completed. The captured DOM
+contained both the final-answer code span and an image element named
+`claude-image-output-e2e.png`.
+
+![Real Claude-generated image rendered in DSH Web](dsh-web-real-claude-generated-image-rendering.png)
+
+The first, no-tool path-promotion turn is preserved separately:
+
+![Existing final-answer image path rendered in DSH Web](dsh-web-real-claude-image-rendering.png)
+
 ## Evidence boundary
 
 The plugin owns conversion through the emitted standard DSH block:
@@ -53,4 +77,7 @@ The plugin owns conversion through the emitted standard DSH block:
 { type: "image", attachment: imageAttachmentRef }
 ```
 
-The real DSH assembler acceptance above proves that the adapter output persists as an assistant image content block. DSH's existing conversation and attachment plugins own loading and visual rendering of that standard block; this change does not fork or modify their UI path.
+The real DSH assembler acceptance above proves that the adapter output persists
+as an assistant image content block. The real DSH Web screenshots additionally
+prove that DSH's existing conversation and attachment plugins load and visually
+render that standard block; this change does not fork or modify their UI path.
