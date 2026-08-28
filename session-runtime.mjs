@@ -114,9 +114,13 @@ export class ClaudeSessionRuntime extends EventEmitter {
     return publicSession(session);
   }
 
-  async sendMessage(sessionId, { text, model, effort, sandbox, approvalPolicy, cwd } = {}) {
+  async sendMessage(sessionId, message = {}) {
+    const { text, content, model, effort, sandbox, approvalPolicy, cwd } = message;
     const session = this.requireSession(sessionId);
-    if (!text?.trim()) throw new Error("message text is required");
+    const hasContent = Array.isArray(content) && content.some(block =>
+      block?.type === "image" || (block?.type === "text" && String(block.text ?? "").trim()),
+    );
+    if (!text?.trim() && !hasContent) throw new Error("message content is required");
     const next = {
       model: model ?? session.model,
       effort: effort ?? session.effort,
@@ -125,7 +129,7 @@ export class ClaudeSessionRuntime extends EventEmitter {
       cwd: cwd ?? session.cwd,
     };
     Object.assign(session, next, { updatedAt: nowSeconds() });
-    const turn = await this.client.sendMessage(sessionId, { text, ...next });
+    const turn = await this.client.sendMessage(sessionId, { ...message, text, content, ...next });
     this.ensureTurn(session, turn);
     this.emitChange();
     return structuredClone(turn);

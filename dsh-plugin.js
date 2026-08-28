@@ -17,7 +17,8 @@ export function createDshClaudePlugin(ctx, config = {}) {
       const runtime = capabilities.require("relay.execution.claude.v1");
       const adapter = new ClaudeDshAdapter({
         runtime, ready: runtime.whenReady(),
-        linkStore: new ClaudeLinkStore(resolveLinkPath(config.claudeLinkPath)), logger: ctx.logger,
+        linkStore: new ClaudeLinkStore(resolveLinkPath(config.claudeLinkPath)),
+        attachments: ctx.attachments, logger: ctx.logger,
       });
       defer(ctx.llm.registerAdapter([CLAUDE_PROVIDER], adapter));
       defer(runtime.subscribeRequest(request => {

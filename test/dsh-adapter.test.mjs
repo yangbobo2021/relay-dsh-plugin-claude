@@ -51,6 +51,175 @@ test("Claude models expose native reasoning effort choices", async () => {
   assert.equal(model.reasoning.defaultEffort, "medium");
 });
 
+test("new and continued DSH Sessions forward image-and-text content in order", async () => {
+  const runtime = new FakeRuntime();
+  const attachments = fakeAttachments({
+    "image-1": { mediaType: "image/png", data: [1, 2, 3] },
+    "image-2": { mediaType: "image/jpeg", data: [4, 5, 6] },
+  });
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  await collect(adapter.stream(streamOptions(agent, [
+    { type: "image", attachment: imageRef("image-1", "image/png") },
+    { type: "text", text: "describe the first image" },
+  ])));
+  await collect(adapter.stream(streamOptions(agent, [
+    { type: "text", text: "compare this next image" },
+    { type: "image", attachment: imageRef("image-2", "image/jpeg") },
+  ])));
+
+  assert.equal(runtime.created, 1);
+  assert.deepEqual(runtime.sent.map(item => item.sessionId), ["claude-1", "claude-1"]);
+  assert.deepEqual(runtime.sent[0].message.content, [
+    { type: "image", mediaType: "image/png", data: "AQID" },
+    { type: "text", text: "describe the first image" },
+  ]);
+  assert.deepEqual(runtime.sent[1].message.content, [
+    { type: "text", text: "compare this next image" },
+    { type: "image", mediaType: "image/jpeg", data: "BAUG" },
+  ]);
+  assert.deepEqual(attachments.read.map(call => call.id), ["image-1", "image-2"]);
+});
+
+test("pure-text messages retain the existing block joining behavior", async () => {
+  const runtime = new FakeRuntime();
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve() });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  await collect(adapter.stream(streamOptions(agent, [
+    { type: "text", text: "  first" },
+    { type: "text", text: " " },
+    { type: "text", text: "second  " },
+  ])));
+
+  assert.equal(runtime.sent[0].message.text, "first\n \nsecond");
+  assert.deepEqual(runtime.sent[0].message.content, [
+    { type: "text", text: "first\n \nsecond" },
+  ]);
+});
+
+test("multiple DSH images preserve their interleaved message order", async () => {
+  const runtime = new FakeRuntime();
+  const attachments = fakeAttachments({
+    "image-a": { mediaType: "image/webp", data: [10] },
+    "image-b": { mediaType: "image/gif", data: [11] },
+  });
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  await collect(adapter.stream(streamOptions(agent, [
+    { type: "text", text: "before" },
+    { type: "image", attachment: imageRef("image-a", "image/webp") },
+    { type: "text", text: "between" },
+    { type: "image", attachment: imageRef("image-b", "image/gif") },
+    { type: "text", text: "after" },
+  ])));
+
+  assert.deepEqual(runtime.sent[0].message.content, [
+    { type: "text", text: "before" },
+    { type: "image", mediaType: "image/webp", data: "Cg==" },
+    { type: "text", text: "between" },
+    { type: "image", mediaType: "image/gif", data: "Cw==" },
+    { type: "text", text: "after" },
+  ]);
+});
+
+test("image input failures stop before a Claude Session or turn starts", async (t) => {
+  const cases = [
+    {
+      name: "attachment service unavailable",
+      attachments: null,
+      block: { type: "image", attachment: imageRef("missing-service", "image/png") },
+      code: "CLAUDE_IMAGE_ATTACHMENTS_UNAVAILABLE",
+      message: /attachment service is unavailable/,
+    },
+    {
+      name: "attachment missing",
+      attachments: fakeAttachments({}),
+      block: { type: "image", attachment: imageRef("missing", "image/png") },
+      code: "CLAUDE_IMAGE_READ_FAILED",
+      message: /missing or corrupt/,
+    },
+    {
+      name: "attachment corrupt",
+      attachments: { async readImage() { throw new Error("digest mismatch"); } },
+      block: { type: "image", attachment: imageRef("corrupt", "image/png") },
+      code: "CLAUDE_IMAGE_READ_FAILED",
+      message: /missing or corrupt/,
+    },
+    {
+      name: "unsupported media type",
+      attachments: fakeAttachments({}),
+      block: { type: "image", attachment: imageRef("svg", "image/svg+xml") },
+      code: "CLAUDE_IMAGE_TYPE_UNSUPPORTED",
+      message: /media type image\/svg\+xml is unsupported/,
+    },
+    {
+      name: "invalid stored data",
+      attachments: { async readImage(ref) { return { ref, data: "not-bytes" }; } },
+      block: { type: "image", attachment: imageRef("invalid", "image/png") },
+      code: "CLAUDE_IMAGE_READ_FAILED",
+      message: /invalid image data/,
+    },
+  ];
+
+  for (const scenario of cases) {
+    await t.test(scenario.name, async () => {
+      const runtime = new FakeRuntime();
+      const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments: scenario.attachments });
+      const agent = fakeAgent();
+      adapter.attachAgent(agent);
+      await assert.rejects(collect(adapter.stream(streamOptions(agent, [scenario.block]))), error => {
+        assert.equal(error.code, scenario.code);
+        assert.match(error.message, scenario.message);
+        return true;
+      });
+      assert.equal(runtime.created, 0);
+      assert.equal(runtime.sent.length, 0);
+    });
+  }
+});
+
+test("attachment cancellation does not start a Claude request", async () => {
+  const runtime = new FakeRuntime();
+  const controller = new AbortController();
+  const cancelled = new Error("image read cancelled");
+  controller.abort(cancelled);
+  const adapter = new ClaudeDshAdapter({
+    runtime,
+    ready: Promise.resolve(),
+    attachments: fakeAttachments({ "image-1": { mediaType: "image/png", data: [1] } }),
+  });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  await assert.rejects(
+    collect(adapter.stream({ ...streamOptions(agent, [
+      { type: "image", attachment: imageRef("image-1", "image/png") },
+    ]), signal: controller.signal })),
+    error => error === cancelled,
+  );
+  assert.equal(runtime.created, 0);
+  assert.equal(runtime.sent.length, 0);
+});
+
+test("model input capabilities come from the active Claude backend", async () => {
+  const sdkRuntime = new FakeRuntime();
+  sdkRuntime.models[0].inputModalities = ["text", "image"];
+  const cliRuntime = new FakeRuntime();
+  cliRuntime.models[0].inputModalities = ["text"];
+
+  const sdkAdapter = new ClaudeDshAdapter({ runtime: sdkRuntime, ready: Promise.resolve() });
+  const cliAdapter = new ClaudeDshAdapter({ runtime: cliRuntime, ready: Promise.resolve() });
+
+  assert.deepEqual((await sdkAdapter.listModels())[0].inputModalities, ["text", "image"]);
+  assert.deepEqual((await cliAdapter.resolveModel("relay-claude", "sonnet")).inputModalities, ["text"]);
+});
+
 test("a Relay activation reaches Claude instead of replaying the previous human message", async () => {
   const runtime = new FakeRuntime();
   const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve() });
@@ -354,7 +523,7 @@ class FakeRuntime extends EventEmitter {
   async sendMessage(sessionId, message) {
     this.sent.push({ sessionId, message });
     const turnId = "turn-1";
-    const answerText = message.text.includes("Generate the session title") ? "项目文件查询" : "done";
+    const answerText = message.text?.includes("Generate the session title") ? "项目文件查询" : "done";
     queueMicrotask(() => {
       this.emit("activity", notification("item/started", sessionId, turnId, {
         item: { type: "toolUse", id: "tool-1", name: "Bash", input: { command: "pwd" }, status: "inProgress" },
@@ -397,6 +566,35 @@ function fakeAgent({ tools = null } = {}) {
       header: { agentPreset: "relay-claude", cwd: "/workspace/relay" },
       events: [],
       append(type, data) { appended.push({ type, data }); },
+    },
+  };
+}
+
+function streamOptions(agent, content) {
+  return {
+    provider: "relay-claude",
+    model: "sonnet",
+    sessionId: agent.id,
+    messages: [{ role: "user", source: { kind: "user" }, content }],
+  };
+}
+
+function imageRef(attachmentId, mediaType) {
+  return { attachmentId, mediaType, bytes: 3, width: 1, height: 1 };
+}
+
+function fakeAttachments(images) {
+  return {
+    read: [],
+    async readImage(ref, signal) {
+      signal?.throwIfAborted();
+      this.read.push({ id: ref.attachmentId, signal });
+      const image = images[ref.attachmentId];
+      if (!image) throw new Error("missing attachment");
+      return {
+        ref: { ...ref, mediaType: image.mediaType },
+        data: Uint8Array.from(image.data),
+      };
     },
   };
 }

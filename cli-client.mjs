@@ -4,9 +4,9 @@ import { EventEmitter } from "node:events";
 import readline from "node:readline";
 
 const DEFAULT_MODELS = [
-  { id: "sonnet", displayName: "Claude Sonnet", isDefault: true, defaultReasoningEffort: "medium" },
-  { id: "opus", displayName: "Claude Opus", isDefault: false, defaultReasoningEffort: "high" },
-  { id: "haiku", displayName: "Claude Haiku", isDefault: false, defaultReasoningEffort: "low" },
+  { id: "sonnet", displayName: "Claude Sonnet", isDefault: true, defaultReasoningEffort: "medium", inputModalities: ["text"] },
+  { id: "opus", displayName: "Claude Opus", isDefault: false, defaultReasoningEffort: "high", inputModalities: ["text"] },
+  { id: "haiku", displayName: "Claude Haiku", isDefault: false, defaultReasoningEffort: "low", inputModalities: ["text"] },
 ];
 
 export class ClaudeCliClient extends EventEmitter {
@@ -43,6 +43,9 @@ export class ClaudeCliClient extends EventEmitter {
   }
 
   async sendMessage(sessionId, message = {}) {
+    if (message.content?.some(block => block?.type === "image")) {
+      throw new Error("The Claude CLI backend cannot accept image input; use the Claude Agent SDK backend");
+    }
     if (Array.isArray(message.dshTools) && message.dshTools.length > 0) {
       throw new Error("The Claude CLI backend cannot expose DSH tools; use the Claude Agent SDK backend");
     }

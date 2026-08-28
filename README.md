@@ -156,6 +156,7 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 - One persistent Claude Agent SDK session per DSH Session
 - Model and reasoning selection
 - Streaming answers and tool activity in the native DSH conversation
+- Image-and-text prompts through the default Claude Agent SDK backend
 - DSH approval and user-question flows
 - Interruption and session continuation
 - Generic DSH tools exposed through an in-process Claude SDK MCP server
@@ -163,7 +164,8 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 Tools execute through the owning Agent's DSH tool runtime and remain subject to
 DSH permissions and Claude approval behavior. The tool bridge requires the
 default SDK backend. If a developer explicitly selects the CLI fallback, the
-plugin refuses contributed DSH tools instead of silently dropping them.
+plugin refuses contributed DSH tools and image input instead of silently
+dropping them.
 
 ## Plugin Boundary and Relay
 

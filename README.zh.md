@@ -148,13 +148,14 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 - 每个 DSH Session 持续绑定一个 Claude Agent SDK Session
 - 模型和 reasoning 选择
 - 在 DSH 原生对话中流式显示回答和工具活动
+- 通过默认 Claude Agent SDK 后端发送图片与文字组合输入
 - DSH 原生审批和用户提问流程
 - 中断和会话延续
 - 通过进程内 Claude SDK MCP Server 提供通用 DSH 工具
 
 工具通过当前 Agent 的 DSH 工具运行时执行，并继续受到 DSH 权限和 Claude
 审批机制约束。工具桥接依赖默认 SDK 后端。如果开发者明确选择 CLI fallback，
-插件会拒绝 DSH 贡献工具，而不是静默丢弃工具。
+插件会拒绝 DSH 贡献工具和图片输入，而不是静默丢弃它们。
 
 ## 插件边界及与 Relay 的关系
 

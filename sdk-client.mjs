@@ -3,9 +3,9 @@ import { EventEmitter } from "node:events";
 import { z } from "zod";
 
 const DEFAULT_MODELS = [
-  { id: "sonnet", displayName: "Claude Sonnet", isDefault: true, defaultReasoningEffort: "medium", supportedReasoningEfforts: reasoningEfforts() },
-  { id: "opus", displayName: "Claude Opus", isDefault: false, defaultReasoningEffort: "high", supportedReasoningEfforts: reasoningEfforts() },
-  { id: "haiku", displayName: "Claude Haiku", isDefault: false, defaultReasoningEffort: "low", supportedReasoningEfforts: reasoningEfforts() },
+  { id: "sonnet", displayName: "Claude Sonnet", isDefault: true, defaultReasoningEffort: "medium", supportedReasoningEfforts: reasoningEfforts(), inputModalities: ["text", "image"] },
+  { id: "opus", displayName: "Claude Opus", isDefault: false, defaultReasoningEffort: "high", supportedReasoningEfforts: reasoningEfforts(), inputModalities: ["text", "image"] },
+  { id: "haiku", displayName: "Claude Haiku", isDefault: false, defaultReasoningEffort: "low", supportedReasoningEfforts: reasoningEfforts(), inputModalities: ["text", "image"] },
 ];
 
 function reasoningEfforts() {
@@ -55,7 +55,7 @@ export class ClaudeSdkClient extends EventEmitter {
     const turnId = randomUUID();
     const abortController = new AbortController();
     const options = this.queryOptions(session, message, abortController);
-    const query = this.sdk.query({ prompt: message.text, options });
+    const query = this.sdk.query({ prompt: claudePrompt(message), options });
     this.queries.set(turnId, { query, abortController, sessionId });
     void this.consumeQuery(session, turnId, query).catch((error) => {
       this.emit("diagnostic", `Claude SDK query failed: ${error?.stack ?? error}`);
@@ -192,6 +192,34 @@ export class ClaudeSdkClient extends EventEmitter {
     });
   }
 }
+
+function claudePrompt(message) {
+  const content = Array.isArray(message.content) ? message.content : [];
+  if (!content.some(block => block?.type === "image")) return message.text;
+  const sdkContent = content.map((block) => {
+    if (block?.type === "text") return { type: "text", text: String(block.text ?? "") };
+    if (block?.type === "image" && CLAUDE_IMAGE_MEDIA_TYPES.has(block.mediaType) && typeof block.data === "string") {
+      return {
+        type: "image",
+        source: { type: "base64", media_type: block.mediaType, data: block.data },
+      };
+    }
+    throw Object.assign(new Error("Claude SDK received invalid multimodal message content."), {
+      code: "CLAUDE_IMAGE_INPUT_INVALID",
+    });
+  });
+  return oneUserMessage(sdkContent);
+}
+
+async function* oneUserMessage(content) {
+  yield {
+    type: "user",
+    message: { role: "user", content },
+    parent_tool_use_id: null,
+  };
+}
+
+const CLAUDE_IMAGE_MEDIA_TYPES = new Set(["image/png", "image/jpeg", "image/gif", "image/webp"]);
 
 function dshMcpOptions(sdk, schemas, execute, signal) {
   if (!Array.isArray(schemas) || schemas.length === 0) return {};

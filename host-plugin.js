@@ -9,6 +9,7 @@ export const name = "relay-dsh-plugin-claude";
 export const inject = [
   "agents",
   "approval",
+  "attachments",
   "llm",
   "sessions",
   "sessionPersistence",
