@@ -276,6 +276,93 @@ test("Claude SDK maps generic DSH schemas to an in-process MCP server", async ()
   assert.deepEqual(result.content, [{ type: "text", text: "probe complete" }]);
 });
 
+test("Claude SDK preserves structured tool-result images without leaking Base64 into activity", async () => {
+  const sdk = {
+    query(params) {
+      return queryObject(async function* () {
+        yield { type: "assistant", session_id: params.options.sessionId, uuid: "u1", message: {
+          id: "msg-tool",
+          role: "assistant",
+          content: [{ type: "tool_use", id: "tool-image", name: "make_image", input: { prompt: "sunrise" } }],
+        } };
+        yield { type: "user", session_id: params.options.sessionId, uuid: "u2", message: {
+          role: "user",
+          content: [{
+            type: "tool_result",
+            tool_use_id: "tool-image",
+            content: [{
+              type: "image",
+              source: { type: "base64", media_type: "image/png", data: "AQID" },
+            }],
+            is_error: false,
+          }],
+        } };
+        yield { type: "assistant", session_id: params.options.sessionId, uuid: "u3", message: {
+          id: "msg-final",
+          role: "assistant",
+          content: [{ type: "text", text: "Done." }],
+        } };
+        yield { type: "result", session_id: params.options.sessionId, uuid: "u4", subtype: "success", is_error: false, result: "done" };
+      });
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+  const session = await client.createSession({ sessionId: "88888888-8888-4888-8888-888888888888" });
+  const activity = [];
+  client.on("activity", message => activity.push(message));
+
+  await client.sendMessage(session.id, { text: "make an image" });
+  await untilTurnCompleted(activity);
+  const completed = activity.find(message => (
+    message.method === "item/completed" && message.params.item.id === "tool-image"
+  )).params.item;
+
+  assert.equal(completed.name, "make_image");
+  assert.deepEqual(completed.input, { prompt: "sunrise" });
+  assert.deepEqual(completed.images, [{ mediaType: "image/png", data: "AQID", name: undefined }]);
+  assert.deepEqual(completed.output, [{ type: "image", mediaType: "image/png", omitted: true }]);
+  assert.equal(JSON.stringify(completed.output).includes("AQID"), false);
+});
+
+test("the in-process DSH MCP bridge returns image bytes as an MCP image result", async () => {
+  let serverOptions = null;
+  const sdk = {
+    createSdkMcpServer(options) {
+      serverOptions = options;
+      return { type: "sdk", name: options.name };
+    },
+    tool(name, description, inputSchema, handler) {
+      return { name, description, inputSchema, handler };
+    },
+    query(params) {
+      return queryObject(async function* () {
+        yield { type: "result", session_id: params.options.sessionId, uuid: "u1", subtype: "success", is_error: false, result: "done" };
+      });
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+  const session = await client.createSession({ sessionId: "99999999-9999-4999-8999-999999999999" });
+  const activity = [];
+  client.on("activity", message => activity.push(message));
+
+  await client.sendMessage(session.id, {
+    text: "make an image",
+    dshTools: [{ name: "make_image", description: "Make image", parameters: { type: "object", properties: {} } }],
+    async executeDshTool() {
+      return { content: [{ type: "image", mediaType: "image/png", data: "AQID" }], isError: false };
+    },
+  });
+  await untilTurnCompleted(activity);
+
+  const result = await serverOptions.tools[0].handler({}, { signal: new AbortController().signal });
+  assert.deepEqual(result, {
+    content: [{ type: "image", data: "AQID", mimeType: "image/png" }],
+    isError: false,
+  });
+});
+
 test("Claude SDK client interrupts and aborts an in-progress query", async () => {
   let queryParams = null;
   let interrupted = 0;

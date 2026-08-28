@@ -1,10 +1,13 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { EventEmitter } from "node:events";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import { deflateSync } from "node:zlib";
 
+import { BlockAssembler } from "@deepseek-ai/dsh-llm";
 import { ClaudeDshAdapter, CLAUDE_ACTIVITY_EVENT } from "../claude-adapter.js";
 import { ClaudeLinkStore } from "../claude-link-store.js";
 import { handleClaudeSdkRequest } from "../claude-tools.js";
@@ -126,6 +129,177 @@ test("multiple DSH images preserve their interleaved message order", async () =>
     { type: "image", mediaType: "image/gif", data: "Cw==" },
     { type: "text", text: "after" },
   ]);
+});
+
+test("a final-answer path becomes a durable standard DSH assistant image block", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-image-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  const source = join(cwd, "final.png");
+  const versionThree = pngPixel(0, 0, 255);
+  await writeFile(source, pngPixel(255, 0, 0));
+  await writeFile(source, pngPixel(0, 255, 0));
+  const runtime = new FakeRuntime({
+    answerText: "Generated `./final.png`.",
+    beforeComplete: () => writeFile(source, versionThree),
+  });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent({ cwd });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "generate an image" }])));
+  await writeFile(source, pngPixel(255, 255, 255));
+  const assembler = new BlockAssembler();
+  for (const chunk of chunks) assembler.push(chunk);
+
+  assert.deepEqual(assembler.blocks().map(block => block.type), ["reasoning", "text", "image"]);
+  const image = assembler.blocks().at(-1);
+  assert.equal(image.attachment.mediaType, "image/png");
+  assert.deepEqual(attachments.saved[0].data, versionThree);
+  assert.deepEqual(attachments.images.get(image.attachment.attachmentId).data, versionThree);
+});
+
+test("missing final paths preserve Claude text and append a clear preview diagnostic", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-missing-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  const runtime = new FakeRuntime({ answerText: "Generated `./missing.webp`." });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent({ cwd });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "generate" }])));
+  const completed = chunks.filter(chunk => chunk.type === "block-end").map(chunk => chunk.block);
+
+  assert.equal(completed.some(block => block.type === "image"), false);
+  assert.equal(completed.some(block => block.type === "text" && block.text === "Generated `./missing.webp`."), true);
+  assert.match(completed.at(-1).text, /Image preview unavailable.*missing\.webp.*does not exist/);
+});
+
+test("failed Claude turns never promote image paths", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-failed-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  await writeFile(join(cwd, "partial.png"), "partial");
+  const runtime = new FakeRuntime({ answerText: "Partial `./partial.png`.", status: "failed" });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent({ cwd });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "generate" }])));
+
+  assert.equal(chunks.some(chunk => chunk.type === "block-end" && chunk.block.type === "image"), false);
+  assert.equal(attachments.saved.length, 0);
+  assert.equal(chunks.at(-1).reason.kind, "error");
+});
+
+test("DSH tool image attachments remain structured and render as fallback", async () => {
+  const sourceRef = imageRef("tool-image", "image/png");
+  const attachments = fakeAttachments({
+    "tool-image": { mediaType: "image/png", data: [7, 8, 9] },
+  });
+  const runtime = new FakeRuntime({
+    beforeComplete: async (message) => {
+      runtime.toolResult = await message.executeDshTool({
+        name: "make_image",
+        arguments: {},
+        callId: "tool-image-call",
+        signal: new AbortController().signal,
+      });
+    },
+  });
+  const agent = fakeAgent({ tools: {
+    async execute() {
+      return { isError: false, content: [{ type: "image", attachment: sourceRef }] };
+    },
+  } });
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream({
+    ...streamOptions(agent, [{ type: "text", text: "make an image" }]),
+    tools: [{ name: "make_image", description: "Make an image", parameters: { type: "object", properties: {} } }],
+  }));
+  const image = chunks.find(chunk => chunk.type === "block-end" && chunk.block.type === "image")?.block;
+
+  assert.deepEqual(runtime.toolResult.content, [{ type: "image", data: "BwgJ", mediaType: "image/png" }]);
+  assert.deepEqual(image, { type: "image", attachment: sourceRef });
+  assert.equal(attachments.saved.length, 0);
+});
+
+test("Claude SDK Base64 tool-result images are persisted as fallback", async () => {
+  const generated = pngPixel(240, 120, 20);
+  const runtime = new FakeRuntime({
+    completedItem: {
+      type: "toolUse",
+      id: "native-image-tool",
+      status: "completed",
+      images: [{ mediaType: "image/png", data: generated.toString("base64") }],
+    },
+  });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "make an image" }])));
+  const image = chunks.find(chunk => chunk.type === "block-end" && chunk.block.type === "image")?.block;
+
+  assert.equal(attachments.saved.length, 1);
+  assert.deepEqual(attachments.saved[0].data, generated);
+  assert.equal(image.attachment.attachmentId, attachments.saved[0].ref.attachmentId);
+});
+
+test("a final-answer path takes precedence over unrelated structured image candidates", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-priority-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  const selected = pngPixel(20, 80, 180);
+  await writeFile(join(cwd, "selected.png"), selected);
+  const runtime = new FakeRuntime({
+    answerText: "Use `./selected.png`.",
+    completedItem: {
+      type: "toolUse",
+      id: "unrelated-image-tool",
+      status: "completed",
+      images: [{ mediaType: "image/png", data: pngPixel(180, 80, 20).toString("base64") }],
+    },
+  });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent({ cwd });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "make" }])));
+  const images = chunks.filter(chunk => chunk.type === "block-end" && chunk.block.type === "image");
+
+  assert.equal(images.length, 1);
+  assert.equal(images[0].block.attachment.mediaType, "image/png");
+  assert.deepEqual(attachments.saved[0].data, selected);
+  assert.equal(attachments.saved.length, 1);
+});
+
+test("only the last visible Claude text block selects final-answer paths", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-last-answer-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  const stale = pngPixel(200, 30, 30);
+  const selected = pngPixel(30, 200, 30);
+  await writeFile(join(cwd, "stale.png"), stale);
+  await writeFile(join(cwd, "selected.png"), selected);
+  const runtime = new FakeRuntime({
+    preludeText: "Earlier draft: `./stale.png`.",
+    answerText: "Final result: `./selected.png`.",
+  });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent({ cwd });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "revise the image" }])));
+  const images = chunks.filter(chunk => chunk.type === "block-end" && chunk.block.type === "image");
+
+  assert.equal(images.length, 1);
+  assert.equal(attachments.saved.length, 1);
+  assert.deepEqual(attachments.saved[0].data, selected);
 });
 
 test("image input failures stop before a Claude Session or turn starts", async (t) => {
@@ -488,8 +662,13 @@ test("Claude forwards generic DSH tools through a provider-neutral executor", as
 });
 
 class FakeRuntime extends EventEmitter {
-  constructor() {
+  constructor({ answerText = "done", preludeText = null, status = "completed", completedItem = null, beforeComplete = null } = {}) {
     super();
+    this.answerText = answerText;
+    this.preludeText = preludeText;
+    this.status = status;
+    this.completedItem = completedItem;
+    this.beforeComplete = beforeComplete;
     this.models = [{
       id: "sonnet",
       displayName: "Claude Sonnet",
@@ -523,21 +702,39 @@ class FakeRuntime extends EventEmitter {
   async sendMessage(sessionId, message) {
     this.sent.push({ sessionId, message });
     const turnId = "turn-1";
-    const answerText = message.text?.includes("Generate the session title") ? "项目文件查询" : "done";
+    const answerText = message.text?.includes("Generate the session title") ? "项目文件查询" : this.answerText;
     queueMicrotask(() => {
-      this.emit("activity", notification("item/started", sessionId, turnId, {
-        item: { type: "toolUse", id: "tool-1", name: "Bash", input: { command: "pwd" }, status: "inProgress" },
-      }));
-      this.emit("activity", notification("item/completed", sessionId, turnId, {
-        item: { type: "toolUse", id: "tool-1", name: "Bash", status: "completed", output: "ok\n" },
-      }));
-      this.emit("activity", notification("item/reasoning/summaryTextDelta", sessionId, turnId, {
-        itemId: "reason-1", delta: "Checked the workspace.",
-      }));
-      this.emit("activity", notification("item/agentMessage/delta", sessionId, turnId, { itemId: "answer-1", delta: answerText }));
-      this.emit("activity", { method: "turn/completed", params: {
-        sessionId, turn: { id: turnId, status: "completed", error: null, items: [] },
-      } });
+      void (async () => {
+        await this.beforeComplete?.(message);
+        this.emit("activity", notification("item/started", sessionId, turnId, {
+          item: { type: "toolUse", id: "tool-1", name: "Bash", input: { command: "pwd" }, status: "inProgress" },
+        }));
+        this.emit("activity", notification("item/completed", sessionId, turnId, {
+          item: { type: "toolUse", id: "tool-1", name: "Bash", status: "completed", output: "ok\n" },
+        }));
+        if (this.completedItem) {
+          this.emit("activity", notification("item/completed", sessionId, turnId, { item: this.completedItem }));
+        }
+        if (this.preludeText) {
+          this.emit("activity", notification("item/agentMessage/delta", sessionId, turnId, {
+            itemId: "prelude-answer",
+            delta: this.preludeText,
+          }));
+        }
+        this.emit("activity", notification("item/reasoning/summaryTextDelta", sessionId, turnId, {
+          itemId: "reason-1", delta: "Checked the workspace.",
+        }));
+        this.emit("activity", notification("item/agentMessage/delta", sessionId, turnId, { itemId: "answer-1", delta: answerText }));
+        this.emit("activity", { method: "turn/completed", params: {
+          sessionId,
+          turn: {
+            id: turnId,
+            status: this.status,
+            error: this.status === "failed" ? { message: "simulated failure" } : null,
+            items: [],
+          },
+        } });
+      })();
     });
     return { id: turnId, status: "inProgress", items: [] };
   }
@@ -556,14 +753,14 @@ class InteractionRuntime {
   rejectRequest(id, error) { this.rejected.push({ id, error }); }
 }
 
-function fakeAgent({ tools = null } = {}) {
+function fakeAgent({ tools = null, cwd = "/workspace/relay" } = {}) {
   const appended = [];
   return {
     id: "dsh-1",
     appended,
     ctx: tools ? { tools } : {},
     session: {
-      header: { agentPreset: "relay-claude", cwd: "/workspace/relay" },
+      header: { agentPreset: "relay-claude", cwd },
       events: [],
       append(type, data) { appended.push({ type, data }); },
     },
@@ -584,17 +781,44 @@ function imageRef(attachmentId, mediaType) {
 }
 
 function fakeAttachments(images) {
+  const stored = new Map(Object.entries(images).map(([id, image]) => [id, {
+    mediaType: image.mediaType,
+    data: Buffer.from(image.data),
+  }]));
   return {
+    images: stored,
     read: [],
+    saved: [],
+    imageLimits: {
+      maxImageBytes: 1024 * 1024,
+      maxImagesPerMessage: 10,
+      maxMessageImageBytes: 4 * 1024 * 1024,
+      mediaTypes: ["image/png", "image/jpeg", "image/webp", "image/gif"],
+    },
     async readImage(ref, signal) {
       signal?.throwIfAborted();
       this.read.push({ id: ref.attachmentId, signal });
-      const image = images[ref.attachmentId];
+      const image = stored.get(ref.attachmentId);
       if (!image) throw new Error("missing attachment");
       return {
         ref: { ...ref, mediaType: image.mediaType },
         data: Uint8Array.from(image.data),
       };
+    },
+    async saveImage(input) {
+      const data = Buffer.from(input.data);
+      const attachmentId = `sha256:${createHash("sha256").update(data).digest("hex")}`;
+      const ref = {
+        attachmentId,
+        mediaType: input.mediaType,
+        bytes: data.length,
+        width: 1,
+        height: 1,
+        ...(input.name ? { name: input.name } : {}),
+      };
+      this.saved.push({ ...input, data, ref });
+      stored.set(attachmentId, { mediaType: input.mediaType, data });
+      return ref;
     },
   };
 }
@@ -607,4 +831,36 @@ async function collect(stream) {
   const chunks = [];
   for await (const chunk of stream) chunks.push(chunk);
   return chunks;
+}
+
+function pngPixel(red, green, blue, alpha = 255) {
+  const header = Buffer.alloc(13);
+  header.writeUInt32BE(1, 0);
+  header.writeUInt32BE(1, 4);
+  header.set([8, 6, 0, 0, 0], 8);
+  return Buffer.concat([
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+    pngChunk("IHDR", header),
+    pngChunk("IDAT", deflateSync(Buffer.from([0, red, green, blue, alpha]))),
+    pngChunk("IEND", Buffer.alloc(0)),
+  ]);
+}
+
+function pngChunk(type, data) {
+  const name = Buffer.from(type, "ascii");
+  const chunk = Buffer.alloc(data.length + 12);
+  chunk.writeUInt32BE(data.length, 0);
+  name.copy(chunk, 4);
+  data.copy(chunk, 8);
+  chunk.writeUInt32BE(crc32(Buffer.concat([name, data])), data.length + 8);
+  return chunk;
+}
+
+function crc32(data) {
+  let crc = 0xffffffff;
+  for (const byte of data) {
+    crc ^= byte;
+    for (let bit = 0; bit < 8; bit += 1) crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+  }
+  return (crc ^ 0xffffffff) >>> 0;
 }
