@@ -13,21 +13,40 @@
 **npm 包名：** [`relay-dsh-plugin-claude`](https://www.npmjs.com/package/relay-dsh-plugin-claude)
 · [全部 Relay DSH 插件](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/dsh-plugins.zh.md)
 
-[![在官方 DSH 中实装运行的 Relay 插件](https://raw.githubusercontent.com/yangbobo2021/Relay/codex/relay-foundation/docs/media/dsh-plugin-suite-demo.gif)](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/dsh-plugins.zh.md)
-
-*演示来自官方 DSH 上的真实 npm 安装：Codex 与 Claude 返回真实回复，Files
-预览工作区文件，Terminal 实际执行命令。[观看 H.264
-MP4](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/media/dsh-plugin-suite-demo.mp4?raw=1)。*
+**无需切换界面或维护 DSH Fork，直接在官方 DeepSeek Harness 中运行 Claude
+Code。**
 
 `relay-dsh-plugin-claude` 为官方
 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）Web
-界面增加 **Claude Code 对话后端**。安装后，DSH 的新建会话模式菜单中会出现
-**Claude Code**。每个 DSH Session 会绑定一个 Claude Agent SDK Session。
+界面增加原生 **Claude Code 对话后端**。你可以继续使用 DSH 的工作区、对话
+历史、输入框、审批、提问和工具展示；每个 DSH Session 会持续绑定一个 Claude
+Agent SDK Session。本插件可独立安装，不需要下载 Relay 仓库。
+
+## 在官方 DSH 中立即试用
+
+首次创建 Session 前，请先运行 `claude` 完成 Claude Code 的正常认证。安装
+要求 Node.js 22.13 或更高版本，并且 `pnpm` 已加入 `PATH`。然后停止 DSH Web，
+安装经过测试的候选版本并重新启动：
+
+```bash
+npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add relay-dsh-plugin-claude@next
+npx @deepseek-ai/dsh@0.1.1-rc.2 web
+```
+
+打开 **New Session**，选择工作区，再从模式菜单中选择 **Claude Code** 并发送
+消息。
 
 ![DSH 新建会话菜单中的 Codex 和 Claude Code](docs/images/dsh-new-session-backends.jpg)
 
 上图来自安装了 Codex 和 Claude 插件的官方 DSH `0.1.1-rc.2`。如果只安装
 本插件，菜单中只会新增 **Claude Code**。
+
+[查看全部 Relay DSH 插件](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/dsh-plugins.zh.md)
+· [反馈安装结果](https://github.com/yangbobo2021/relay-dsh-plugin-claude/issues)
+
+如果它能让你少切换一个界面，欢迎
+[Star 本插件](https://github.com/yangbobo2021/relay-dsh-plugin-claude)。
+这些真实信号能帮助更多 DSH 用户找到经过验证的 Claude Code 后端。
 
 ## 什么情况下需要这个插件？
 
@@ -44,7 +63,7 @@ MP4](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/medi
 使用 DSH 标准 Agent 不需要安装本插件。本插件也不提供 Relay Events、文件
 浏览和终端面板，这些能力由其他可选插件提供。
 
-## 基于官方 DSH 的快速安装
+## 完整安装与兼容性说明
 
 以下步骤已经在这些版本上实际验证：
 

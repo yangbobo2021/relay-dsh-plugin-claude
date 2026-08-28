@@ -13,22 +13,42 @@ English | [中文](README.zh.md)
 **npm package:** [`relay-dsh-plugin-claude`](https://www.npmjs.com/package/relay-dsh-plugin-claude)
 · [All Relay DSH plugins](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/dsh-plugins.md)
 
-[![Live npm-installed Relay plugins in official DSH](https://raw.githubusercontent.com/yangbobo2021/Relay/codex/relay-foundation/docs/media/dsh-plugin-suite-demo.gif)](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/dsh-plugins.md)
+**Run Claude Code inside official DeepSeek Harness without switching interfaces
+or maintaining a DSH fork.**
 
-*Real npm-installed demo on official DSH: live Codex and Claude replies, a
-workspace file preview, and an executed terminal command. [Watch the H.264
-MP4](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/media/dsh-plugin-suite-demo.mp4?raw=1).*
+`relay-dsh-plugin-claude` adds **Claude Code as a native conversation backend**
+to the official [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
+(DSH) Web UI. You keep DSH's workspace, conversation history, composer,
+approvals, questions, and tool display while each DSH Session continues one
+Claude Agent SDK session. The plugin installs independently; no Relay checkout
+is required.
 
-`relay-dsh-plugin-claude` adds **Claude Code as a conversation backend** to the
-official [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
-(DSH) Web UI. After installation, **Claude Code** appears in DSH's New Session
-mode menu. One DSH Session is bound to one Claude Agent SDK session.
+## Try It on Official DSH
+
+Complete normal Claude Code authentication with `claude` before the first
+Session. The install requires Node.js 22.13 or newer and `pnpm` on `PATH`. Then
+stop DSH Web, install the tested release candidate, and restart DSH:
+
+```bash
+npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add relay-dsh-plugin-claude@next
+npx @deepseek-ai/dsh@0.1.1-rc.2 web
+```
+
+Open **New Session**, select a workspace, choose **Claude Code** from the mode
+menu, and send a message.
 
 ![Codex and Claude Code in the DSH New Session mode menu](docs/images/dsh-new-session-backends.jpg)
 
 The screenshot was captured from official DSH `0.1.1-rc.2` with the Codex and
 Claude plugins installed. If you install only this plugin, only **Claude Code**
 is added.
+
+[Review all Relay DSH plugins](https://github.com/yangbobo2021/Relay/blob/codex/relay-foundation/docs/dsh-plugins.md)
+· [report an install result](https://github.com/yangbobo2021/relay-dsh-plugin-claude/issues)
+
+If this removes an interface switch from your DSH workflow,
+[star this plugin](https://github.com/yangbobo2021/relay-dsh-plugin-claude).
+That signal helps other DSH users find a tested Claude Code backend.
 
 ## Do I Need This Plugin?
 
@@ -45,7 +65,7 @@ Install it when you want to:
 You do not need it to use DSH's standard agents. It also does not add Relay
 Events, file browsing, or a terminal panel. Those are separate optional plugins.
 
-## Quick Start With Official DSH
+## Complete Setup and Compatibility
 
 The steps below were validated with:
 
