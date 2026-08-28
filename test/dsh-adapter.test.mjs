@@ -191,6 +191,30 @@ test("a final-answer SVG becomes a durable PNG in the standard DSH block stream"
   assert.deepEqual(attachments.images.get(image.attachment.attachmentId).data, persisted);
 });
 
+test("a first-turn bare SVG filename becomes a standard DSH image block", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-bare-svg-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  const source = join(cwd, "football.svg");
+  await writeFile(source, '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="10"><circle cx="8" cy="5" r="4" fill="#ffffff" stroke="#111111"/></svg>');
+  const runtime = new FakeRuntime({
+    answerText: "已在 football.svg 中创建了一张简单的足球图片，可以直接用浏览器打开查看。",
+  });
+  const attachments = fakeAttachments({});
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), attachments });
+  const agent = fakeAgent({ cwd });
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream(streamOptions(agent, [{ type: "text", text: "绘制一张简单的足球图片" }])));
+  const assembler = new BlockAssembler();
+  for (const chunk of chunks) assembler.push(chunk);
+
+  assert.deepEqual(assembler.blocks().map(block => block.type), ["reasoning", "text", "image"]);
+  const image = assembler.blocks().at(-1);
+  assert.equal(image.attachment.mediaType, "image/png");
+  assert.equal(image.attachment.name, "football.png");
+  assert.equal(attachments.saved.length, 1);
+});
+
 test("missing final paths preserve Claude text and append a clear preview diagnostic", async (context) => {
   const cwd = await mkdtemp(join(tmpdir(), "relay-claude-adapter-missing-"));
   context.after(() => rm(cwd, { recursive: true, force: true }));

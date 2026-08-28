@@ -18,6 +18,10 @@ test("final-answer image path syntax preserves mention order and removes duplica
   const paths = extractFinalAnswerImagePaths([
     "Generated ![first](./one.PNG) and `./folder/two with spaces.jpg`.",
     "Also see \"./three.webp\", [four](<./folder/four image.GIF>), /tmp/five.jpeg, and `./six.SVG`.",
+    "Natural output: football.svg, assets/render/final.png，and 输出/足球图.WEBP。",
+    "Windows output: .\\renders\\pitch.gif and C:\\workspace\\goal.JPG.",
+    "Markdown emphasis: **preview.avif** and ~~alternate.heic~~.",
+    "Chinese wrappers:（round.svg），labels：scoreboard.png。",
     "Duplicate: `./one.PNG`.",
     "Remote references are text only: https://example.test/remote.png and data:image/png;base64,AAAA.",
     "```text",
@@ -32,7 +36,27 @@ test("final-answer image path syntax preserves mention order and removes duplica
     "./folder/four image.GIF",
     "/tmp/five.jpeg",
     "./six.SVG",
+    "football.svg",
+    "assets/render/final.png",
+    "输出/足球图.WEBP",
+    ".\\renders\\pitch.gif",
+    "C:\\workspace\\goal.JPG",
+    "preview.avif",
+    "alternate.heic",
+    "round.svg",
+    "scoreboard.png",
   ]);
+});
+
+test("non-image links and remote image URIs are not local image candidates", () => {
+  const paths = extractFinalAnswerImagePaths([
+    "Read [the guide](README.md), [the site](https://example.test), and [remote art](https://example.test/art.png).",
+    "Ignore ftp://example.test/art.png, s3://bucket/art.webp, file:///tmp/art.gif, and data:image/png;base64,AAAA.",
+    "Contact mailto:preview@example.png or inspect blob:https://example.test/id.svg.",
+    "A compound extension such as package.svg.js is not an image path.",
+  ].join("\n"));
+
+  assert.deepEqual(paths, []);
 });
 
 test("path promotion snapshots final bytes into immutable DSH attachments", async (context) => {
@@ -85,6 +109,29 @@ test("SVG paths are rasterized once into immutable PNG attachments", async (cont
   });
   assert.deepEqual(attachments.stored.get(promoted.images[0].attachmentId), storedBeforeSourceChange);
   await assert.rejects(access(join(cwd, "final.png")), error => error.code === "ENOENT");
+});
+
+test("a bare SVG filename in natural assistant prose is rasterized", async (context) => {
+  const cwd = await mkdtemp(join(tmpdir(), "relay-claude-svg-bare-output-"));
+  context.after(() => rm(cwd, { recursive: true, force: true }));
+  await writeFile(join(cwd, "football.svg"), svg(16, 10, '<rect width="16" height="10" fill="#ffffff"/>'));
+  const attachments = recordingAttachments();
+
+  const promoted = await promoteFinalAnswerImages({
+    text: "已在 football.svg 中创建了一张简单的足球图片。",
+    cwd,
+    attachments,
+  });
+
+  assert.deepEqual(promoted.paths, ["football.svg"]);
+  assert.equal(promoted.failures.length, 0);
+  assert.equal(promoted.images.length, 1);
+  assert.equal(promoted.images[0].name, "football.png");
+  assert.deepEqual(await sharp(attachments.saved[0].data).metadata().then(({ format, width, height }) => ({ format, width, height })), {
+    format: "png",
+    width: 16,
+    height: 10,
+  });
 });
 
 test("mixed SVG and raster paths retain order while duplicate paths stay deduplicated", async (context) => {
@@ -338,7 +385,7 @@ test("final paths are authoritative and structured attachments are fallback-only
     structuredImages: [fallback],
   });
   const fallbackOnly = await promoteFinalAnswerImages({
-    text: "The image is shown below.",
+    text: "The image is shown below; see [the guide](README.md).",
     cwd,
     attachments,
     structuredImages: [fallback, fallback],
