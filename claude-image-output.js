@@ -11,6 +11,15 @@ const MEDIA_TYPES = new Map([
 ]);
 
 const IMAGE_SUFFIX = String.raw`\.(?:png|jpe?g|webp|gif|bmp|svg|tiff?|avif|heic)`;
+const IMAGE_PATH_END = new RegExp(`${IMAGE_SUFFIX}$`, "i");
+const BARE_PATH_BOUNDARY = String.raw`[\s(\[{:*=~（【《「『“‘，。；：！？、]`;
+const BARE_PATH_END_CHAR = String.raw`[\s)\]}>,;:!?*~，。；：！？、）】》」』”’]`;
+const BARE_PATH_END = String.raw`(?:${BARE_PATH_END_CHAR}|\.(?=$|${BARE_PATH_END_CHAR}))`;
+const BARE_PATH_CONTENT = String.raw`[^\s<>"'“”‘’「」『』*~()\[\]{}=:,;!?，。；：！？、（）【】《》]+?`;
+const MARKDOWN_PATH = new RegExp(String.raw`!?\[[^\]\r\n]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["'][^"']*["'])?\s*\)`, "gi");
+const INLINE_CODE_PATH = new RegExp("`([^`\\r\\n]+" + IMAGE_SUFFIX + ")`", "gi");
+const QUOTED_PATH = new RegExp("[\"']([^\"'\\r\\n]+" + IMAGE_SUFFIX + ")[\"']", "gi");
+const URI_REFERENCE = /(?!(?:[a-z]:[\\/]))(?:[a-z][a-z0-9+.-]*:\/\/|data:|file:|blob:|mailto:|\/\/)[^\s<>"'“”‘’]+/gi;
 const SVG_EXTENSION = ".svg";
 const SVG_SOURCE_MAX_BYTES = 2 * 1024 * 1024;
 const SVG_RASTER_DENSITY = 72;
@@ -21,20 +30,21 @@ const DEFAULT_MAX_IMAGE_DIMENSION = 8192;
 export function extractFinalAnswerImagePaths(text) {
   const visible = withoutFencedCode(String(text ?? ""));
   const matches = [];
-  collectMatches(matches, visible, new RegExp(String.raw`!?\[[^\]\r\n]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["'][^"']*["'])?\s*\)`, "gi"), 1, 2);
-  collectMatches(matches, visible, new RegExp("`([^`\\r\\n]+" + IMAGE_SUFFIX + ")`", "gi"), 1);
-  collectMatches(matches, visible, new RegExp("[\"']([^\"'\\r\\n]+" + IMAGE_SUFFIX + ")[\"']", "gi"), 1);
+  collectMatches(matches, visible, MARKDOWN_PATH, 1, 2);
+  collectMatches(matches, visible, INLINE_CODE_PATH, 1);
+  collectMatches(matches, visible, QUOTED_PATH, 1);
+  const bareVisible = maskMatches(visible, MARKDOWN_PATH, INLINE_CODE_PATH, QUOTED_PATH, URI_REFERENCE);
   collectMatches(
     matches,
-    visible,
-    new RegExp("(?:^|[\\s(\\[])((?:\\.{0,2}/|/)[^\\s<>\"'`]+?" + IMAGE_SUFFIX + ")(?=$|[\\s)\\],.;:!?])", "gi"),
+    bareVisible,
+    new RegExp(String.raw`(?:^|${BARE_PATH_BOUNDARY})((?:[a-z]:[\\/])?${BARE_PATH_CONTENT}${IMAGE_SUFFIX})(?=$|${BARE_PATH_END})`, "gi"),
     1,
   );
   matches.sort((left, right) => left.index - right.index);
   const seen = new Set();
   return matches.flatMap(({ path }) => {
     const normalized = normalizeMention(path);
-    if (!normalized || isRemoteReference(normalized) || seen.has(normalized)) return [];
+    if (!normalized || !IMAGE_PATH_END.test(normalized) || isRemoteReference(normalized) || seen.has(normalized)) return [];
     seen.add(normalized);
     return [normalized];
   });
@@ -273,12 +283,20 @@ function withoutFencedCode(text) {
   return text.replace(/(^|\n)[ \t]*(```|~~~)[^\n]*\n[\s\S]*?(?:\n[ \t]*\2(?=\n|$)|$)/g, match => match.replace(/[^\n]/g, " "));
 }
 
+function maskMatches(text, ...expressions) {
+  return expressions.reduce(
+    (masked, expression) => masked.replace(expression, match => match.replace(/[^\n]/g, " ")),
+    text,
+  );
+}
+
 function normalizeMention(path) {
   return String(path ?? "").trim().replace(/^<|>$/g, "");
 }
 
 function isRemoteReference(path) {
-  return /^(?:https?:|data:|file:)/i.test(path);
+  if (/^[a-z]:[\\/]/i.test(path)) return false;
+  return /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(path);
 }
 
 function deduplicateAttachments(images) {

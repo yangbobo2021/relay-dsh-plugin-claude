@@ -9,7 +9,7 @@ Claude can create or inspect an image during a turn and mention its local path i
 For a successfully completed ordinary conversation turn, the adapter performs one output conversion before emitting `finish`:
 
 1. Select the last visible assistant text block as the final answer.
-2. Extract local image paths in mention order. Accepted forms are Markdown image/link targets, inline code, quoted paths, and bare absolute or relative paths without spaces. Fenced code is ignored. Remote, data, and `file:` URLs are ignored. Recognized but unsupported image extensions produce a preview diagnostic. SVG is a supported conversion input, not a DSH output media type.
+2. Extract local image paths in mention order. Accepted forms are Markdown image/link targets, inline code, quoted paths, and bare absolute or relative paths without spaces. Bare relative paths include a filename such as `football.svg` and an unprefixed directory path such as `renders/football.svg`; they do not require `./`. Natural ASCII, Markdown, and Chinese punctuation delimiters are accepted around bare paths. Fenced code, non-image Markdown targets, and URI references such as HTTP(S), data, `file:`, `ftp:`, `s3:`, or `blob:` are ignored. Recognized but unsupported image extensions produce a preview diagnostic. SVG is a supported conversion input, not a DSH output media type.
 3. Resolve each path against the owning DSH Session working directory and require its real path to remain inside that directory. Symlink escapes are rejected.
 4. Read the completed file once and reject a concurrent size, identity, or modification-time change. Raster bytes pass directly to the DSH attachment service. SVG bytes are rendered once, in memory, into PNG and the PNG bytes pass to the attachment service. No converted file is created in the Session workspace.
 5. Emit a standard DSH assistant image block for each durable attachment, after the final text and before `finish`.
@@ -33,7 +33,7 @@ Failed, cancelled, and auxiliary turns do not promote output images. A recognize
 
 ## Delivery acceptance matrix
 
-1. Relative, absolute, Markdown, inline-code, quoted, and mixed-case image paths are recognized in mention order.
+1. Bare filenames, prefixed and unprefixed directory-relative paths, absolute paths, Markdown targets, inline-code paths, quoted paths, Windows-style paths, and mixed-case image paths are recognized in mention order, including next to natural Chinese punctuation.
 2. Paths with spaces work when quoted, in inline code, or in an angle-bracket Markdown target.
 3. Multiple paths preserve order; duplicate mentions produce one image.
 4. HTTP(S), data URLs, fenced examples, unsupported extensions, directories, missing files, unreadable files, oversized files, and workspace escapes do not become image blocks.
@@ -49,3 +49,4 @@ Failed, cancelled, and auxiliary turns do not promote output images. A recognize
 14. Editing or deleting the source SVG after message completion does not affect the persisted PNG attachment, and no sibling PNG is created in the workspace.
 15. Malformed SVG, source/output byte overflow, dimension/pixel overflow, timeout, or rasterizer failure leaves the answer intact and emits a stable diagnostic without a partial image block.
 16. SVG scripts and event handlers never execute, and local or network resource references are not loaded during conversion.
+17. Ordinary non-image Markdown links and image-looking URI schemes do not become local path candidates or suppress structured-image fallback.
