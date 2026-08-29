@@ -1,6 +1,7 @@
 import { EventEmitter } from "node:events";
 
 import { ClaudeCliClient } from "./cli-client.mjs";
+import { normalizeClaudePlugins } from "./claude-plugin-config.mjs";
 
 const DEFAULT_MODELS = [
   {
@@ -33,10 +34,12 @@ export class ClaudeSessionRuntime extends EventEmitter {
   constructor({
     client = new ClaudeCliClient(),
     cwd = process.cwd(),
+    plugins = undefined,
   } = {}) {
     super();
     this.client = client;
     this.cwd = cwd;
+    this.plugins = normalizeClaudePlugins(plugins);
     this.sessions = new Map();
     this.models = DEFAULT_MODELS;
     this.selectedSessionId = null;
@@ -72,11 +75,13 @@ export class ClaudeSessionRuntime extends EventEmitter {
     ephemeral = false,
     settingSources = ["user", "project", "local"],
     systemPrompt = { type: "preset", preset: "claude_code" },
+    plugins = this.plugins,
   } = {}) {
     const selectedModel = model ?? this.models.find(candidate => candidate.isDefault)?.id ?? "sonnet";
     const selectedEffort = effort
       ?? this.models.find(candidate => candidate.id === selectedModel)?.defaultReasoningEffort
       ?? "medium";
+    const normalizedPlugins = normalizeClaudePlugins(plugins);
     const created = await this.client.createSession?.({
       model: selectedModel,
       effort: selectedEffort,
@@ -86,6 +91,7 @@ export class ClaudeSessionRuntime extends EventEmitter {
       ephemeral,
       settingSources,
       systemPrompt,
+      ...(normalizedPlugins === undefined ? {} : { plugins: normalizedPlugins }),
     });
     const session = this.upsertSession(created ?? {}, {
       id: created?.id,
@@ -95,6 +101,7 @@ export class ClaudeSessionRuntime extends EventEmitter {
       approvalPolicy,
       cwd,
       ephemeral,
+      plugins: normalizedPlugins,
     });
     if (!session.ephemeral) this.selectedSessionId = session.id;
     this.emitChange();
@@ -103,11 +110,15 @@ export class ClaudeSessionRuntime extends EventEmitter {
 
   async resumeSession(sessionId, defaults = {}) {
     if (!sessionId?.trim()) throw new Error("sessionId is required");
-    const resumed = await this.client.resumeSession?.(sessionId, {
+    const normalizedPlugins = normalizeClaudePlugins(defaults.plugins === undefined ? this.plugins : defaults.plugins);
+    const resumeConfig = {
       cwd: defaults.cwd ?? this.cwd,
       ...defaults,
-    });
-    const session = this.upsertSession(resumed ?? {}, { id: sessionId, ...defaults });
+      ...(normalizedPlugins === undefined ? {} : { plugins: normalizedPlugins }),
+    };
+    if (normalizedPlugins === undefined) delete resumeConfig.plugins;
+    const resumed = await this.client.resumeSession?.(sessionId, resumeConfig);
+    const session = this.upsertSession(resumed ?? {}, { id: sessionId, ...resumeConfig });
     if (Array.isArray(resumed?.turns) && resumed.turns.length > 0) session.turns = structuredClone(resumed.turns);
     if (!session.ephemeral) this.selectedSessionId = sessionId;
     this.emitChange();
@@ -121,6 +132,9 @@ export class ClaudeSessionRuntime extends EventEmitter {
       block?.type === "image" || (block?.type === "text" && String(block.text ?? "").trim()),
     );
     if (!text?.trim() && !hasContent) throw new Error("message content is required");
+    if (message.plugins !== undefined) {
+      throw new TypeError("Claude plugins must be configured when the Session is created or resumed");
+    }
     const next = {
       model: model ?? session.model,
       effort: effort ?? session.effort,
@@ -207,6 +221,7 @@ export class ClaudeSessionRuntime extends EventEmitter {
       approvalPolicy: defaults.approvalPolicy ?? input.approvalPolicy ?? existing.approvalPolicy ?? "on-request",
       cwd: defaults.cwd ?? input.cwd ?? existing.cwd ?? this.cwd,
       ephemeral: Boolean(defaults.ephemeral ?? input.ephemeral ?? existing.ephemeral),
+      plugins: defaults.plugins ?? input.plugins ?? existing.plugins,
       updatedAt: input.updatedAt ?? nowSeconds(),
     });
     if (Array.isArray(input.turns) && input.turns.length > 0) existing.turns = structuredClone(input.turns);

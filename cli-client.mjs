@@ -29,6 +29,7 @@ export class ClaudeCliClient extends EventEmitter {
   }
 
   async createSession(config = {}) {
+    assertSdkOnlyPluginsAbsent(config);
     const id = config.sessionId ?? randomUUID();
     const session = { id, cwd: config.cwd ?? process.cwd(), created: false, config: structuredClone(config) };
     this.sessions.set(id, session);
@@ -36,6 +37,7 @@ export class ClaudeCliClient extends EventEmitter {
   }
 
   async resumeSession(sessionId, config = {}) {
+    assertSdkOnlyPluginsAbsent(config);
     const existing = this.sessions.get(sessionId) ?? { id: sessionId, created: true };
     const session = { ...existing, cwd: config.cwd ?? existing.cwd ?? process.cwd(), config: { ...existing.config, ...config } };
     this.sessions.set(sessionId, session);
@@ -43,6 +45,7 @@ export class ClaudeCliClient extends EventEmitter {
   }
 
   async sendMessage(sessionId, message = {}) {
+    assertSdkOnlyPluginsAbsent(message);
     if (message.content?.some(block => block?.type === "image")) {
       throw new Error("The Claude CLI backend cannot accept image input; use the Claude Agent SDK backend");
     }
@@ -157,6 +160,15 @@ export class ClaudeCliClient extends EventEmitter {
           items: [],
         },
       },
+    });
+  }
+}
+
+function assertSdkOnlyPluginsAbsent(config) {
+  if (Array.isArray(config.plugins) && config.plugins.length === 0) return;
+  if (config.plugins !== undefined) {
+    throw Object.assign(new Error("Local Claude plugins require the Claude Agent SDK backend"), {
+      code: "CLAUDE_LOCAL_PLUGINS_REQUIRE_SDK",
     });
   }
 }

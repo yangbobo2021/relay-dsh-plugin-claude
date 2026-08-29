@@ -2,6 +2,8 @@ import { randomUUID } from "node:crypto";
 import { EventEmitter } from "node:events";
 import { z } from "zod";
 
+import { normalizeClaudePlugins } from "./claude-plugin-config.mjs";
+
 const DEFAULT_MODELS = [
   { id: "sonnet", displayName: "Claude Sonnet", isDefault: true, defaultReasoningEffort: "medium", supportedReasoningEfforts: reasoningEfforts(), inputModalities: ["text", "image"] },
   { id: "opus", displayName: "Claude Opus", isDefault: false, defaultReasoningEffort: "high", supportedReasoningEfforts: reasoningEfforts(), inputModalities: ["text", "image"] },
@@ -35,12 +37,14 @@ export class ClaudeSdkClient extends EventEmitter {
   }
 
   async createSession(config = {}) {
+    config = normalizedSessionConfig(config);
     const id = config.sessionId ?? randomUUID();
     this.sessions.set(id, { id, cwd: config.cwd ?? process.cwd(), created: false, config: structuredClone(config) });
     return { id, cwd: config.cwd ?? process.cwd(), turns: [] };
   }
 
   async resumeSession(sessionId, config = {}) {
+    config = normalizedSessionConfig(config);
     const existing = this.sessions.get(sessionId) ?? { id: sessionId, created: true, config: {} };
     this.sessions.set(sessionId, {
       ...existing,
@@ -51,6 +55,9 @@ export class ClaudeSdkClient extends EventEmitter {
   }
 
   async sendMessage(sessionId, message = {}) {
+    if (message.plugins !== undefined) {
+      throw new TypeError("Claude plugins must be configured when the Session is created or resumed");
+    }
     const session = this.sessions.get(sessionId) ?? (await this.resumeSession(sessionId, message));
     const turnId = randomUUID();
     const abortController = new AbortController();
@@ -112,6 +119,7 @@ export class ClaudeSdkClient extends EventEmitter {
   }
 
   queryOptions(session, message, abortController) {
+    const plugins = normalizeClaudePlugins(session.config?.plugins);
     return {
       abortController,
       cwd: message.cwd ?? session.cwd ?? process.cwd(),
@@ -126,6 +134,7 @@ export class ClaudeSdkClient extends EventEmitter {
       systemPrompt: message.systemPrompt ?? session.config?.systemPrompt,
       pathToClaudeCodeExecutable: this.pathToClaudeCodeExecutable,
       includePartialMessages: true,
+      ...(plugins === undefined ? {} : { plugins }),
       ...(session.created ? { resume: session.id } : { sessionId: session.id }),
       canUseTool: (toolName, input, options) => this.requestPermission(session.id, toolName, input, options),
       ...dshMcpOptions(this.sdk, message.dshTools, message.executeDshTool, abortController.signal),
@@ -197,6 +206,16 @@ export class ClaudeSdkClient extends EventEmitter {
       },
     });
   }
+}
+
+function normalizedSessionConfig(config) {
+  const plugins = normalizeClaudePlugins(config.plugins);
+  const normalized = {
+    ...config,
+    ...(plugins === undefined ? {} : { plugins }),
+  };
+  if (plugins === undefined) delete normalized.plugins;
+  return normalized;
 }
 
 function claudePrompt(message) {

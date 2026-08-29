@@ -506,6 +506,7 @@ test("automatic title generation uses an isolated ephemeral Claude session", asy
   assert.equal(auxiliaryConfig.sandbox, "read-only");
   assert.equal(auxiliaryConfig.approvalPolicy, "never");
   assert.deepEqual(auxiliaryConfig.settingSources, ["user"]);
+  assert.deepEqual(auxiliaryConfig.plugins, []);
   assert.deepEqual(runtime.released, ["claude-2"]);
   assert.equal(mainChunks.find(chunk => chunk.type === "text-delta").text, "done");
   assert.equal(titleChunks.find(chunk => chunk.type === "text-delta").text, "项目文件查询");

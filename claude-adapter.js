@@ -285,6 +285,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
       ephemeral: true,
       settingSources: ["user"],
       systemPrompt: options.system,
+      plugins: [],
     });
     const claudeSessionId = created.id;
     const queue = new ActivityQueue(options.signal, "Claude");

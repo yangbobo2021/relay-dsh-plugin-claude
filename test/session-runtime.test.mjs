@@ -88,6 +88,50 @@ test("Claude runtime preserves multimodal content and callbacks for the SDK clie
   await runtime.close();
 });
 
+test("Claude runtime preserves configured local plugins across create, send, and resume", async () => {
+  const client = new FakeClaudeClient();
+  const configured = [{ type: "local", path: "/plugins/fixture", skipMcpDiscovery: true }];
+  const runtime = new ClaudeSessionRuntime({ client, cwd: "/workspace/relay", plugins: configured });
+  configured[0].path = "/plugins/mutated-after-construction";
+  await runtime.initialize();
+
+  const created = await runtime.createSession();
+  await runtime.sendMessage(created.id, { text: "new session" });
+  await runtime.resumeSession("existing-claude-session");
+  await runtime.sendMessage("existing-claude-session", { text: "resumed session" });
+
+  const expected = [{ type: "local", path: "/plugins/fixture", skipMcpDiscovery: true }];
+  assert.deepEqual(client.created[0].plugins, expected);
+  assert.equal(Object.hasOwn(client.sent[0].message, "plugins"), false);
+  assert.deepEqual(client.resumed[0].config.plugins, expected);
+  assert.equal(Object.hasOwn(client.sent[1].message, "plugins"), false);
+  await runtime.close();
+});
+
+test("Claude runtime supports an explicit empty plugin override and rejects invalid config", async () => {
+  const client = new FakeClaudeClient();
+  const runtime = new ClaudeSessionRuntime({
+    client,
+    cwd: "/workspace/relay",
+    plugins: [{ type: "local", path: "/plugins/default" }],
+  });
+  await runtime.initialize();
+
+  await runtime.createSession({ plugins: [] });
+  assert.deepEqual(client.created[0].plugins, []);
+  await assert.rejects(
+    runtime.createSession({ plugins: [{ type: "remote", path: "/plugins/invalid" }] }),
+    /type must be "local"/,
+  );
+  await assert.rejects(
+    runtime.sendMessage("claude-1", { text: "inject", plugins: [{ type: "local", path: "/plugins/injected" }] }),
+    /must be configured when the Session is created or resumed/,
+  );
+  assert.equal(client.created.length, 1);
+  assert.equal(client.sent.length, 0);
+  await runtime.close();
+});
+
 class FakeClaudeClient extends EventEmitter {
   constructor() {
     super();

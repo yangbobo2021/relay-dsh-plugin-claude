@@ -183,6 +183,26 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 - Interruption and session continuation
 - Generic DSH tools exposed through an in-process Claude SDK MCP server
 
+### Explicit local Claude plugins
+
+Trusted Host configuration can load an uninstalled local Claude plugin into
+business conversations by setting `claudePlugins` on this DSH plugin:
+
+```yaml
+config:
+  claudePlugins:
+    - type: local
+      path: /absolute/path/to/plugin
+```
+
+The order and optional `skipMcpDiscovery` Boolean are forwarded to every new and
+resumed Claude Agent SDK query. Hidden title-generation Sessions use no local
+plugins. A non-empty list is rejected when the CLI fallback is active because
+the CLI backend cannot honor this SDK option. Local plugins execute as the DSH
+user, so configure only reviewed paths. See
+[`docs/spec/claude-local-plugins.md`](docs/spec/claude-local-plugins.md) for the
+full contract and acceptance cases.
+
 Tools execute through the owning Agent's DSH tool runtime and remain subject to
 DSH permissions and Claude approval behavior. The tool bridge requires the
 default SDK backend. If a developer explicitly selects the CLI fallback, the
