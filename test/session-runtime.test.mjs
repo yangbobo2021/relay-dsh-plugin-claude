@@ -4,6 +4,27 @@ import test from "node:test";
 
 import { ClaudeSessionRuntime } from "../session-runtime.mjs";
 
+test("Claude runtime exposes native Session import only for capable clients", async () => {
+  const capable = new FakeClaudeClient();
+  capable.supportsSessionImport = () => true;
+  capable.listWorkspaceSessions = async ({ cwd }) => [{ sessionId: "native-1", cwd }];
+  capable.readSession = async (sessionId, { cwd }) => ({ sessionId, cwd, messages: [] });
+  const runtime = new ClaudeSessionRuntime({ client: capable });
+  await runtime.initialize();
+  assert.equal(runtime.supportsSessionImport(), true);
+  assert.deepEqual(await runtime.listWorkspaceSessions({ cwd: "/workspace/relay" }), [{
+    sessionId: "native-1", cwd: "/workspace/relay",
+  }]);
+  assert.equal((await runtime.readSession("native-1", { cwd: "/workspace/relay" })).sessionId, "native-1");
+
+  const cliLike = new ClaudeSessionRuntime({ client: new FakeClaudeClient() });
+  await cliLike.initialize();
+  assert.equal(cliLike.supportsSessionImport(), false);
+  await assert.rejects(cliLike.listWorkspaceSessions({ cwd: "/workspace/relay" }), {
+    code: "CLAUDE_SESSION_IMPORT_UNAVAILABLE",
+  });
+});
+
 test("Claude sessions keep context across turns and resume through the client", async () => {
   const client = new FakeClaudeClient();
   const runtime = new ClaudeSessionRuntime({ client, cwd: "/workspace/relay" });

@@ -39,6 +39,33 @@ export class ClaudeSdkClient extends EventEmitter {
     return DEFAULT_MODELS;
   }
 
+  supportsSessionImport() {
+    return typeof this.sdk?.listSessions === "function"
+      && typeof this.sdk?.getSessionInfo === "function"
+      && typeof this.sdk?.getSessionMessages === "function";
+  }
+
+  async listWorkspaceSessions({ cwd }) {
+    if (!this.supportsSessionImport()) {
+      throw sessionImportUnavailable();
+    }
+    return this.sdk.listSessions({
+      dir: cwd,
+      includeWorktrees: false,
+      includeProgrammatic: false,
+    });
+  }
+
+  async readSession(sessionId, { cwd }) {
+    if (!this.supportsSessionImport()) {
+      throw sessionImportUnavailable();
+    }
+    const info = await this.sdk.getSessionInfo(sessionId, { dir: cwd });
+    if (!info) return null;
+    const messages = await this.sdk.getSessionMessages(sessionId, { dir: cwd });
+    return { ...info, messages };
+  }
+
   async createSession(config = {}) {
     config = normalizedSessionConfig(config);
     const id = config.sessionId ?? randomUUID();
@@ -533,6 +560,13 @@ function responseForRequest(pending, response) {
 function resultError(message) {
   if (!message?.is_error) return null;
   return new Error(message.errors?.join("\n") || message.subtype || "Claude SDK turn failed");
+}
+
+function sessionImportUnavailable() {
+  return Object.assign(
+    new Error("The active Claude Agent SDK does not support native Session discovery and history import"),
+    { code: "CLAUDE_SESSION_IMPORT_UNAVAILABLE" },
+  );
 }
 
 function sdkPermissionMode(message) {

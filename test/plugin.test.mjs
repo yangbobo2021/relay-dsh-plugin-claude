@@ -53,6 +53,15 @@ test("DSH Host claudePlugins configuration reaches business Session creation", a
     attachments: {},
     logger: console,
     agents: { list: () => [], get: () => null },
+    approval: {},
+    sessions: {},
+    sessionPersistence: {},
+    tools: {},
+    typert: {},
+    userQuestions: {},
+    workspaceRegistry: { async resolveByPath() { return null; } },
+    sessionTitle: {},
+    webServer: { register() { return () => {}; } },
     llm: {
       registerAdapter(_providers, candidate) {
         adapter = candidate;

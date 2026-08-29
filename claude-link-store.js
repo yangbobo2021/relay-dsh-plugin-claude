@@ -44,7 +44,9 @@ function loadRecords(path) {
 function validRecord(record) {
   return isObject(record)
     && (record.claudeSessionId === null || typeof record.claudeSessionId === "string")
-    && isObject(record.config);
+    && isObject(record.config)
+    && (record.bindingMode === undefined || record.bindingMode === "native" || record.bindingMode === "imported")
+    && (record.importState === undefined || ["reserved", "session-created", "hydrated", "attached", "committed"].includes(record.importState));
 }
 
 function isObject(value) {

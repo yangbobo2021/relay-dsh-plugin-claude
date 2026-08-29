@@ -162,6 +162,27 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 插件不需要单独的激活命令。安装成功并重启 DSH 后，Bundle 会自动激活，
 并注册由插件管理的 **Claude Code** 模式。
 
+### 5. 导入已有的 Claude 终端会话
+
+1. 在 DSH 中打开目标工作区或其中一个 Session。
+2. 点击工作区列表下方的 **导入 Claude 会话**。
+3. 检查完整 Session ID、标题、源路径、活动时间和导入状态，然后选择一个、
+   多个或全部会话。
+4. 点击 **导入所选会话**，再打开导入后的 DSH Session。
+5. 发送下一条消息，确认它继续的是同一个原生 Claude Session。
+
+选择器只使用 Claude Agent SDK 的公开 Session API，其范围与终端 `/resume`
+一致。它会排除 worktree、SDK/headless、已经绑定以及不属于当前精确注册工作区
+的 Session。导入历史是一次性的展示快照，包含用户文本、可见的助手文本与
+thinking，以及已有结果的文本工具活动。未知或私有块会被跳过，Claude 源转录
+不会被修改。
+
+SDK 列表不提供持久的 running/idle 状态。通过 DSH 继续会话时，应避免另一个
+Claude 客户端同时写入同一个 Session。如果恢复失败，DSH 会保留原始绑定供
+重试，绝不会静默创建替代 Session。CLI fallback 不支持导入。完整契约和交付
+用例见
+[`docs/spec/claude-native-session-import.md`](docs/spec/claude-native-session-import.md)。
+
 ## 支持的能力
 
 - 每个 DSH Session 持续绑定一个 Claude Agent SDK Session
@@ -171,6 +192,7 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 - 在对话中持久展示 Claude 最终回答所引用的工作区图片
 - DSH 原生审批和用户提问流程
 - 中断和会话延续
+- 选择性导入已有 Claude 终端会话，并通过原始 ID 继续
 - 通过进程内 Claude SDK MCP Server 提供通用 DSH 工具
 - 在每次 SDK 查询中启用 Claude 原生 `Glob` 与 `Grep` 专用搜索工具
 - 在工具结果持久化前脱敏其中的敏感环境变量值

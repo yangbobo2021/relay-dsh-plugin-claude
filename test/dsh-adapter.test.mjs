@@ -531,6 +531,36 @@ test("DSH-to-Claude links and configuration survive host restart", async (contex
   assert.equal(secondRuntime.resumed, 1);
 });
 
+test("imported Claude bindings are one-to-one, durable, and never silently replaced", async (context) => {
+  const directory = await mkdtemp(join(tmpdir(), "relay-claude-import-links-"));
+  context.after(() => rm(directory, { recursive: true, force: true }));
+  const path = join(directory, "links.json");
+  const first = new ClaudeDshAdapter({ runtime: new FakeRuntime(), ready: Promise.resolve(), linkStore: new ClaudeLinkStore(path) });
+  const binding = first.bindImportedSession("dsh-import-1", "native-claude-1", { cwd: "/workspace/relay" });
+  assert.equal(binding.bindingMode, "imported");
+  assert.equal(binding.importState, "reserved");
+  assert.throws(
+    () => first.bindImportedSession("dsh-import-2", "native-claude-1", { cwd: "/workspace/relay" }),
+    /already bound to DSH session dsh-import-1/,
+  );
+  first.markImportState("dsh-import-1", "committed");
+
+  const runtime = new FakeRuntime();
+  runtime.resumeSession = async () => {
+    runtime.resumed += 1;
+    throw new Error("source is busy");
+  };
+  const restored = new ClaudeDshAdapter({ runtime, ready: Promise.resolve(), linkStore: new ClaudeLinkStore(path) });
+  await assert.rejects(restored.ensureSession("dsh-import-1"), (error) => {
+    assert.equal(error.code, "CLAUDE_IMPORTED_SESSION_RESUME_FAILED");
+    assert.equal(error.claudeSessionId, "native-claude-1");
+    return true;
+  });
+  assert.equal(restored.sessionFor("dsh-import-1"), "native-claude-1");
+  assert.equal(runtime.created, 0);
+  assert.equal(restored.bindingForClaudeSession("native-claude-1").importState, "committed");
+});
+
 test("concurrent first messages create one Claude session and DSH accepts durable activity", async () => {
   installClaudeSessionEventType();
   const runtime = new FakeRuntime();

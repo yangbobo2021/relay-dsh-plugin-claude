@@ -4,6 +4,47 @@ import test from "node:test";
 
 import { ClaudeSdkClient } from "../sdk-client.mjs";
 
+test("Claude SDK discovers and reads native Sessions through public Workspace APIs", async () => {
+  const calls = [];
+  const sdk = {
+    query() {},
+    async listSessions(options) {
+      calls.push(["list", options]);
+      return [{ sessionId: "native-1", cwd: "/workspace/relay", summary: "Existing work", lastModified: 1234 }];
+    },
+    async getSessionInfo(sessionId, options) {
+      calls.push(["info", sessionId, options]);
+      return { sessionId, cwd: options.dir, summary: "Existing work", lastModified: 1234 };
+    },
+    async getSessionMessages(sessionId, options) {
+      calls.push(["messages", sessionId, options]);
+      return [{ type: "user", uuid: "message-1", session_id: sessionId, parent_tool_use_id: null, message: { content: [] } }];
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+
+  assert.equal(client.supportsSessionImport(), true);
+  assert.deepEqual(await client.listWorkspaceSessions({ cwd: "/workspace/relay" }), [{
+    sessionId: "native-1", cwd: "/workspace/relay", summary: "Existing work", lastModified: 1234,
+  }]);
+  assert.equal((await client.readSession("native-1", { cwd: "/workspace/relay" })).messages.length, 1);
+  assert.deepEqual(calls, [
+    ["list", { dir: "/workspace/relay", includeWorktrees: false, includeProgrammatic: false }],
+    ["info", "native-1", { dir: "/workspace/relay" }],
+    ["messages", "native-1", { dir: "/workspace/relay" }],
+  ]);
+});
+
+test("Claude SDK fails closed when native Session APIs are unavailable", async () => {
+  const client = new ClaudeSdkClient({ sdk: { query() {} } });
+  await client.start();
+  assert.equal(client.supportsSessionImport(), false);
+  await assert.rejects(client.listWorkspaceSessions({ cwd: "/workspace/relay" }), {
+    code: "CLAUDE_SESSION_IMPORT_UNAVAILABLE",
+  });
+});
+
 test("the search-tool specification matches the SDK availability contract", async () => {
   const specification = await readFile(
     new URL("../docs/spec/claude-search-tools.md", import.meta.url),

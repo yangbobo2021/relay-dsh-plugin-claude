@@ -38,6 +38,9 @@ function executionCapability(runtime, ready) {
   return Object.freeze({
     whenReady: () => ready,
     listModels: () => structuredClone(runtime.models),
+    supportsSessionImport: () => runtime.supportsSessionImport(),
+    listWorkspaceSessions: runtime.listWorkspaceSessions.bind(runtime),
+    readSession: runtime.readSession.bind(runtime),
     hasSession: (sessionId) => runtime.sessions.has(sessionId),
     getSession: runtime.getSession.bind(runtime),
     patchSession(sessionId, patch) {
@@ -100,6 +103,9 @@ class FallbackClaudeClient extends ClaudeCliClient {
   }
 
   listModels(...args) { return this.active.listModels(...args); }
+  supportsSessionImport(...args) { return this.active.supportsSessionImport?.(...args) === true; }
+  listWorkspaceSessions(...args) { return this.active.listWorkspaceSessions?.(...args); }
+  readSession(...args) { return this.active.readSession?.(...args); }
   createSession(...args) { return this.active.createSession(...args); }
   resumeSession(...args) { return this.active.resumeSession(...args); }
   sendMessage(...args) { return this.active.sendMessage(...args); }

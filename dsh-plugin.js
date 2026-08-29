@@ -3,24 +3,34 @@ import { join, resolve } from "node:path";
 import { KNOWN_SESSION_EVENT_TYPES } from "@deepseek-ai/dsh-session";
 import { definePlugin } from "./internal/plugin-sdk.mjs";
 import { ClaudeDshAdapter, CLAUDE_ACTIVITY_EVENT, CLAUDE_PROVIDER } from "./claude-adapter.js";
+import { ClaudeWorkspaceImporter } from "./claude-import.mjs";
+import { registerClaudeImportRoute } from "./claude-import-route.js";
 import { ClaudeLinkStore } from "./claude-link-store.js";
 import { handleClaudeSdkRequest } from "./claude-tools.js";
+import { DshClaudeImportTarget } from "./dsh-import-target.js";
 
 export function createDshClaudePlugin(ctx, config = {}) {
   return definePlugin({
     manifest: {
       id: "relay.dsh.claude", version: "1.0.0", provides: { "relay.dsh.claude.v1": "1.0.0" },
-      requires: { "relay.execution.claude.v1": "^1.0.0" }, permissions: ["dsh:llm", "dsh:agents"],
+      requires: { "relay.execution.claude.v1": "^1.0.0" }, permissions: ["dsh:llm", "dsh:agents", "dsh:web-server"],
     },
     async activate({ capabilities, defer }) {
       installClaudeSessionEventType();
       const runtime = capabilities.require("relay.execution.claude.v1");
+      const linkStore = new ClaudeLinkStore(resolveLinkPath(config.claudeLinkPath));
       const adapter = new ClaudeDshAdapter({
         runtime, ready: runtime.whenReady(),
-        linkStore: new ClaudeLinkStore(resolveLinkPath(config.claudeLinkPath)),
+        linkStore,
         attachments: ctx.attachments, logger: ctx.logger,
       });
+      const target = new DshClaudeImportTarget({ ctx, logger: ctx.logger });
+      const importer = new ClaudeWorkspaceImporter({ runtime, adapter, target, logger: ctx.logger });
       defer(ctx.llm.registerAdapter([CLAUDE_PROVIDER], adapter));
+      defer(registerClaudeImportRoute(ctx, {
+        importer,
+        token: config.claudeImportToken ?? process.env.RELAY_CLAUDE_IMPORT_TOKEN,
+      }));
       defer(runtime.subscribeRequest(request => {
         void handleClaudeSdkRequest(ctx, { adapter, runtime, request })
           .catch(error => ctx.logger.error(`Relay failed to handle a Claude interaction: ${error?.stack ?? error}`));

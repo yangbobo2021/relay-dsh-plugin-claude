@@ -171,6 +171,31 @@ at startup, so restarting after installation, update, or removal is required.
 There is no separate activation command. A successful install plus a DSH restart
 activates the bundle and registers the managed **Claude Code** mode automatically.
 
+### 5. Import an existing Claude terminal Session
+
+1. Open the target Workspace or one of its Sessions in DSH.
+2. Select **Import Claude Sessions** below the Workspace list.
+3. Review the full Session IDs, titles, source paths, activity times, and import
+   status. Select one, several, or all Sessions.
+4. Select **Import selected**, then open the imported DSH Session.
+5. Send the next message and confirm that it continues the same native Claude
+   Session.
+
+The selector uses the Claude Agent SDK's public Session APIs and matches the
+terminal `/resume` scope. It excludes worktrees, SDK/headless Sessions,
+already-bound Sessions, and Sessions outside the exact registered Workspace.
+The imported history is a one-time presentation snapshot of user text, visible
+assistant text and thinking, and completed textual tool activity. Unknown or
+private blocks are skipped; Claude's source transcript is never modified.
+
+The SDK inventory does not expose a durable running/idle status. Avoid writing
+the same Session from another Claude client while continuing it in DSH. If
+resume fails, DSH keeps the exact imported binding for retry and never silently
+creates a replacement Session. Import is unavailable with the CLI fallback.
+See
+[`docs/spec/claude-native-session-import.md`](docs/spec/claude-native-session-import.md)
+for the complete contract and delivery cases.
+
 ## What Works
 
 - One persistent Claude Agent SDK session per DSH Session
@@ -181,6 +206,7 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
   final answer
 - DSH approval and user-question flows
 - Interruption and session continuation
+- Selective import and exact-ID continuation of existing Claude terminal Sessions
 - Generic DSH tools exposed through an in-process Claude SDK MCP server
 - Dedicated native Claude `Glob` and `Grep` search tools on every SDK query
 - Pre-persistence redaction of sensitive environment values from tool output
