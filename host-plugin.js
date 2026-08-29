@@ -17,6 +17,8 @@ export const inject = [
   "typert",
   "userQuestions",
   "webServer",
+  "workspaceRegistry",
+  "sessionTitle",
 ];
 
 export async function apply(ctx, config = {}) {

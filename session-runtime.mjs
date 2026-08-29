@@ -108,6 +108,25 @@ export class ClaudeSessionRuntime extends EventEmitter {
     return publicSession(session);
   }
 
+  supportsSessionImport() {
+    return this.client.supportsSessionImport?.() === true;
+  }
+
+  async listWorkspaceSessions({ cwd }) {
+    if (!this.supportsSessionImport() || typeof this.client.listWorkspaceSessions !== "function") {
+      throw sessionImportUnavailable();
+    }
+    return structuredClone(await this.client.listWorkspaceSessions({ cwd }));
+  }
+
+  async readSession(sessionId, { cwd }) {
+    if (!this.supportsSessionImport() || typeof this.client.readSession !== "function") {
+      throw sessionImportUnavailable();
+    }
+    const source = await this.client.readSession(sessionId, { cwd });
+    return source === null ? null : structuredClone(source);
+  }
+
   async resumeSession(sessionId, defaults = {}) {
     if (!sessionId?.trim()) throw new Error("sessionId is required");
     const normalizedPlugins = normalizeClaudePlugins(defaults.plugins === undefined ? this.plugins : defaults.plugins);
@@ -271,4 +290,11 @@ function publicSession(session) {
 
 function nowSeconds() {
   return Date.now() / 1000;
+}
+
+function sessionImportUnavailable() {
+  return Object.assign(
+    new Error("Native Claude Session import requires the Claude Agent SDK backend"),
+    { code: "CLAUDE_SESSION_IMPORT_UNAVAILABLE" },
+  );
 }

@@ -7,6 +7,7 @@ import {
 export const CLAUDE_PRESET = "relay-claude";
 export const CLAUDE_PROVIDER = "relay-claude";
 export const CLAUDE_ACTIVITY_EVENT = "relay-claude/activity";
+const IMPORT_STATES = Object.freeze(["reserved", "session-created", "hydrated", "attached", "committed"]);
 
 export class ClaudeDshAdapter extends LlmAdapter {
   constructor({ runtime, ready, linkStore = null, attachments = null, logger = console }) {
@@ -18,12 +19,18 @@ export class ClaudeDshAdapter extends LlmAdapter {
     this.attachments = attachments;
     this.links = new Map();
     this.settings = new Map();
+    this.bindingModes = new Map();
+    this.importStates = new Map();
     this.pendingSessions = new Map();
     this.agents = new Map();
     for (const [sessionId, record] of linkStore?.entries() ?? []) {
       const claudeSessionId = record.claudeSessionId ?? record.sessionId ?? record.threadId;
       if (claudeSessionId) this.links.set(sessionId, claudeSessionId);
       this.settings.set(sessionId, record.config);
+      this.bindingModes.set(sessionId, record.bindingMode === "imported" ? "imported" : "native");
+      if (record.bindingMode === "imported" && IMPORT_STATES.includes(record.importState)) {
+        this.importStates.set(sessionId, record.importState);
+      }
     }
   }
 
@@ -133,12 +140,19 @@ export class ClaudeDshAdapter extends LlmAdapter {
         await this.runtime.resumeSession(linked, settings);
         return linked;
       } catch (error) {
+        if (this.bindingModes.get(sessionId) === "imported") {
+          throw Object.assign(
+            new Error(`Relay could not resume imported Claude Session ${linked}`, { cause: error }),
+            { code: "CLAUDE_IMPORTED_SESSION_RESUME_FAILED", claudeSessionId: linked },
+          );
+        }
         this.logger.warn(`Relay could not resume Claude session ${linked}; creating a replacement: ${error.message}`);
         this.links.delete(sessionId);
       }
     }
     const created = await this.runtime.createSession(settings);
     this.links.set(sessionId, created.id);
+    this.bindingModes.set(sessionId, "native");
     this.persistLink(sessionId);
     return created.id;
   }
@@ -147,6 +161,8 @@ export class ClaudeDshAdapter extends LlmAdapter {
     this.linkStore?.set(sessionId, {
       claudeSessionId: this.links.get(sessionId) ?? null,
       config: this.configuration(sessionId),
+      bindingMode: this.bindingModes.get(sessionId) ?? "native",
+      ...(this.importStates.has(sessionId) ? { importState: this.importStates.get(sessionId) } : {}),
     });
   }
 
@@ -159,6 +175,48 @@ export class ClaudeDshAdapter extends LlmAdapter {
       if (candidate === claudeSessionId) return sessionId;
     }
     return null;
+  }
+
+  bindingForClaudeSession(claudeSessionId) {
+    const sessionId = this.dshSessionForClaudeSession(claudeSessionId);
+    if (!sessionId) return null;
+    return {
+      sessionId,
+      claudeSessionId,
+      config: structuredClone(this.configuration(sessionId)),
+      bindingMode: this.bindingModes.get(sessionId) ?? "native",
+      importState: this.importStates.get(sessionId) ?? null,
+    };
+  }
+
+  bindImportedSession(sessionId, claudeSessionId, config = {}) {
+    const key = String(sessionId).trim();
+    const source = String(claudeSessionId).trim();
+    if (!key) throw new Error("DSH sessionId is required for an imported Claude binding");
+    if (!source) throw new Error("Claude sessionId is required for an imported binding");
+    const owner = this.dshSessionForClaudeSession(source);
+    if (owner && owner !== key) throw new Error(`Claude Session ${source} is already bound to DSH session ${owner}`);
+    const current = this.links.get(key);
+    if (current && current !== source) throw new Error(`DSH session ${key} is already bound to Claude Session ${current}`);
+    this.links.set(key, source);
+    this.settings.set(key, { ...this.configuration(key, config.cwd), ...compact(config) });
+    this.bindingModes.set(key, "imported");
+    if (!this.importStates.has(key)) this.importStates.set(key, "reserved");
+    this.persistLink(key);
+    return this.bindingForClaudeSession(source);
+  }
+
+  markImportState(sessionId, state) {
+    const key = String(sessionId);
+    if (this.bindingModes.get(key) !== "imported") throw new Error(`DSH session ${key} is not an imported Claude binding`);
+    const next = IMPORT_STATES.indexOf(state);
+    if (next === -1) throw new Error(`unknown Claude import state ${state}`);
+    const current = IMPORT_STATES.indexOf(this.importStates.get(key) ?? "reserved");
+    if (next > current) {
+      this.importStates.set(key, state);
+      this.persistLink(key);
+    }
+    return this.bindingForClaudeSession(this.links.get(key));
   }
 
   async *stream(options) {

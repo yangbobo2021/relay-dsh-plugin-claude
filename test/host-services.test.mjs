@@ -19,6 +19,12 @@ test("the Host plugin declares every DSH interaction service it consumes", () =>
   }
 });
 
+test("the Host plugin declares the Workspace services required by Session import", () => {
+  for (const service of ["workspaceRegistry", "sessionTitle"]) {
+    assert.ok(inject.includes(service), `missing required Host injection: ${service}`);
+  }
+});
+
 test("the interaction bridge specification names its required services and fail-closed behavior", async () => {
   const specification = await readFile(
     new URL("../docs/spec/dsh-interaction-bridge.md", import.meta.url),
@@ -42,6 +48,8 @@ test("Claude interaction requests resolve through sibling DSH service providers"
     tools: {},
     typert: {},
     webServer: {},
+    workspaceRegistry: {},
+    sessionTitle: {},
     approval: {
       async request(input) {
         calls.approvals.push(input);
