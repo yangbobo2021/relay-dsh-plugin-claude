@@ -173,6 +173,19 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 - 中断和会话延续
 - 通过进程内 Claude SDK MCP Server 提供通用 DSH 工具
 - 在每次 SDK 查询中启用 Claude 原生 `Glob` 与 `Grep` 专用搜索工具
+- 在工具结果持久化前脱敏其中的敏感环境变量值
+
+### 敏感环境变量输出脱敏
+
+每次新建或恢复 SDK turn 前，插件都会解析 Claude 的有效环境，并识别变量名中
+含有 `SECRET`、`TOKEN`、`PASSWORD`、`API_KEY` 等凭据特征的值。工具结果中
+与这些值完全相同的内容，会在进入 Claude、DSH activity 或 Claude 原生 JSONL
+转录之前替换。Claude sandbox 凭据设置中显式列出的环境变量也会受到保护。
+普通环境值及没有命中的成功工具输出保持不变。
+
+该保护仅覆盖成功工具结果，不会改写用户消息、工具输入、无法从 Host 配置
+识别的任意内容，或 SDK 未提供可替换输出的执行失败。完整契约与验收用例见
+[`docs/spec/claude-tool-output-redaction.md`](docs/spec/claude-tool-output-redaction.md)。
 
 ### 显式加载本地 Claude 插件
 
