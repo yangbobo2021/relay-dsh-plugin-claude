@@ -17,7 +17,11 @@ export function createClaudeExecutionPlugin(config = {}) {
     activate({ capabilities, defer }) {
       const logger = capabilities.optional("relay.logging.v1") ?? console;
       const client = config.client ?? createClaudeClient(config);
-      const runtime = new ClaudeSessionRuntime({ client, cwd: config.cwd ?? process.cwd() });
+      const runtime = new ClaudeSessionRuntime({
+        client,
+        cwd: config.cwd ?? process.cwd(),
+        plugins: config.plugins,
+      });
       defer(() => runtime.close());
       const ready = runtime.initialize();
       void ready.catch((error) => {

@@ -6,6 +6,16 @@ import test from "node:test";
 
 import { ClaudeCliClient } from "../cli-client.mjs";
 
+test("Claude CLI rejects local plugins instead of silently dropping them", async () => {
+  const client = new ClaudeCliClient({ command: "/command-that-must-not-run" });
+
+  await assert.rejects(
+    client.createSession({ plugins: [{ type: "local", path: "/plugins/fixture" }] }),
+    error => error.code === "CLAUDE_LOCAL_PLUGINS_REQUIRE_SDK",
+  );
+  assert.equal(client.sessions.size, 0);
+});
+
 test("Claude CLI rejects DSH tools instead of silently omitting them", async () => {
   const client = new ClaudeCliClient();
   await client.createSession({ sessionId: "44444444-4444-4444-8444-444444444444" });

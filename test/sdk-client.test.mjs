@@ -81,6 +81,78 @@ test("Claude SDK sends ordered multimodal user messages on new and resumed Sessi
   ]);
 });
 
+test("Claude SDK forwards local plugins on new and resumed queries without sharing mutable input", async () => {
+  const observed = [];
+  const sdk = {
+    query(params) {
+      observed.push(params.options);
+      return queryObject(async function* () {
+        yield {
+          type: "result",
+          session_id: params.options.sessionId ?? params.options.resume,
+          uuid: `result-${observed.length}`,
+          subtype: "success",
+          is_error: false,
+          result: "done",
+        };
+      });
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+  const plugins = [{ type: "local", path: "/plugins/fixture", skipMcpDiscovery: false }];
+  const session = await client.createSession({
+    sessionId: "12121212-1212-4212-8212-121212121212",
+    plugins,
+  });
+  plugins[0].path = "/plugins/mutated-after-create";
+  const activity = [];
+  client.on("activity", message => activity.push(message));
+
+  await client.sendMessage(session.id, { text: "first" });
+  await untilTurnCount(activity, 1);
+  await client.sendMessage(session.id, { text: "second" });
+  await untilTurnCount(activity, 2);
+
+  const expected = [{ type: "local", path: "/plugins/fixture", skipMcpDiscovery: false }];
+  assert.deepEqual(observed[0].plugins, expected);
+  assert.deepEqual(observed[1].plugins, expected);
+  assert.equal(observed[0].sessionId, session.id);
+  assert.equal(observed[1].resume, session.id);
+});
+
+test("Claude SDK omits absent plugins and rejects malformed entries before query", async () => {
+  let queries = 0;
+  let options;
+  const sdk = {
+    query(params) {
+      queries += 1;
+      options = params.options;
+      return queryObject(async function* () {
+        yield { type: "result", session_id: params.options.sessionId, uuid: "result", subtype: "success", is_error: false, result: "done" };
+      });
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+  const session = await client.createSession({ sessionId: "13131313-1313-4313-8313-131313131313" });
+  const activity = [];
+  client.on("activity", message => activity.push(message));
+  await client.sendMessage(session.id, { text: "unchanged default" });
+  await untilTurnCompleted(activity);
+
+  assert.equal(Object.hasOwn(options, "plugins"), false);
+  await assert.rejects(
+    client.createSession({ plugins: [{ type: "local", path: " " }] }),
+    /path must be a non-empty string/,
+  );
+  await assert.rejects(
+    client.sendMessage(session.id, { text: "inject", plugins: [{ type: "local", path: "/plugins/injected" }] }),
+    /must be configured when the Session is created or resumed/,
+  );
+  assert.equal(queries, 1);
+});
+
 test("Claude SDK rejects invalid image content before query()", async () => {
   let queries = 0;
   const client = new ClaudeSdkClient({ sdk: {

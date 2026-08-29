@@ -154,6 +154,24 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 - 中断和会话延续
 - 通过进程内 Claude SDK MCP Server 提供通用 DSH 工具
 
+### 显式加载本地 Claude 插件
+
+可信的 Host 配置可以通过本 DSH 插件的 `claudePlugins` 字段，将未安装的
+本地 Claude 插件加载到业务对话中：
+
+```yaml
+config:
+  claudePlugins:
+    - type: local
+      path: /absolute/path/to/plugin
+```
+
+插件顺序和可选的 Boolean 字段 `skipMcpDiscovery` 会传递给每次新建及恢复的
+Claude Agent SDK 查询。标题生成等隐藏辅助 Session 不加载这些插件。CLI
+fallback 无法实现该 SDK 能力，因此非空列表会被明确拒绝。因为本地插件以
+DSH 用户身份运行，只应配置经过审查的路径。完整契约和验收用例见
+[`docs/spec/claude-local-plugins.md`](docs/spec/claude-local-plugins.md)。
+
 工具通过当前 Agent 的 DSH 工具运行时执行，并继续受到 DSH 权限和 Claude
 审批机制约束。工具桥接依赖默认 SDK 后端。如果开发者明确选择 CLI fallback，
 插件会拒绝 DSH 贡献工具和图片输入，而不是静默丢弃它们。

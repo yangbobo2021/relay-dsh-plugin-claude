@@ -29,6 +29,7 @@ export async function apply(ctx, config = {}) {
         client: config.claude?.client, backend: config.claudeBackend, command: config.claudeCommand,
         args: config.claudeArgs, codeExecutablePath: config.claudeCodeExecutablePath,
         requestTimeoutMs: config.claudeRequestTimeoutMs, cwd: config.cwd,
+        plugins: config.claudePlugins,
       }),
       createDshClaudePlugin(ctx, config),
     ]);
