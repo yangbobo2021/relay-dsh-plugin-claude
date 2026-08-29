@@ -1,7 +1,20 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import { ClaudeSdkClient } from "../sdk-client.mjs";
+
+test("the search-tool specification matches the SDK availability contract", async () => {
+  const specification = await readFile(
+    new URL("../docs/spec/claude-search-tools.md", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(specification, /opt into `Glob` and `Grep` through the SDK's\s+`allowedTools` option/);
+  assert.match(specification, /must never replace an\s+`mcp__dsh__\*` entry/);
+  assert.match(specification, /no Bash fallback, approval,\s+or workspace mutation/);
+  assert.match(specification, /auto-approve only these two native,\s+read-only search tools/);
+});
 
 test("Claude SDK requests summarized adaptive thinking without replacing effort", async () => {
   let queryParams = null;
@@ -24,6 +37,9 @@ test("Claude SDK requests summarized adaptive thinking without replacing effort"
 
   assert.equal(queryParams.options.effort, "low");
   assert.deepEqual(queryParams.options.thinking, { type: "adaptive", display: "summarized" });
+  assert.deepEqual(queryParams.options.allowedTools, ["Glob", "Grep"]);
+  assert.equal(queryParams.options.mcpServers, undefined);
+  assert.equal(typeof queryParams.options.canUseTool, "function");
 });
 
 test("Claude SDK sends ordered multimodal user messages on new and resumed Sessions", async () => {
@@ -61,6 +77,10 @@ test("Claude SDK sends ordered multimodal user messages on new and resumed Sessi
   assert.equal(options[0].resume, undefined);
   assert.equal(options[1].sessionId, undefined);
   assert.equal(options[1].resume, session.id);
+  assert.deepEqual(options.map(option => option.allowedTools), [
+    ["Glob", "Grep"],
+    ["Glob", "Grep"],
+  ]);
   assert.deepEqual(received, [
     [{
       type: "user",
@@ -329,6 +349,10 @@ test("Claude SDK maps generic DSH schemas to an in-process MCP server", async ()
         properties: { value: { type: "string" }, count: { type: "integer" } },
         required: ["value"],
       },
+    }, {
+      name: "second_probe",
+      description: "Prove that the bridge preserves every contributed tool.",
+      parameters: { type: "object", properties: {} },
     }],
     async executeDshTool(input) {
       calls.push(input);
@@ -338,7 +362,13 @@ test("Claude SDK maps generic DSH schemas to an in-process MCP server", async ()
   await untilTurnCompleted(activity);
 
   assert.deepEqual(Object.keys(queryParams.options.mcpServers), ["dsh"]);
-  assert.deepEqual(queryParams.options.allowedTools, ["mcp__dsh__cross_plugin_probe"]);
+  assert.deepEqual(queryParams.options.allowedTools, [
+    "Glob",
+    "Grep",
+    "mcp__dsh__cross_plugin_probe",
+    "mcp__dsh__second_probe",
+  ]);
+  assert.deepEqual(serverOptions.tools.map(tool => tool.name), ["cross_plugin_probe", "second_probe"]);
   assert.equal(serverOptions.tools[0].name, "cross_plugin_probe");
   assert.equal(serverOptions.tools[0].inputSchema.value.isOptional(), false);
   assert.equal(serverOptions.tools[0].inputSchema.count.isOptional(), true);

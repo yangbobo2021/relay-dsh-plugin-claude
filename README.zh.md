@@ -172,6 +172,7 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 - DSH 原生审批和用户提问流程
 - 中断和会话延续
 - 通过进程内 Claude SDK MCP Server 提供通用 DSH 工具
+- 在每次 SDK 查询中启用 Claude 原生 `Glob` 与 `Grep` 专用搜索工具
 
 ### 显式加载本地 Claude 插件
 

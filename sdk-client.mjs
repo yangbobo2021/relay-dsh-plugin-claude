@@ -10,6 +10,8 @@ const DEFAULT_MODELS = [
   { id: "haiku", displayName: "Claude Haiku", isDefault: false, defaultReasoningEffort: "low", supportedReasoningEfforts: reasoningEfforts(), inputModalities: ["text", "image"] },
 ];
 
+const CLAUDE_SEARCH_TOOLS = ["Glob", "Grep"];
+
 function reasoningEfforts() {
   return ["low", "medium", "high"].map(reasoningEffort => ({ reasoningEffort }));
 }
@@ -120,6 +122,12 @@ export class ClaudeSdkClient extends EventEmitter {
 
   queryOptions(session, message, abortController) {
     const plugins = normalizeClaudePlugins(session.config?.plugins);
+    const dshOptions = dshMcpOptions(
+      this.sdk,
+      message.dshTools,
+      message.executeDshTool,
+      abortController.signal,
+    );
     return {
       abortController,
       cwd: message.cwd ?? session.cwd ?? process.cwd(),
@@ -137,7 +145,8 @@ export class ClaudeSdkClient extends EventEmitter {
       ...(plugins === undefined ? {} : { plugins }),
       ...(session.created ? { resume: session.id } : { sessionId: session.id }),
       canUseTool: (toolName, input, options) => this.requestPermission(session.id, toolName, input, options),
-      ...dshMcpOptions(this.sdk, message.dshTools, message.executeDshTool, abortController.signal),
+      ...dshOptions,
+      allowedTools: [...CLAUDE_SEARCH_TOOLS, ...(dshOptions.allowedTools ?? [])],
     };
   }
 

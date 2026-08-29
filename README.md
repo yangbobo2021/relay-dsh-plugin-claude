@@ -182,6 +182,7 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 - DSH approval and user-question flows
 - Interruption and session continuation
 - Generic DSH tools exposed through an in-process Claude SDK MCP server
+- Dedicated native Claude `Glob` and `Grep` search tools on every SDK query
 
 ### Explicit local Claude plugins
 
