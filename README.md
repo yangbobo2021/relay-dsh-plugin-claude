@@ -183,6 +183,24 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 - Interruption and session continuation
 - Generic DSH tools exposed through an in-process Claude SDK MCP server
 - Dedicated native Claude `Glob` and `Grep` search tools on every SDK query
+- Pre-persistence redaction of sensitive environment values from tool output
+
+### Sensitive environment output
+
+Before each new or resumed SDK turn, the plugin resolves Claude's effective
+environment and classifies credential-bearing variable names such as `SECRET`,
+`TOKEN`, `PASSWORD`, and `API_KEY`. Exact occurrences of those values in tool
+results are replaced before the result reaches Claude, DSH activity, or the
+native Claude JSONL transcript. Variables explicitly listed in Claude sandbox
+credential settings are protected as well. Ordinary environment values and
+successful tool outputs without a match are left unchanged.
+
+This protection covers successful tool results; it does not rewrite user
+prompts, tool inputs, arbitrary values that are not identifiable from host
+configuration, or SDK execution failures without a replaceable tool output.
+See
+[`docs/spec/claude-tool-output-redaction.md`](docs/spec/claude-tool-output-redaction.md)
+for the complete contract and acceptance cases.
 
 ### Explicit local Claude plugins
 

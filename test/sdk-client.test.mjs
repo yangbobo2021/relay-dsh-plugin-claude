@@ -16,6 +16,112 @@ test("the search-tool specification matches the SDK availability contract", asyn
   assert.match(specification, /auto-approve only these two native,\s+read-only search tools/);
 });
 
+test("the tool-output redaction specification matches the SDK persistence contract", async () => {
+  const specification = await readFile(
+    new URL("../docs/spec/claude-tool-output-redaction.md", import.meta.url),
+    "utf8",
+  );
+  const normalized = specification.replace(/\s+/g, " ");
+
+  assert.match(normalized, /resolve the effective Claude settings before every new or resumed turn/);
+  assert.match(normalized, /synchronous SDK `PostToolUse` callback/);
+  assert.match(normalized, /must not return `updatedToolOutput` when no configured value occurs/);
+  assert.match(normalized, /SDK activity and the native Claude JSONL transcript/);
+  assert.match(normalized, /does not rewrite user prompts/);
+});
+
+test("Claude SDK redacts sensitive effective environment values on new and resumed turns", async () => {
+  const fakeSecret = "CLD_ENV003_FAKE_SECRET_33003_X7Q9";
+  const explicitCredential = "CLD_ENV003_EXPLICIT_CREDENTIAL_33003";
+  const options = [];
+  const settingsRequests = [];
+  const sdk = {
+    async resolveSettings(request) {
+      settingsRequests.push(request);
+      return {
+        effective: {
+          env: {
+            CLD_ENV003_SECRET: fakeSecret,
+            CUSTOM_LOGIN: explicitCredential,
+            RELAY_VISIBLE_VALUE: "ordinary-value",
+            RELAY_API_KEY: "overlap-long",
+            RELAY_TOKEN: "overlap",
+            A_SHARED_SECRET: "duplicate-sensitive-value",
+            Z_SHARED_TOKEN: "duplicate-sensitive-value",
+          },
+          sandbox: {
+            credentials: {
+              envVars: [{ name: "CUSTOM_LOGIN", mode: "deny" }],
+            },
+          },
+        },
+      };
+    },
+    query(params) {
+      options.push(params.options);
+      return queryObject(async function* () {
+        yield {
+          type: "result",
+          session_id: params.options.sessionId ?? params.options.resume,
+          uuid: `result-${options.length}`,
+          subtype: "success",
+          is_error: false,
+          result: "done",
+        };
+      });
+    },
+  };
+  const client = new ClaudeSdkClient({ sdk });
+  await client.start();
+  const session = await client.createSession({
+    sessionId: "14141414-1414-4414-8414-141414141414",
+    cwd: "/workspace/relay",
+    settingSources: ["project"],
+  });
+  const activity = [];
+  client.on("activity", message => activity.push(message));
+
+  await client.sendMessage(session.id, { text: "first" });
+  await untilTurnCount(activity, 1);
+  await client.sendMessage(session.id, { text: "second" });
+  await untilTurnCount(activity, 2);
+
+  assert.deepEqual(settingsRequests, [
+    { cwd: "/workspace/relay", settingSources: ["project"] },
+    { cwd: "/workspace/relay", settingSources: ["project"] },
+  ]);
+  assert.equal(options[0].sessionId, session.id);
+  assert.equal(options[1].resume, session.id);
+  for (const option of options) {
+    const hook = option.hooks.PostToolUse[0].hooks[0];
+    const changed = await hook({
+      tool_response: {
+        stdout: `prefix ${fakeSecret} suffix`,
+        nested: [
+          explicitCredential,
+          { visible: "ordinary-value" },
+          "overlap-long overlap duplicate-sensitive-value",
+        ],
+      },
+    });
+    assert.deepEqual(changed, {
+      continue: true,
+      hookSpecificOutput: {
+        hookEventName: "PostToolUse",
+        updatedToolOutput: {
+          stdout: "prefix [REDACTED_ENV:CLD_ENV003_SECRET] suffix",
+          nested: [
+            "[REDACTED_ENV:CUSTOM_LOGIN]",
+            { visible: "ordinary-value" },
+            "[REDACTED_ENV:RELAY_API_KEY] [REDACTED_ENV:RELAY_TOKEN] [REDACTED_ENV:A_SHARED_SECRET]",
+          ],
+        },
+      },
+    });
+    assert.deepEqual(await hook({ tool_response: { stdout: "ordinary-value" } }), { continue: true });
+  }
+});
+
 test("Claude SDK requests summarized adaptive thinking without replacing effort", async () => {
   let queryParams = null;
   const sdk = {
