@@ -173,8 +173,10 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 
 ### 5. Import an existing Claude terminal Session
 
-1. Open the target Workspace or one of its Sessions in DSH.
-2. Select **Import Claude Sessions** below the Workspace list.
+1. Select the compact Claude import icon below the Workspace list.
+2. In the dialog, confirm or change the visible **Target Workspace**, then select
+   **Scan Sessions**. The current Session owner or recent Workspace is only the
+   initial selection; scanning never starts before this confirmation.
 3. Review the full Session IDs, titles, source paths, activity times, and import
    status. Select one, several, or all Sessions.
 4. Select **Import selected**, then open the imported DSH Session.
@@ -183,7 +185,7 @@ activates the bundle and registers the managed **Claude Code** mode automaticall
 
 The selector uses the Claude Agent SDK's public Session APIs and matches the
 terminal `/resume` scope. It excludes worktrees, SDK/headless Sessions,
-already-bound Sessions, and Sessions outside the exact registered Workspace.
+already-bound Sessions, and Sessions outside the explicitly selected Workspace.
 The imported history is a one-time presentation snapshot of user text, visible
 assistant text and thinking, and completed textual tool activity. Unknown or
 private blocks are skipped; Claude's source transcript is never modified.

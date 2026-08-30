@@ -1,4 +1,4 @@
-export type ClaudeSessionImportUiAction = 'cancel' | 'close' | 'import-selected' | 'importing' | 'retry'
+export type ClaudeSessionImportUiAction = 'cancel' | 'close' | 'import-selected' | 'importing' | 'retry' | 'scan'
 
 export interface ClaudeSessionImportUiPolicy {
   readonly canClose: boolean
@@ -11,6 +11,7 @@ export function claudeSessionImportUiPolicy(
   phase: string,
   selected?: number,
   failed?: number,
+  hasWorkspace?: boolean,
 ): ClaudeSessionImportUiPolicy
 
 export function claudeSessionImportUpdatedAtDate(value: number | string | null | undefined): Date | null
