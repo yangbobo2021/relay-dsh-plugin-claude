@@ -28,3 +28,9 @@ test('Claude contributes a provider instead of a standalone footer trigger', asy
   const css = await readFile(new URL('../src/client/ClaudeSessionImportAction.module.css', import.meta.url), 'utf8')
   assert.doesNotMatch(css, /\.trigger\s*\{/)
 })
+
+test('Claude anchors the DSH Session event module before augmenting it', async () => {
+  const source = await readFile(new URL('../src/client/claude-activity.ts', import.meta.url), 'utf8')
+  assert.match(source, /import type \{ SessionEventMap \} from '@deepseek-ai\/dsh-session\/types'/)
+  assert.match(source, /type SessionEventContractAnchor = SessionEventMap/)
+})
