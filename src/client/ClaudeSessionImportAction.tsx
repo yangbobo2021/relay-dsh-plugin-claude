@@ -1,16 +1,14 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   Button,
   IconSparkle16,
   Modal,
-  Tooltip,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type {
   InjectFace,
   PropsLocale,
-  PropsRuntime,
 } from '@deepseek-ai/dsh-client-ui-slots'
-import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
+import type { SessionImportProviderOwnerProps } from 'relay-dsh-plugin-session-import/contracts'
 import { resolveImportWorkspace } from './claude-session-import-client.mjs'
 import {
   claudeSessionImportUpdatedAtDate,
@@ -86,14 +84,14 @@ export interface ClaudeSessionImportInjected {
   refreshWorkspaceState: () => Promise<void>
 }
 
-type Props = PropsRuntime<'sidebar.footer.action'>
+type Props = SessionImportProviderOwnerProps
   & InjectFace<ClaudeSessionImportInjected>
   & PropsLocale<'relay.claude'>
 
 type Phase = 'idle' | 'no-workspace' | 'select-workspace' | 'scanning' | 'summary' | 'importing' | 'complete' | 'error'
 
-export function ClaudeSessionImportAction({
-  wide,
+export function ClaudeSessionImportProvider({
+  registerProvider,
   useClaudeSessionImportWorkspaces,
   useClaudeSessionImportSessions,
   scanWorkspace,
@@ -146,7 +144,7 @@ export function ClaudeSessionImportAction({
     )
   }
 
-  const begin = (): void => {
+  const begin = useCallback((): void => {
     const selected = availableTarget ?? workspaces.items[0] ?? null
     setTarget(selected)
     setOpen(true)
@@ -155,7 +153,15 @@ export function ClaudeSessionImportAction({
       return
     }
     setPhase('select-workspace')
-  }
+  }, [availableTarget, workspaces.items])
+
+  useEffect(() => registerProvider({
+    id: 'claude',
+    label: t('importAction'),
+    icon: <IconSparkle16 size={16} />,
+    order: 20,
+    open: begin,
+  }), [begin, registerProvider, t])
 
   const scanSelected = (): void => {
     if (target !== null) scan(target)
@@ -201,18 +207,6 @@ export function ClaudeSessionImportAction({
 
   return (
     <>
-      <Tooltip label={t('importAction')} side="top" delayMs={500}>
-        <button
-          type="button"
-          className={css.trigger}
-          aria-label={t('importAction')}
-          data-provider="claude"
-          data-compact={wide ? undefined : 'true'}
-          onClick={begin}
-        >
-          <IconSparkle16 size={wide ? 18 : 16} />
-        </button>
-      </Tooltip>
       <Modal
         open={open}
         onClose={close}

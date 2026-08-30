@@ -34,3 +34,19 @@ for peer in "${peers[@]}"; do
   rm -rf "$target"
   ln -s "$source" "$target"
 done
+
+session_import_root="${SESSION_IMPORT_ROOT:-}"
+if [[ -z "$session_import_root" && -f "$plugin_root/../session-import/package.json" ]]; then
+  session_import_root="$plugin_root/../session-import"
+fi
+if [[ -z "$session_import_root" && -f "$plugin_root/../../../relay-dsh-plugin-session-import/package.json" ]]; then
+  session_import_root="$plugin_root/../../../relay-dsh-plugin-session-import"
+fi
+installed_session_import="$plugin_root/node_modules/relay-dsh-plugin-session-import"
+if [[ -n "$session_import_root" && -f "$session_import_root/package.json" ]]; then
+  rm -rf "$installed_session_import"
+  ln -s "$session_import_root" "$installed_session_import"
+elif [[ ! -f "$installed_session_import/package.json" ]]; then
+  printf 'Set SESSION_IMPORT_ROOT to a built relay-dsh-plugin-session-import checkout.\n' >&2
+  exit 1
+fi

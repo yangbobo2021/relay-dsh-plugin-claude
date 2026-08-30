@@ -1,5 +1,5 @@
 export const en = {
-  importAction: 'Import Claude Sessions',
+  importAction: 'Import from Claude',
   importTitle: 'Import Claude Sessions',
   importDescription: 'Select existing Claude terminal Sessions from this Workspace to continue in DSH.',
   importWorkspaceLabel: 'Target Workspace',
@@ -31,7 +31,7 @@ export const en = {
 } as const
 
 export const zh: Record<keyof typeof en, string> = {
-  importAction: '导入 Claude 会话',
+  importAction: '从 Claude 导入',
   importTitle: '导入 Claude 会话',
   importDescription: '选择当前工作区中已有的 Claude 终端会话，并在 DSH 中继续。',
   importWorkspaceLabel: '目标 Workspace',

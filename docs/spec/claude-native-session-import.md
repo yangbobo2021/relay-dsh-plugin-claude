@@ -26,13 +26,13 @@ promise that another Claude client is no longer writing it.
 
 ## Inventory and selection
 
-The sidebar footer exposes a Claude-specific icon action: 34 by 34 pixels while
-expanded and 28 by 28 pixels in the 56-pixel collapsed rail, so Claude and Codex
-fit side by side. Its localized accessible name is also its Tooltip; it renders
-no inline label in the shared horizontal footer row. Opening the action presents
-a visible Workspace selector. The current Session owner, then the recent
-Workspace, is only an initial choice. The user may change it, and the plugin must
-not scan until the user invokes **Scan Sessions**.
+The provider-neutral session import hub owns one sidebar footer action. Claude
+registers one renderless provider descriptor with the localized label **Import
+from Claude**, the Claude mark, order `20`, and an `open` callback. Selecting
+that menu row closes the hub menu and presents Claude's visible Workspace
+selector. The current Session owner, then the recent Workspace, is only an
+initial choice. The user may change it, and the plugin must not scan until the
+user invokes **Scan Sessions**.
 
 Each candidate exposes the full native Session ID, deterministic title, source
 path, source `lastModified`, and either `ready` or `recoverable` status. The
@@ -112,16 +112,16 @@ Delivery requires all of the following evidence:
    Workspace isolation, deterministic ordering, selection atomicity, source
    revalidation, projection, one-to-one durability, concurrency, retry, and the
    no-replacement resume rule.
-3. Client tests cover the icon-only 34/28-pixel geometry, expanded and collapsed
-   owner states, Tooltip/accessibility semantics, visible Workspace choice, no
-   automatic scan, exact selected path, candidate selection, request payloads,
-   chunked NDJSON progress, error handling, disabled empty submission, and
-   refresh order.
+3. Client tests cover provider registration and disposal, explicit menu-driven
+   opening, visible Workspace choice, no automatic scan, exact selected path,
+   candidate selection, request payloads, chunked NDJSON progress, error
+   handling, disabled empty submission, and refresh order.
 4. A real installed SDK lists and reads a native terminal Session using only the
    public APIs.
 5. Official DSH imports that Session, displays the projected history and title,
    and sends the next turn to the same complete native Session ID.
-6. A combined Claude + Codex browser check and screenshots prove both actions fit
-   in expanded and collapsed sidebars and that the selector dialog is readable.
+6. A combined Claude + Codex browser check and screenshots prove one hub action
+   presents both explicit provider rows in expanded and collapsed sidebars and
+   that the selector dialog is readable.
 7. Typecheck, the full repository test suite, build, package-content inspection,
    and remote CI all pass.

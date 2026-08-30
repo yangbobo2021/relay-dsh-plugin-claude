@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('@deepseek-ai/dsh-client-ui-primitives', () => ({
@@ -12,13 +12,11 @@ vi.mock('@deepseek-ai/dsh-client-ui-primitives', () => ({
     children: React.ReactNode
     footer: React.ReactNode
   }) => open ? <div role="dialog" aria-label={title}>{children}{footer}</div> : null,
-  Tooltip: ({ label, children }: { label: string; children: React.ReactNode }) => (
-    <>{children}<span role="tooltip">{label}</span></>
-  ),
 }))
 
-import { ClaudeSessionImportAction } from '../src/client/ClaudeSessionImportAction.tsx'
+import { ClaudeSessionImportProvider } from '../src/client/ClaudeSessionImportAction.tsx'
 import { en } from '../src/client/locales.ts'
+import type { SessionImportProviderDescriptor } from 'relay-dsh-plugin-session-import/contracts'
 
 const workspaces = {
   recentWorkspaceId: 'workspace-beta',
@@ -30,22 +28,21 @@ const workspaces = {
 
 afterEach(cleanup)
 
-describe('ClaudeSessionImportAction', () => {
-  it('renders one icon-only Claude action with an accessible Tooltip', () => {
-    renderAction()
+describe('ClaudeSessionImportProvider', () => {
+  it('registers one explicit Claude provider and removes it on unmount', async () => {
+    const registered: SessionImportProviderDescriptor[] = []
+    const dispose = vi.fn()
+    const view = renderAction({
+      registerProvider: provider => { registered.push(provider); return dispose },
+    })
 
-    const trigger = screen.getByRole('button', { name: en.importAction })
-    expect(trigger.dataset.provider).toBe('claude')
-    expect(trigger.querySelector('svg')).not.toBeNull()
-    expect(trigger.textContent).toBe('')
+    await waitFor(() => { expect(registered).toHaveLength(1) })
+    expect(registered[0]).toMatchObject({ id: 'claude', label: en.importAction, order: 20 })
+    expect(registered[0]!.icon).not.toBeNull()
+    expect(screen.queryByRole('button', { name: en.importAction })).toBeNull()
 
-    fireEvent.focus(trigger)
-    expect(screen.getByRole('tooltip').textContent).toBe(en.importAction)
-  })
-
-  it('marks the collapsed action for the 28-pixel rail geometry', () => {
-    renderAction({ wide: false })
-    expect(screen.getByRole('button', { name: en.importAction }).dataset.compact).toBe('true')
+    view.unmount()
+    expect(dispose).toHaveBeenCalledTimes(1)
   })
 
   it('waits for explicit Workspace confirmation and scans the visible selection', async () => {
@@ -54,9 +51,10 @@ describe('ClaudeSessionImportAction', () => {
       summary: { found: 0, existing: 0, recoverable: 0, ready: 0 },
       candidates: [],
     })
-    renderAction({ scanWorkspace })
+    const { provider } = renderAction({ scanWorkspace })
 
-    fireEvent.click(screen.getByRole('button', { name: en.importAction }))
+    await waitFor(() => { expect(provider.current).not.toBeNull() })
+    act(() => { provider.current!.open() })
     expect(scanWorkspace).not.toHaveBeenCalled()
 
     const selector = screen.getByRole('combobox', { name: en.importWorkspaceLabel }) as HTMLSelectElement
@@ -72,15 +70,16 @@ describe('ClaudeSessionImportAction', () => {
     expect(scanWorkspace).toHaveBeenCalledTimes(1)
   })
 
-  it('shows a no-Workspace state and never scans when the list is empty', () => {
+  it('shows a no-Workspace state and never scans when the list is empty', async () => {
     const scanWorkspace = vi.fn()
-    renderAction({
+    const { provider } = renderAction({
       workspaceState: { items: [], recentWorkspaceId: undefined },
       sessionState: { current: undefined },
       scanWorkspace,
     })
 
-    fireEvent.click(screen.getByRole('button', { name: en.importAction }))
+    await waitFor(() => { expect(provider.current).not.toBeNull() })
+    act(() => { provider.current!.open() })
     expect(screen.getByText(en.importNoWorkspace)).not.toBeNull()
     expect(screen.queryByRole('combobox')).toBeNull()
     expect(scanWorkspace).not.toHaveBeenCalled()
@@ -91,15 +90,19 @@ function renderAction({
   workspaceState = workspaces,
   sessionState = { current: 'session-alpha' },
   scanWorkspace = vi.fn(),
-  wide = true,
+  registerProvider,
 }: {
   workspaceState?: typeof workspaces | { items: readonly never[]; recentWorkspaceId?: undefined }
   sessionState?: { current?: string }
   scanWorkspace?: ReturnType<typeof vi.fn>
-  wide?: boolean
-} = {}): void {
-  render(<ClaudeSessionImportAction
-    wide={wide}
+  registerProvider?: (provider: SessionImportProviderDescriptor) => () => void
+} = {}) {
+  const provider = { current: null as SessionImportProviderDescriptor | null }
+  const view = render(<ClaudeSessionImportProvider
+    registerProvider={descriptor => {
+      provider.current = descriptor
+      return registerProvider?.(descriptor) ?? (() => { provider.current = null })
+    }}
     useClaudeSessionImportWorkspaces={selector => selector(workspaceState as never)}
     useClaudeSessionImportSessions={selector => selector(sessionState as never)}
     scanWorkspace={scanWorkspace as never}
@@ -107,4 +110,5 @@ function renderAction({
     refreshWorkspaceState={vi.fn() as never}
     t={(key => en[key]) as never}
   />)
+  return { ...view, provider }
 }

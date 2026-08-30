@@ -1,9 +1,8 @@
 import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
-import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
+import type { ChatNodeOwnerProps } from '@deepseek-ai/dsh-client-ui-conversation/client'
 import { installModelSelection, type ModelSelectionContext } from '../../model-selection.mjs'
-import { ClaudeSessionImportAction, type ClaudeSessionImportInjected } from './ClaudeSessionImportAction.tsx'
+import { ClaudeSessionImportProvider, type ClaudeSessionImportInjected } from './ClaudeSessionImportAction.tsx'
 import { ClaudeActivityView } from './ClaudeActivityView.tsx'
 import { claudeActivityDefinition } from './claude-activity.ts'
 import { en, zh, type ClaudeLocaleKey } from './locales.ts'
@@ -12,8 +11,14 @@ import {
   refreshImportedWorkspace,
   scanClaudeWorkspace,
 } from './claude-session-import-client.mjs'
+import type { SessionImportProviderSlotDefinition } from 'relay-dsh-plugin-session-import/contracts'
+
+type DshSlotContractAnchor = ChatNodeOwnerProps
 
 declare module '@deepseek-ai/dsh-client-ui-slots' {
+  interface SlotMap {
+    'relay.session-import.provider': SessionImportProviderSlotDefinition
+  }
   interface LocaleNamespaceMap {
     'relay.claude': ClaudeLocaleKey
   }
@@ -45,11 +50,11 @@ function applySessionImport(ctx: ClientContext): void {
       ctx.workspaces as typeof ctx.workspaces & { refresh(): Promise<void> },
     ),
   })
-  ctx.slots.inject('sidebar.footer.action', () => ctx.slots.register({
-    name: 'sidebar.footer.action',
-    id: 'relay-claude-session-import',
-    order: -9,
+  ctx.slots.inject('relay.session-import.provider', () => ctx.slots.register({
+    name: 'relay.session-import.provider',
+    id: 'claude',
+    order: 20,
     inject: injected,
     locale: 'relay.claude',
-  }, ClaudeSessionImportAction))
+  }, ClaudeSessionImportProvider))
 }

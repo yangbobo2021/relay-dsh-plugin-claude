@@ -12,10 +12,16 @@ const execFileAsync = promisify(execFile);
 test("Claude plugin remains independently installable", async () => {
   const manifest = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   assert.equal(manifest.name, "relay-dsh-plugin-claude");
+  const allowedRelayDependencies = new Set(["relay-dsh-plugin-session-import"]);
   for (const field of ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"]) {
     const relayDependencies = Object.keys(manifest[field] ?? {}).filter(isRelayPackage);
-    assert.deepEqual(relayDependencies, [], `${field} must not depend on another Relay package`);
+    assert.deepEqual(
+      relayDependencies.filter(name => !allowedRelayDependencies.has(name)),
+      [],
+      `${field} must not depend on a Relay application or feature plugin`,
+    );
   }
+  assert.equal(manifest.dependencies["relay-dsh-plugin-session-import"], "^0.1.0");
 
   for (const file of await sourceFiles(root)) {
     const source = await readFile(file, "utf8");
