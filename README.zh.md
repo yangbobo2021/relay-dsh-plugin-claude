@@ -6,7 +6,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/yangbobo2021/relay-dsh-plugin-claude?style=flat)](https://github.com/yangbobo2021/relay-dsh-plugin-claude/stargazers)
 [![MIT 许可证](https://img.shields.io/github/license/yangbobo2021/relay-dsh-plugin-claude)](LICENSE)
 [![DSH 兼容版本](https://img.shields.io/badge/DSH-0.1.1--rc.2-2f7d68)](https://github.com/deepseek-ai/deepseek-harness)
-[![npm 来源证明](https://img.shields.io/badge/npm_provenance-verified-2f9e44)](https://www.npmjs.com/package/relay-dsh-plugin-claude/v/0.1.4)
+[![npm 来源证明](https://img.shields.io/badge/npm_provenance-verified-2f9e44)](https://www.npmjs.com/package/relay-dsh-plugin-claude/v/0.1.5)
 
 [English](README.md) | 中文
 
@@ -104,7 +104,7 @@ claude
 npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add relay-dsh-plugin-claude@latest
 ```
 
-本文更新时，`latest` 指向稳定版 `0.1.4`。最新版本请以链接中的 npm 页面
+本文更新时，`latest` 指向稳定版 `0.1.5`。最新版本请以链接中的 npm 页面
 为准。
 
 #### npm 预发布版（DSH 预览阶段推荐）
@@ -116,7 +116,7 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add relay-dsh-plugin-claude
 npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add relay-dsh-plugin-claude@next
 ```
 
-本文更新时，`next` 指向 `0.1.4`。
+本文更新时，`next` 指向 `0.1.5`。
 
 #### GitHub 开发版
 
@@ -130,7 +130,7 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add github:yangbobo2021/rel
 SHA。例如：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.1.4
+npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.1.5
 ```
 
 官方 DSH CLI 会在需要时初始化 `web` Profile，通过 `pnpm` 安装所选软件包和
@@ -164,7 +164,7 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 
 ### 5. 导入已有的 Claude 终端会话
 
-1. 点击工作区列表下方的紧凑 Claude 导入图标。
+1. 点击工作区列表下方的 **导入会话...**，然后选择 **从 Claude 导入**。
 2. 在弹窗中确认或切换可见的 **目标 Workspace**，然后点击 **扫描会话**。
    当前 Session 所属 Workspace 或最近 Workspace 只作为初始选项；确认前不会开始扫描。
 3. 检查完整 Session ID、标题、源路径、活动时间和导入状态，然后选择一个、
@@ -245,10 +245,11 @@ PNG；工作区中不会产生同名 PNG，也不会加载外部资源或执行�
 兼容性验证。Relay 是面向长时间运行 Agent、外部事件投递、可复用 DSH
 工作台视图和多种对话后端的开源项目。
 
-本插件可以独立安装。运行时不依赖 Relay 应用、Relay Events 或其他 Relay
-插件，也不会替换 DSH 官方布局或安装 Files、Terminal 视图。用户可以只安装
-Claude；需要时，Relay 项目则可以进一步组合 Codex、Claude、事件、Wait、
-Monitor 和工作台扩展。
+本插件可以独立安装。唯一依赖的 Relay 包是由包管理器自动安装的中立“会话
+导入中心”；运行时不依赖 Relay 应用、Relay Events 或其他功能插件，也不会
+替换 DSH 官方布局或安装 Files、Terminal 视图。用户可以只安装 Claude；需要
+时，Relay 项目则可以进一步组合 Codex、Claude、事件、Wait、Monitor 和工作台
+扩展。
 
 可以访问或 Star Relay 仓库，关注这些更完整的工作：
 <https://github.com/yangbobo2021/Relay>。
@@ -310,8 +311,8 @@ DSH_ROOT=/path/to/deepseek-harness npm run verify
 npm pack
 ```
 
-`npm run verify` 会执行类型检查、测试和生产构建。边界测试会阻止插件意外
-增加对 Relay 或其他功能插件的运行时依赖。
+`npm run verify` 会执行类型检查、测试和生产构建。边界测试仅允许中立的会话
+导入中心依赖，并会阻止插件意外增加对 Relay 应用或其他功能插件的运行时依赖。
 
 ## 反馈
 

@@ -1,3 +1,5 @@
 - insert:
+    - id: relay-session-import-for-claude
+      name: 'relay-dsh-plugin-session-import'
     - id: relay-claude-host
       name: 'relay-dsh-plugin-claude'

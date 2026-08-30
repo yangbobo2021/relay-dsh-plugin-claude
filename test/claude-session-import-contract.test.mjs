@@ -25,18 +25,21 @@ test("native Claude Session import specification locks the public SDK and fail-c
 });
 
 test("bilingual setup, package contents, and client injection expose the same import feature", () => {
-  assert.match(english, /compact Claude import icon/);
+  assert.match(english, /Import sessions\.\.\./);
+  assert.match(english, /Import\s+from Claude/);
   assert.match(english, /Target Workspace/);
   assert.match(english, /Scan Sessions/);
   assert.match(english, /same native Claude\s+Session/);
-  assert.match(chinese, /紧凑 Claude 导入图标/);
+  assert.match(chinese, /导入会话\.\.\./);
+  assert.match(chinese, /从 Claude 导入/);
   assert.match(chinese, /目标 Workspace/);
   assert.match(chinese, /扫描会话/);
   assert.match(chinese, /同一个原生 Claude Session/);
-  assert.match(normalized, /34 by 34 pixels/);
-  assert.match(normalized, /28 by 28 pixels/);
+  assert.match(normalized, /provider-neutral session import hub/);
+  assert.match(normalized, /order `20`/);
   assert.ok(manifest.files.includes("docs/spec/claude-native-session-import.md"));
   assert.ok(manifest.dsh.client.inject.includes("@deepseek-ai/dsh-client-ui-sidebar"));
-  assert.match(clientSource, /sidebar\.footer\.action/);
+  assert.ok(manifest.dsh.client.inject.includes("relay-dsh-plugin-session-import"));
+  assert.match(clientSource, /relay\.session-import\.provider/);
   assert.match(clientSource, /sessionIds/);
 });
