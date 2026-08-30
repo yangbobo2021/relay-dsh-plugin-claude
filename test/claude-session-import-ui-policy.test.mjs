@@ -7,6 +7,12 @@ import {
 } from "../src/client/claude-session-import-ui-policy.mjs";
 
 test("Workspace import UI policy covers every control state", () => {
+  assert.deepEqual(claudeSessionImportUiPolicy("select-workspace", 0, 0, true), {
+    canClose: true, secondary: "cancel", primary: "scan", primaryDisabled: false,
+  });
+  assert.deepEqual(claudeSessionImportUiPolicy("select-workspace", 0, 0, false), {
+    canClose: true, secondary: "cancel", primary: "scan", primaryDisabled: true,
+  });
   assert.deepEqual(claudeSessionImportUiPolicy("no-workspace"), {
     canClose: true, primary: "close", primaryDisabled: false,
   });

@@ -164,15 +164,16 @@ npx @deepseek-ai/dsh@0.1.1-rc.2 web
 
 ### 5. 导入已有的 Claude 终端会话
 
-1. 在 DSH 中打开目标工作区或其中一个 Session。
-2. 点击工作区列表下方的 **导入 Claude 会话**。
+1. 点击工作区列表下方的紧凑 Claude 导入图标。
+2. 在弹窗中确认或切换可见的 **目标 Workspace**，然后点击 **扫描会话**。
+   当前 Session 所属 Workspace 或最近 Workspace 只作为初始选项；确认前不会开始扫描。
 3. 检查完整 Session ID、标题、源路径、活动时间和导入状态，然后选择一个、
    多个或全部会话。
 4. 点击 **导入所选会话**，再打开导入后的 DSH Session。
 5. 发送下一条消息，确认它继续的是同一个原生 Claude Session。
 
 选择器只使用 Claude Agent SDK 的公开 Session API，其范围与终端 `/resume`
-一致。它会排除 worktree、SDK/headless、已经绑定以及不属于当前精确注册工作区
+一致。它会排除 worktree、SDK/headless、已经绑定以及不属于用户所选精确工作区
 的 Session。导入历史是一次性的展示快照，包含用户文本、可见的助手文本与
 thinking，以及已有结果的文本工具活动。未知或私有块会被跳过，Claude 源转录
 不会被修改。
