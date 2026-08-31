@@ -1,5 +1,7 @@
 # Claude Code Conversations for DeepSeek Harness
 
+> Unreleased adaptation: this branch targets DSH `0.1.2-alpha.2`. npm versions and tags are unchanged; installation examples for published releases do not establish compatibility with the new DSH. See [compatibility notes](docs/dsh-0.1.2-alpha.2.md).
+
 [![npm version](https://img.shields.io/npm/v/relay-dsh-plugin-claude?label=npm)](https://www.npmjs.com/package/relay-dsh-plugin-claude)
 [![CI](https://github.com/yangbobo2021/relay-dsh-plugin-claude/actions/workflows/ci.yml/badge.svg)](https://github.com/yangbobo2021/relay-dsh-plugin-claude/actions/workflows/ci.yml)
 [![npm downloads](https://img.shields.io/npm/dm/relay-dsh-plugin-claude?label=downloads)](https://www.npmjs.com/package/relay-dsh-plugin-claude)

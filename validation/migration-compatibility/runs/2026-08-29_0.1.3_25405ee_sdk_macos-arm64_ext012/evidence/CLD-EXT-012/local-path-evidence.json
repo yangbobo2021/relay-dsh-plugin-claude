@@ -1,0 +1,59 @@
+{
+  "requirement": "CLD-EXT-012",
+  "result": "fail",
+  "fixture": {
+    "pluginPath": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/extensions/plugin-marketplace/plugins/relay-cld-installed-fixture",
+    "manifestSha256": "2f2eb2ab1c36250e321b5834682aca27e617ebb0a2374d583b0834077e596767",
+    "skillSha256": "1dd9cbf26aefa8599439b3c34375c5e4fa9ac3a40d7e12dc2155aeb63df2b5f1"
+  },
+  "directSdkPositiveControl": {
+    "sdkVersion": "0.3.248",
+    "claudeCodeVersion": "2.1.248",
+    "claudeSessionId": "cd96da72-69b1-4382-8445-aa1e2f79c146",
+    "settingSources": [],
+    "systemInitPluginCount": 1,
+    "systemInitPlugin": {
+      "name": "relay-cld-installed-fixture",
+      "source": "relay-cld-installed-fixture@inline",
+      "version": "1.0.0"
+    },
+    "namespacedSkillPresent": true,
+    "namespacedSlashCommandPresent": true,
+    "toolCalls": 0,
+    "finalText": "CLD_EXT012_DIRECT_SDK_1212",
+    "nativeTranscriptSha256": "638a09088618b6e2f1673cab3427da57dc6d2e9be2567bf1e44f12edb9aecb0d"
+  },
+  "relayBoundaryProbe": {
+    "input": {"plugins": [{"type": "local", "path": "/fixture/plugin"}]},
+    "runtimeCreateHasPlugins": false,
+    "runtimeCreatePlugins": null,
+    "sdkQueryHasPlugins": false,
+    "sdkQueryPlugins": null,
+    "sdkClientSourceSha256": "7ca6dda7dbb765d93d5a0dc686bcacbb187ae62cb53983401b03736835f51a85",
+    "sessionRuntimeSourceSha256": "531852fca5c932368c0939dde0133502acb41c020356b6f82d8684a25fbdb0e2"
+  },
+  "relayLiveNegative": {
+    "claudeCodeVersion": "2.1.233",
+    "dshSessionId": "session-3863bf97-e60a-41d4-bd05-b7714bcb338e",
+    "claudeSessionId": "bd2c3db9-0991-4fce-8988-49d854d4064d",
+    "initialSkillCount": 13,
+    "namespacedSkillOccurrences": 0,
+    "projectControlPresent": true,
+    "businessToolCalls": 0,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT012_RELAY_PROBE_1212",
+    "businessTranscriptSha256": "4db57808d3be87c51e4c27f112ac3bd36e866720a8030b316dbc75eb286f18ab",
+    "auxiliaryTranscriptSha256": "8cc51e017b975221b63f7dcd137c6ece7c37dd474f81febf6f2ae5742e54a655",
+    "dshArchiveSha256": "f8c82b27c7788491cc2e921db555a8c0a57cecfbe1dfcc4fab8e216b577c30b6",
+    "screenshotSha256": "943b1208b8fb94ce028387f39013fcc603866c238a98a2b20d584ee0538a1e1a"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "installedRegistryPresent": false,
+    "fixtureCachePresent": false,
+    "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731",
+    "knownMarketplacesSha256": "cc211679063d1097946ab7af4ebbbb0fa341e2c8305a6e0012e19a269c7e49e9",
+    "attachmentObjectCount": 11,
+    "fixtureSourceUnchanged": true
+  }
+}

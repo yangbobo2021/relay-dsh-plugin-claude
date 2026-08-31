@@ -1,0 +1,2 @@
+Relay Claude migration validation workspace.
+Fixture marker: CLD_PLAIN_WORKSPACE_1001.

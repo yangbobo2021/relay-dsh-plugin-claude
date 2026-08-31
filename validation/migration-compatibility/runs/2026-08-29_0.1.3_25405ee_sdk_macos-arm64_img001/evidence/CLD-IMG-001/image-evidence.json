@@ -1,0 +1,58 @@
+{
+  "fixture": {
+    "sourceSha256": "12d929f1f873673fe5108f20307663980dda56423fc4d5eab42f017f490d202d",
+    "pngSha256": "5c672546a92002f906a41b3a4210cc2a0b024815119c991f48ce17af659b7343",
+    "format": "png",
+    "width": 640,
+    "height": 480,
+    "bytes": 13080,
+    "pixelSamplesRgb": {
+      "triangle": [111, 45, 189],
+      "leftCircle": [31, 157, 85],
+      "rightCircle": [31, 157, 85],
+      "background": [255, 244, 184]
+    }
+  },
+  "trial1": {
+    "dshSessionId": "session-4a38c975-a417-4569-bd9e-598588ac4a8c",
+    "businessClaudeSessionId": "825c73ea-c44e-45d0-9e25-04f2901a61f2",
+    "observedFinal": "BACKGROUND=YELLOW;TOP=TRIANGLE,PURPLE,1;BOTTOM=CIRCLE,GREEN,2",
+    "disposition": "inconclusive because the case expected PALE_YELLOW while the prompt requested a basic color"
+  },
+  "decisiveTrial": {
+    "dshSessionId": "session-6bf1c5ca-826c-4242-b229-4fd68285e533",
+    "businessClaudeSessionId": "8e54f8f4-e304-40df-960b-1ef298f7bc54",
+    "auxiliaryClaudeSessionId": "9c1c7532-e7df-4417-978c-5faeed4a9a99",
+    "businessNativeSha256": "31bfccef2bd6fba135924791f0f54ce342a756287f7638d35bdf29b0ff685c1f",
+    "auxiliaryNativeSha256": "1a3c824a53fe5f86b096cd6231416a7494be023475a600caa95a872faccb2a3d",
+    "dshArchiveSha256": "83e3c768aee2eed4ad84aa4507444f161eb9096260022b3f85dee431417f0390",
+    "linkStoreSha256": "3e38f5e29ae30bece2256e2fb32b319dcf72c7c72b5873c082e663350a81f5e6",
+    "nativeUserContentTypes": ["image", "text"],
+    "nativeImage": {
+      "sourceType": "base64",
+      "mediaType": "image/png",
+      "base64Characters": 17440,
+      "decodedBytes": 13080,
+      "decodedSha256": "5c672546a92002f906a41b3a4210cc2a0b024815119c991f48ce17af659b7343"
+    },
+    "dshAttachment": {
+      "attachmentId": "sha256:5c672546a92002f906a41b3a4210cc2a0b024815119c991f48ce17af659b7343",
+      "mediaType": "image/png",
+      "width": 640,
+      "height": 480,
+      "bytes": 13080,
+      "name": "clipboard.png",
+      "storedObjectSha256": "5c672546a92002f906a41b3a4210cc2a0b024815119c991f48ce17af659b7343"
+    },
+    "expectedAndObservedFinal": "BACKGROUND=YELLOW;TOP=TRIANGLE,PURPLE,1;BOTTOM=CIRCLE,GREEN,2",
+    "dshUserImageBlocks": 1,
+    "dshAssistantMessages": 1,
+    "dshToolEvents": 0,
+    "nativeToolBlocks": 0,
+    "turnEnd": "completed"
+  },
+  "screenshots": {
+    "retryComposerSha256": "0ce1d8b805c723d194772c7fd28b422700dafbe36475c0349229f58218d7abc7",
+    "retryCompletedSha256": "59c8f62107a42beea285d0142d9f54a464b3dc65ae4f95e9ab10397fdfe8e887"
+  }
+}

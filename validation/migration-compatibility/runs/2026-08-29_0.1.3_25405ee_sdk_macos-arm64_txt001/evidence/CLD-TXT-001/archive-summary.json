@@ -1,0 +1,17 @@
+{
+  "archiveSha256": "3a28e4959901f30049b260a2e67ad55281ee3137852d28bd181ab886ea8762bf",
+  "archiveBytes": 4368,
+  "turnStartCount": 1,
+  "turnEndCount": 1,
+  "assistantMessageCount": 1,
+  "assistantTextBlocks": ["CLD_TXT001_PLAIN_OK_1001"],
+  "turnEndReason": "completed",
+  "toolEventCount": 0,
+  "source": {
+    "kind": "model",
+    "provider": "relay-claude",
+    "model": "haiku",
+    "claudeSessionId": "a701446b-2dc1-493d-bb7c-e2e40ec608e8",
+    "turnId": "ad4661b2-24dc-449e-9816-3f848b3c9167"
+  }
+}

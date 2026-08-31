@@ -1,0 +1,52 @@
+{
+  "requirement": "CLD-TOOL-010",
+  "result": "pass",
+  "command": "printf 'CLD_TOOL010_STARTED_FILE_1010\\n' > interrupt/tool010-started.txt; printf 'CLD_TOOL010_STARTED_1010\\n'; sleep 15; printf 'CLD_TOOL010_LATE_1010\\n'; printf 'CLD_TOOL010_LATE_FILE_1010\\n' > interrupt/tool010-late.txt",
+  "live": {
+    "approval": "allowed-once",
+    "startedFileVisibleMs": 9116,
+    "stopClickedMs": 9419,
+    "stopAfterStartedFileMs": 303,
+    "postDeadlineCheckAfterStopMs": 18797,
+    "stoppedLabelAfterClick": true,
+    "stoppedLabelAfterDeadline": true,
+    "lateOutputVisible": false,
+    "unexpectedFinalVisible": false
+  },
+  "native": {
+    "toolSequence": ["Bash"],
+    "toolResultIsError": true,
+    "toolUseResult": "User rejected tool use",
+    "finalTexts": [],
+    "representationGap": "Approved then interrupted execution is recorded as rejected tool use"
+  },
+  "dsh": {
+    "activityStarted": 1,
+    "activityCompleted": 0,
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "turnReason": {"kind": "aborted", "reason": {"kind": "user"}}
+  },
+  "state": {
+    "startedFileContent": "CLD_TOOL010_STARTED_FILE_1010\n",
+    "startedFileSha256": "744c6cccff3b3fc622291af21a8086bc75688e1cdd9b4be307775ade4a4bb904",
+    "lateFileExists": false,
+    "baselineAndPriorHashesUnchanged": true,
+    "workspaceFileCountAfter": 9,
+    "matchingProcessesAfterDeadline": 0,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-fb41886b-9cab-4e75-9d26-fe19cda28bc4",
+    "claudeBusinessSessionId": "17757e1f-11bf-46ad-a17e-6e9ddb577119",
+    "claudeAuxiliarySessionId": "d6eb0276-5ea6-429a-8986-d024f18f4deb"
+  },
+  "hashes": {
+    "businessNative": "1475f6050963b807e533eb70bf21d97a9a570c9272c17d6e007fd9bc88b5067c",
+    "auxiliaryNative": "b9fe4c6bbc07037a02d0323316e681ca9f398c7d80c73c7f7a5b6710a3ec5b27",
+    "dshArchive": "d8be1a32ce6eb02dd41e7478188667c752c1a824490fc41e1e1fc535f7f63ec3",
+    "linkStore": "16633ba6d8cd3f7304df4871b04566d6e34782061bb5a7fd28490d88fe37a8fc",
+    "stoppedScreenshot": "b3e0c503f83614e230caa1e67e40f9f65ec58157c1c5410dceb6ca7afc7c892a",
+    "postDeadlineScreenshot": "e2562e7bf35df5bd64fb5cc885449a8856514d83dadc5c36c891f3deef052c70"
+  }
+}

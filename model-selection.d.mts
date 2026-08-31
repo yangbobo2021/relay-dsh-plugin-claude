@@ -1,13 +1,8 @@
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
+import type { Context } from '@deepseek-ai/cordis'
+import type {} from '@deepseek-ai/dsh-api-session-controller/client'
+import type {} from '@deepseek-ai/dsh-client-ui-model-selection/client'
 
-interface ModelSelectionConnection {
-  api: { sessions: Pick<IApiClient['sessions'], 'models' | 'selectModel'> }
-}
-
-export type ModelSelectionContext = ClientContext & {
-  get(name: 'connection'): ModelSelectionConnection
-}
+export type ModelSelectionContext = Pick<Context, 'sessions' | 'modelDirectories'>
 
 export function installModelSelection(
   ctx: ModelSelectionContext,

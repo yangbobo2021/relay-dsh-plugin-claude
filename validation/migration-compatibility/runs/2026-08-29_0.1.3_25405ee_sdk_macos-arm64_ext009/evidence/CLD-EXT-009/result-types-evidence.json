@@ -1,0 +1,83 @@
+{
+  "requirement": "CLD-EXT-009",
+  "result": "pass",
+  "fixture": {
+    "serverName": "relay_cld_result_types",
+    "serverSha256BeforeAndAfter": "225c37ca4bd3ab587d4ff388b35a553fc141c081b6e6f15a2860f4ad8e3af84d",
+    "temporaryProjectConfigSha256": "feb0c3603d0a7e94e3cb813ee1a96b511269470f609a36f910c78070aed2c2e3",
+    "imageSha256BeforeAndAfter": "deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4",
+    "imageDimensions": [400, 400],
+    "imageMediaType": "image/png",
+    "serverOutputMarkersOrVisualAnswerInPrompt": false
+  },
+  "serverLog": {
+    "sha256": "7754efacebbde1d647d7570c14ea66d5f84cf1563b383c8acf7970ca2409b7b4",
+    "processStarts": 2,
+    "transportConnections": 2,
+    "businessCallOrder": ["result_text", "result_json", "result_image"],
+    "businessCallCounts": {"result_text": 1, "result_json": 1, "result_image": 1},
+    "uniquePids": [86916, 86932]
+  },
+  "native": {
+    "toolSearchMatches": [
+      "mcp__relay_cld_result_types__result_text",
+      "mcp__relay_cld_result_types__result_json",
+      "mcp__relay_cld_result_types__result_image"
+    ],
+    "businessToolOrderExact": true,
+    "textContent": "CLD_EXT009_TEXT_0909",
+    "jsonToolResultCanonicalText": "{\"kind\":\"CLD_EXT009_JSON_0909\",\"value\":909,\"nested\":{\"ok\":true}}",
+    "jsonMcpMetaStructuredContent": {
+      "kind": "CLD_EXT009_JSON_0909",
+      "value": 909,
+      "nested": {"ok": true}
+    },
+    "imageBlockSourceType": "base64",
+    "imageBlockBase64Length": 12304,
+    "decodedImageSha256": "deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4",
+    "finalText": "CLD_EXT009_TEXT_0909|CLD_EXT009_JSON_0909:909|BLUE_CIRCLE",
+    "finalAttributionMcpServer": "relay_cld_result_types",
+    "finalAttributionMcpTool": "result_image",
+    "extraProgressText": "Now I'll call the three tools in order, one at a time."
+  },
+  "dsh": {
+    "toolSearchStartedCompleted": [1, 1],
+    "businessToolsStartedCompleted": [3, 3],
+    "approvalsAskedAllowedOnce": [3, 3],
+    "assistantTextBlocks": 2,
+    "terminalSynthesisExact": true,
+    "promotedImageAttachmentId": "sha256:deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4",
+    "promotedImageName": "claude-toolu_018EDqSwT7AuqtdkoZ51P6iS-0.png",
+    "promotedImageBytes": 9227,
+    "promotedImageDimensions": [400, 400],
+    "turnReason": "completed"
+  },
+  "objects": {
+    "countBeforeAndAfter": 11,
+    "added": [],
+    "removed": [],
+    "reusedObjectSha256": "deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4"
+  },
+  "cleanup": {
+    "temporaryProjectConfigPresentAfterCleanup": false,
+    "fixtureProcessesAfterCleanup": 0,
+    "serverAndImageSourcesUnchanged": true
+  },
+  "state": {
+    "workspaceAndNestedGitStateUnchangedApartFromTemporaryConfig": true,
+    "nestedGitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "nestedGitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd"
+  },
+  "session": {
+    "dshSessionId": "session-b77252b0-7a81-4ed5-9f4c-7815a77bc804",
+    "claudeBusinessSessionId": "45e13235-7eb9-4cc4-9d64-dc4ca9113c5c",
+    "claudeAuxiliarySessionId": "ddbd7b63-a4ba-41be-a850-deb8c0ed0005"
+  },
+  "hashes": {
+    "businessNative": "35fde4ea6c830b34026990dc996756ed6f7f9470708e0a8feb614c6ba260fa28",
+    "auxiliaryNative": "8c16afbe9fabeef7105c1f6bc06fc1d9a61e8ae346dc293d354416fa5ed85c66",
+    "dshArchive": "2c6dfcd0ae04218d2e501c81cc3ad95939b2381c6dffd297f14e5d50f1fecf95",
+    "linkStore": "1542c5c9af62f5d61c6391f4718d3ba2794888231b737387ba701408ad66b7b4",
+    "screenshot": "794975c19d12060ae650fe1ac81febe06210f4ec33ad0343b7f6767a61a8bd47"
+  }
+}

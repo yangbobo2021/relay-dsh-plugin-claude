@@ -1,0 +1,44 @@
+{
+  "requirement": "CLD-EXT-004",
+  "result": "pass",
+  "fixture": {
+    "skill": "relay-cld-user-skill",
+    "sha256": "8b95dfc218fa3fae9d7b8243f881ee5395822b0088f66c37331245735b823c99",
+    "trigger": "CLD_EXT004_AUTO_TRIGGER_0404",
+    "resultMarker": "CLD_EXT004_AUTO_SKILL_0404",
+    "resultMarkerInPrompt": false,
+    "skillNameInPrompt": false,
+    "toolNameInPrompt": false,
+    "resultMarkerLocationsBeforeRun": ["/Users/boboyang/.claude/skills/relay-cld-user-skill/SKILL.md"]
+  },
+  "native": {
+    "toolSequence": ["Skill"],
+    "toolInput": {"skill": "relay-cld-user-skill", "args": "CLD_EXT004_AUTO_TRIGGER_0404"},
+    "toolContent": "Launching skill: relay-cld-user-skill",
+    "toolUseResult": {"success": true, "commandName": "relay-cld-user-skill"},
+    "injectedBaseDirectory": "/Users/boboyang/.claude/skills/relay-cld-user-skill",
+    "injectedBodyContainsTriggerAndResult": true,
+    "finalText": "CLD_EXT004_AUTO_SKILL_0404"
+  },
+  "dsh": {
+    "skillActivityStarted": 1,
+    "skillActivityCompleted": 1,
+    "turnReason": "completed"
+  },
+  "state": {
+    "workspaceAndNestedGitStateUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-f5ea2e48-a672-4b75-9754-ca4483a3a553",
+    "claudeBusinessSessionId": "5f9789f1-5aa2-4ec4-81d3-d53b362e2e87",
+    "claudeAuxiliarySessionId": "e6aa16d9-dac6-40ea-b308-c9fb7fed12c8"
+  },
+  "hashes": {
+    "businessNative": "48b040338dc2fd5a2010b2e5e133470edf775b0053fd6d58c225ac33a4784a47",
+    "auxiliaryNative": "def44dae974df3ff22100dbb50c425646076c60cebeec5cdba75a0a05530a129",
+    "dshArchive": "f6a263ede58c28e3597cdfccb29d88d5dc477b7ad9b3c669b676cf0b3aeab0d0",
+    "linkStore": "ca065e837f096cd950056e837d3a128f2b3f86ae1e4f5af5e91425ff0aa97b34",
+    "screenshot": "bfada96f00861238ce4d25b6a61c468a0dc44c8bd381368ae61eeb320925f71b"
+  }
+}

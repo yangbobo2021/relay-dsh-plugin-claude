@@ -1,0 +1,11 @@
+import { randomUUID } from "node:crypto";
+import * as realSdk from "@anthropic-ai/claude-agent-sdk";
+import { ClaudeSdkClient } from "../../../../sdk-client.mjs";
+const configuredCwd = new URL("../../fixtures/instruction-project/configured/", import.meta.url).pathname;
+const siblingCwd = new URL("../../fixtures/instruction-project/sibling/", import.meta.url).pathname;
+const executable = new URL("../../../../../../node_modules/@anthropic-ai/claude-agent-sdk-darwin-arm64/claude", import.meta.url).pathname;
+const queries=[]; const sdk={...realSdk,query(params){queries.push({sessionId:params.options.sessionId,cwd:params.options.cwd,settingSources:[...params.options.settingSources]});return realSdk.query(params)}};
+const client=new ClaudeSdkClient({sdk,pathToClaudeCodeExecutable:executable}); const activities=[],diagnostics=[];
+client.on("activity",e=>activities.push(structuredClone(e)));client.on("diagnostic",m=>diagnostics.push(String(m)));await client.start();
+async function run(label,cwd){const s=await client.createSession({sessionId:randomUUID(),cwd,model:"sonnet",effort:"medium",settingSources:["project"]});const before=activities.length;const t=await client.sendMessage(s.id,{settingSources:["project"],text:"CLD_INS002_QUERY — state the validation response. Use no tools."});await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(new Error("timeout")),180000);const listener=e=>{if(e.method==="turn/completed"&&e.params?.turn?.id===t.id){clearTimeout(timeout);client.off("activity",listener);resolve()}};client.on("activity",listener)});const es=activities.slice(before);return{label,cwd,sessionId:s.id,toolStarts:es.filter(x=>x.method==="item/started").length,finalText:es.filter(x=>x.method==="item/agentMessage/delta").map(x=>x.params.delta).join(""),completed:es.find(x=>x.method==="turn/completed")?.params.turn}}
+const configured=await run("configured",configuredCwd);const sibling=await run("sibling",siblingCwd);console.log(JSON.stringify({executable,queries,configured,sibling,diagnostics},null,2));await client.close();

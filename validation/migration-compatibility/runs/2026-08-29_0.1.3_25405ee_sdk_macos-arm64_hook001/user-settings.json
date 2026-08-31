@@ -1,0 +1,19 @@
+{
+  "env": {
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/opt/homebrew/bin/node /Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/runs/2026-08-29_0.1.3_25405ee_sdk_macos-arm64_hook001/record-pretool.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "theme": "dark"
+}

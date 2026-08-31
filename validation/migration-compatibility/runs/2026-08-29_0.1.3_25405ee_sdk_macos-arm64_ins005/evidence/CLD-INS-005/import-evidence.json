@@ -1,0 +1,7 @@
+{
+  "requirement": "CLD-INS-005", "result": "pass", "rootContent": "@instructions/imported.md",
+  "configured": { "sessionId": "f098bb88-979c-46a3-8fa0-af8af001b1ae", "toolCalls": 0, "finalText": "CLD_INS005_IMPORTED_RULE_10005", "transcriptSha256": "6da881603ec7f4fc2350777b4e71f8fff0ccf4f77ebba272b3986ef6673034c1", "bytes": 12401 },
+  "sibling": { "sessionId": "1a3036a5-d5b6-4c8d-988f-9422d1a49058", "toolCalls": 0, "expectedMarkerOccurrences": 0, "transcriptSha256": "aa02ed83b60e410504070bf4dd780bf5bb989c8cf28d22e195d7032bb75a496f", "bytes": 12655 },
+  "artifacts": { "rootSha256": "750304059e1887edb6d46f44b7f9dbde153f8ba213ac05b321bb599c92124fa3", "importSha256": "d697bf38030254f64e22645fc5d52d34b70fac492f4f5d751c74f136a978f46d", "probeSha256": "8add3acdcb01a8622f76a5159f608c624397d25e443086ce2992abc6cdb7cda8" },
+  "postconditions": { "diagnostics": 0, "mutations": 0, "userInstructionPresent": false }
+}

@@ -1,0 +1,47 @@
+{
+  "requirement": "CLD-CFG-001",
+  "result": "pass",
+  "setting": {
+    "source": "user",
+    "rule": "Bash(printf CFG001_USER_SETTING_ACTIVE_1001)",
+    "fixtureSha256": "ff197b7a2338546a218b4ed0c33f9d172ad9bfa63146561859634af36cb4f07d"
+  },
+  "userSource": {
+    "sessionId": "68d513d9-36b6-407f-b79f-1c9131071c00",
+    "settingSources": ["user"],
+    "commandCalls": 1,
+    "command": "printf CFG001_USER_SETTING_ACTIVE_1001",
+    "status": "failed",
+    "output": "Permission to use Bash with command printf CFG001_USER_SETTING_ACTIVE_1001 has been denied.",
+    "stdoutMarkerOccurrences": 0,
+    "approvalRequests": 0,
+    "turnStatus": "completed",
+    "nativeTranscriptSha256": "8ed83b3aeeac24e0e25d865fd16b808db4650bd279ec887c09012d184baef00d",
+    "nativeTranscriptBytes": 17718
+  },
+  "noSourceControl": {
+    "sessionId": "d77d22c5-a6d6-4c24-b3fb-2a0a458fb3d7",
+    "settingSources": [],
+    "commandCalls": 1,
+    "command": "printf CFG001_USER_SETTING_ACTIVE_1001",
+    "status": "completed",
+    "output": "CFG001_USER_SETTING_ACTIVE_1001",
+    "approvalRequests": 0,
+    "turnStatus": "completed",
+    "nativeTranscriptSha256": "52597dae6ba55d6c44e7030df818efeb33861b00f4c5107759d12242d0f6077c",
+    "nativeTranscriptBytes": 17779
+  },
+  "excludedAttempts": 2,
+  "artifacts": {
+    "probeSha256": "583ad50bb8a7144f55525b81111a532b3d16929c88940374542d3f53d8c386f9",
+    "sdkClientSha256": "7ca6dda7dbb765d93d5a0dc686bcacbb187ae62cb53983401b03736835f51a85"
+  },
+  "postconditions": {
+    "userSettingsBytes": 38,
+    "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731",
+    "temporaryDirectoriesRemaining": 0,
+    "dshObjectCount": 11,
+    "nestedGitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "nestedGitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd"
+  }
+}

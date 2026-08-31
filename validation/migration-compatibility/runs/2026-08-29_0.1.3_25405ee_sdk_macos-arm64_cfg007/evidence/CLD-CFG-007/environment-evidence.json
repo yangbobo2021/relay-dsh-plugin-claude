@@ -1,0 +1,10 @@
+{
+  "requirement": "CLD-CFG-007",
+  "result": "pass",
+  "hostValueBefore": null,
+  "command": "node -e 'process.stdout.write(process.env.CLD_CFG007_VALUE || \"MISSING_7007\")'",
+  "projectSource": { "sessionId": "0901614f-b8eb-4755-9bbf-a82a5a71db81", "sources": ["project"], "calls": 1, "approvals": 1, "output": "CFG007 value 中文 7007", "transcriptSha256": "a826495b266fe4572f06b4e0e179e693488484dca88bf0295664c99740276fc5", "bytes": 17864 },
+  "noSource": { "sessionId": "9d8379ff-5819-4f19-80ed-aa2946f17e49", "sources": [], "calls": 1, "approvals": 1, "output": "MISSING_7007", "transcriptSha256": "896eb9e99d07b953461feed247674981c14302363d4c4f1749dcc867e4b2b050", "bytes": 17825 },
+  "artifacts": { "settingsSha256": "7501c3371261eebdfb44f394ac42982391134e286365a519d536915318b3d42e", "probeSha256": "0058c2aee942b2c8f00fa8227e98dc89023861cf11fbb46c69894524da8205d5" },
+  "postconditions": { "diagnostics": 0, "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731", "dshObjectCount": 11 }
+}

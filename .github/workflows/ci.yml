@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: deepseek-ai/deepseek-harness
-          ref: b150a551b8d465e31e418e1b2eaf5e79bbb7d28e
+          ref: 0a53fb55bea101816fa226bb964ae2bed71c343b
           path: upstream/deepseek-harness
       - run: pnpm install --ignore-scripts --frozen-lockfile
         working-directory: upstream/deepseek-harness

@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 
-import { CallId, freezeMessage, MessageId } from "@deepseek-ai/dsh-llm";
+import { ToolCallId, freezeMessage, MessageId } from "@deepseek-ai/dsh-llm";
 import { SessionId } from "@deepseek-ai/dsh-session";
 
 import { CLAUDE_PRESET, CLAUDE_PROVIDER } from "./claude-adapter.js";
@@ -130,7 +130,7 @@ export function buildClaudeHistorySeed(projection, updatedAt, config) {
           }),
         }, "append");
       } else {
-        const callId = CallId(entry.callId);
+        const callId = ToolCallId(entry.callId);
         append("assistant/message", {
           turn,
           step,

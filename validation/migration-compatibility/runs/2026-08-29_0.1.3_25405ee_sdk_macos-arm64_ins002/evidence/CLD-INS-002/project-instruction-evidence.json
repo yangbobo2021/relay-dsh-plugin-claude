@@ -1,0 +1,8 @@
+{
+  "requirement": "CLD-INS-002", "result": "pass",
+  "promptContainsExpectedAnswer": false,
+  "configured": { "sessionId": "81e98c0f-958d-4e34-b9bf-f419499bafc9", "sources": ["project"], "toolCalls": 0, "finalText": "CLD_INS002_PROJECT_RULE_10002", "transcriptSha256": "28dc1c036cbf4fde9cc674060cc1730de74502bd634067d3ee13c91213f57b51", "bytes": 12365 },
+  "sibling": { "sessionId": "fa491a71-200b-4e46-8e1b-0bd176570118", "sources": ["project"], "toolCalls": 0, "finalText": "No response.", "expectedMarkerOccurrences": 0, "transcriptSha256": "f31f0762e588a9cae5454726376c9f8ea79227924e6f90046607b3fe576f46a3", "bytes": 12331 },
+  "artifacts": { "instructionSha256": "62b6f995049455796f3a1c1e5851fbc2b6cbba666b55090b3a7f7454d0830f9c", "probeSha256": "6a1f7d02ef5af6304619a660be571e5e39272b6017e355ed2e5fb57099643e28" },
+  "postconditions": { "diagnostics": 0, "userInstructionPresent": false }
+}

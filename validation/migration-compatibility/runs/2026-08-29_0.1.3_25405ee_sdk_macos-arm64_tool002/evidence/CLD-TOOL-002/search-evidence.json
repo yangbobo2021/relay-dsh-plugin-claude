@@ -1,0 +1,43 @@
+{
+  "requirement": "CLD-TOOL-002",
+  "result": "fail",
+  "fixture": {
+    "relativePath": "search/deep/needle-tool002.txt",
+    "sha256BeforeAndAfter": "0b314e82cced24d25fcda187345107252fa0dde3f07f93033508bc3a787ee378",
+    "bytes": 57,
+    "filenameMatchesBefore": 1,
+    "markerMatchesBefore": 1
+  },
+  "requestedTools": ["Glob", "Grep"],
+  "actualTools": ["ToolSearch", "ToolSearch", "ToolSearch", "Bash"],
+  "toolSearch": [
+    {"query": "select:Glob,Grep", "result": "No matching deferred tools found"},
+    {"query": "glob file pattern search", "containsGlob": false, "containsGrep": false},
+    {"query": "grep search file contents regex", "containsGlob": false, "containsGrep": false}
+  ],
+  "fallback": {
+    "tool": "Bash",
+    "usesForbiddenFind": true,
+    "usesForbiddenGrep": true,
+    "output": "./search/deep/needle-tool002.txt\nsearch/deep/needle-tool002.txt:CLD_TOOL002_UNIQUE_MARKER_4Q7X9",
+    "isError": false
+  },
+  "finalText": "SEARCH_RESULT=search/deep/needle-tool002.txt|CLD_TOOL002_UNIQUE_MARKER_4Q7X9",
+  "contentCorrect": true,
+  "methodCorrect": false,
+  "session": {
+    "dshSessionId": "session-4af89227-997a-45cb-946a-400938c82e5e",
+    "claudeBusinessSessionId": "8a004bba-8bc2-46f2-9199-b35ba9b2102e",
+    "claudeAuxiliarySessionId": "e59ecabf-4184-427d-aa93-bb9e3496dc6e",
+    "turnReason": "completed",
+    "approvalsAsked": 0,
+    "newAttachmentObjects": []
+  },
+  "hashes": {
+    "businessNative": "e6988d1dbeb6c362965e33db9e5e5f36d2ab045beb82d76b76a7a28d9e3e6a6c",
+    "auxiliaryNative": "ab313c2916f2d43ecbc9173ed10694c25c6d8033af757eb89d0d3698f30ecc5d",
+    "dshArchive": "82168e22e47cb6e5f60c9ee63d88d042f6877327ee3f5ade24ffa843ad189350",
+    "linkStore": "de7e46337fdc6baa7b83312597ba178ffea4ceb679d9563b6fe5ffa5727711bf",
+    "screenshot": "1a3fe41d3a4a32641be5ff49c5355f70c93c8419d30ccb7a10912d6ee64a327c"
+  }
+}

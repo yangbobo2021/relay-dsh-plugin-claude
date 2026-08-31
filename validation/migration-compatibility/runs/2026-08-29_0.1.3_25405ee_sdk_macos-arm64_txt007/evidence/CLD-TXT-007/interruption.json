@@ -1,0 +1,27 @@
+{
+  "dshSessionId": "session-f67efc54-67ba-4f00-8e73-b304d6832371",
+  "claudeSessionId": "65aa2e65-eee9-4c6b-931a-9193b55f39a8",
+  "promptContainsFullMarkers": false,
+  "beforeStop": {"ms": 7147, "active": true, "paragraphChars": 285, "hasBegin": true, "hasEnd": false},
+  "stopClickedMs": 7454,
+  "samples": [
+    {"ms": 8088, "active": false, "paragraphChars": 285, "hasBegin": true, "hasEnd": false},
+    {"ms": 10588, "active": false, "paragraphChars": 285, "hasEnd": false},
+    {"ms": 19634, "active": false, "paragraphChars": 285, "hasEnd": false}
+  ],
+  "stableFrom3To12Seconds": true,
+  "interruptedArchive": {
+    "bytes": 5289,
+    "sha256": "c37aec8265e7f236be0b917e63df35c505b5788dfb85c3e8fafa1c6bf4cf524d",
+    "reason": {"kind": "aborted", "reason": {"kind": "user"}},
+    "terminalTextChars": 108,
+    "terminalTextHasBegin": true,
+    "terminalTextHasEnd": false,
+    "reasoningHasEndMarker": true
+  },
+  "recoveryFinal": "CLD_STOP_RECOVERED_1007",
+  "finalArchiveSha256": "f3d58707bd032b96c84e64a9509002f207f10c5380c55333ab69a90861aa002d",
+  "linkSha256BeforeRecovery": "2f96dfa6794c41110eb4fc7ace695bbb8253139ec58fecd3fa18e7866787a4e3",
+  "linkSha256AfterRecovery": "2f96dfa6794c41110eb4fc7ace695bbb8253139ec58fecd3fa18e7866787a4e3",
+  "toolEventCount": 0
+}

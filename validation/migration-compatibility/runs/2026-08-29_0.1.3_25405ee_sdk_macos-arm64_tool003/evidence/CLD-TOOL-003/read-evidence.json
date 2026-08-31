@@ -1,0 +1,40 @@
+{
+  "requirement": "CLD-TOOL-003",
+  "result": "pass",
+  "fixture": {
+    "relativePath": "read/tool003-exact.txt",
+    "bytes": 58,
+    "terminalLf": true,
+    "sha256BeforeAndAfter": "fff88a728b4149414323937f56f0eb3cfeeb90dcceb4e89b3ae36d4d5b38b5b4"
+  },
+  "tool": {
+    "name": "Read",
+    "inputPath": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace/read/tool003-exact.txt",
+    "rawResult": "1\talpha-tool003\n2\tCLD_TOOL003_READ_MARKER_5M8P2\n3\tomega-tool003\n4\t",
+    "normalizedSha256": "fff88a728b4149414323937f56f0eb3cfeeb90dcceb4e89b3ae36d4d5b38b5b4",
+    "normalizedExact": true,
+    "forbiddenToolsUsed": [],
+    "approvalsAsked": 0
+  },
+  "final": {
+    "text": "READ_RESULT_BEGIN\nalpha-tool003\nCLD_TOOL003_READ_MARKER_5M8P2\nomega-tool003\nREAD_RESULT_END",
+    "innerPayloadSha256": "fff88a728b4149414323937f56f0eb3cfeeb90dcceb4e89b3ae36d4d5b38b5b4",
+    "innerPayloadExact": true
+  },
+  "session": {
+    "dshSessionId": "session-6045490e-f6fd-4f83-907e-24a4891a5d63",
+    "claudeBusinessSessionId": "a5977766-78da-4871-8758-4eda8fda27ff",
+    "claudeAuxiliarySessionId": "2f4b779c-5f93-46fb-8045-9acb423a7ca7",
+    "activityStarted": 1,
+    "activityCompleted": 1,
+    "turnReason": "completed",
+    "newAttachmentObjects": []
+  },
+  "hashes": {
+    "businessNative": "c842e04d953dd7970b8d70d7c48d62189779b82d57943af31a12dd59df9f203b",
+    "auxiliaryNative": "cd786baa9f57f05aa79d3d345110c94f1c1b7771e4f23f9e6c7086e38c75f58b",
+    "dshArchive": "fd4fd95de8f2b3236a063e15016754c5c32e0fcc0385f7164cd100af0f3adfeb",
+    "linkStore": "7e49df4f0e77df46d6d08fb9c2a72feea9eb0e542ea7dc94d35dd58d2f4364d5",
+    "screenshot": "db2a80e1273c95f68b9a3244df0a2743ad3dcfa19d04dcb4c278009fcf3a7bbc"
+  }
+}

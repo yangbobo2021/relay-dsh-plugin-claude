@@ -1,0 +1,34 @@
+{
+  "sampleIntervalTargetMs": 125,
+  "promptContainsFullMarkers": false,
+  "primary": {
+    "dshSessionId": "session-1569972c-e447-40e3-a8ac-56cdf9749e85",
+    "claudeSessionId": "de10ee23-39f7-4a79-a718-3397178fc772",
+    "archiveSha256": "5a19c4aa0ab72d70c894c9bdd46fe515e581e3382f5c32c779fb952f5024a682",
+    "samples": [
+      {"ms": 336, "active": true, "hasBegin": false, "hasEnd": false, "paragraphChars": 176},
+      {"ms": 6849, "active": true, "hasBegin": true, "hasEnd": false, "paragraphChars": 330},
+      {"ms": 13226, "active": false, "hasBegin": true, "hasEnd": true, "paragraphChars": 2968}
+    ],
+    "terminalChars": 2791,
+    "beginCount": 1,
+    "endCount": 1,
+    "toolEventCount": 0
+  },
+  "confirmation": {
+    "dshSessionId": "session-482e6bcc-2fa6-43eb-99d1-30dc562d37f5",
+    "claudeSessionId": "af548064-900d-460f-92c8-ebdd3eb7e7b1",
+    "archiveSha256": "d27663b925688b4004e667ea1dd9b70d6baf2a8c1ab6877c1a39f4a28a09a3d6",
+    "samples": [
+      {"ms": 310, "active": true, "hasBegin": false, "hasEnd": false, "paragraphChars": 176},
+      {"ms": 7224, "active": true, "hasBegin": true, "hasEnd": false, "paragraphChars": 267},
+      {"ms": 12262, "active": false, "hasBegin": true, "hasEnd": true, "paragraphChars": 2620}
+    ],
+    "partialScreenshotAtMs": 7280,
+    "completionScreenshotAtMs": 12302,
+    "terminalChars": 2443,
+    "beginCount": 1,
+    "endCount": 1,
+    "toolEventCount": 0
+  }
+}

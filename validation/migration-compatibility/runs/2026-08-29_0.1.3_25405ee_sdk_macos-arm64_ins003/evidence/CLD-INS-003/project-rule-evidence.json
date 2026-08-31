@@ -1,0 +1,7 @@
+{
+  "requirement": "CLD-INS-003", "result": "pass", "pathGlob": "src/**",
+  "matching": { "sessionId": "318984ea-38c8-40a1-a179-839f627ac701", "readCalls": 1, "path": "src/target.txt", "output": "INS003 matching target content", "finalText": "CLD_INS003_RULE_MATCH_10003", "transcriptSha256": "1e63f182fffc097c85b25dda5ea122c244faac8a1f80780b41e484deb24561df", "bytes": 22534 },
+  "nonmatching": { "sessionId": "56dbe320-f1eb-4a48-a43b-2d20f5fa695d", "readCalls": 1, "path": "docs/other.txt", "output": "INS003 nonmatching control content", "expectedMarkerOccurrences": 0, "transcriptSha256": "e35a20269ba7de290e36da2aaf21563eef3d7c760f5658a8445672a6735eea17", "bytes": 20062 },
+  "artifacts": { "ruleSha256": "27151be3c70d6638902e9e73250ddb5b7a7368770c8357b4ae7850835a0aa317", "probeSha256": "835dd5c243e6fcdb1fbaca63024bafd10ede0b839ccd183268cced7dccbf9cb5" },
+  "postconditions": { "approvalRequests": 0, "diagnostics": 0, "mutations": 0 }
+}

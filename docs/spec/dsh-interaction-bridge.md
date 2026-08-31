@@ -51,6 +51,12 @@ answers back to the Claude SDK. Cancellation or provider failure rejects the
 pending SDK request. Empty option lists receive explicit Continue and Cancel
 choices so the DSH question remains answerable.
 
+Question payloads must be losslessly JSON-compatible for the scoped Remote
+waterfall. Absent optional `detail` and option `description` fields are omitted,
+not emitted as `undefined`; supplied strings, including empty strings, are
+preserved. The Agent and AbortSignal remain local service arguments rather than
+being serialized as question data.
+
 Unsupported interaction methods are rejected and never fall through to tool
 execution.
 

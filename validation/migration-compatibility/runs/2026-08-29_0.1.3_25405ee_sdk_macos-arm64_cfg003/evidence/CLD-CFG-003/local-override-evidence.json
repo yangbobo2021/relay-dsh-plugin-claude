@@ -1,0 +1,33 @@
+{
+  "requirement": "CLD-CFG-003",
+  "result": "pass",
+  "command": "printf %s \"$CLD_CFG003_PRECEDENCE\"",
+  "withLocal": {
+    "sessionId": "74684338-6418-4187-aff3-34dfbbda76f9",
+    "settingSources": ["project", "local"],
+    "calls": 1,
+    "output": "LOCAL_3003",
+    "status": "completed",
+    "nativeTranscriptSha256": "8af12895437febcfba8282ffcd56bd055db9521fccb848f356ea22c3352e5ec4",
+    "nativeTranscriptBytes": 19899
+  },
+  "projectOnly": {
+    "sessionId": "14bc60aa-436a-427d-837a-3caca72f09ec",
+    "settingSources": ["project"],
+    "calls": 1,
+    "output": "SHARED_3003",
+    "status": "completed",
+    "nativeTranscriptSha256": "01d3caa008649b1c2e10904921692d876e5e277f64996bceb34991547939faf5",
+    "nativeTranscriptBytes": 19813
+  },
+  "counts": { "approvalRequests": 2, "diagnostics": 0, "excludedInvalidRuns": 1 },
+  "artifacts": {
+    "sharedSettingsSha256": "289b5c38ea8cd274a9a5c72eb9fc7c71e370258a31ae49b18fe139f06de50fed",
+    "localSettingsSha256": "057bf342c721ab6acf6bcd274aae2aefe5da2e80442fc1b77fb3aa5544ec1efc",
+    "probeSha256": "d712acf7146f0d1939f767bca21e6aff171a50a08ef07d72332e8aa50f68adf0"
+  },
+  "postconditions": {
+    "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731",
+    "dshObjectCount": 11
+  }
+}

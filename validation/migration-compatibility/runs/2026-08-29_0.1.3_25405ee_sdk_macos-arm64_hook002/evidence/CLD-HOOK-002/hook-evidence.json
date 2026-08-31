@@ -1,0 +1,28 @@
+{
+  "control": {
+    "sessionId": "7390daa9-e969-4eba-bfca-f69bdaf727a0",
+    "hookRecordCount": 0,
+    "toolCount": 0,
+    "finalText": "CLD_HOOK002_CONTROL_DONE_12002",
+    "nativeTranscriptSha256": "34226a6cef3948a2d266aabdfb9e113d44bba7c48179b7c36a0ffc5c42fd981a"
+  },
+  "target": {
+    "sessionId": "0e9e8ec5-0272-492e-936f-af0d8e328f06",
+    "hookRecordCount": 1,
+    "hookEventName": "PostToolUse",
+    "toolName": "Bash",
+    "toolInput": {"command": "printf HOOK002_TARGET_12002", "description": "Print target string"},
+    "toolResponse": {"stdout": "HOOK002_TARGET_12002", "stderr": "", "interrupted": false, "isImage": false, "noOutputExpected": false},
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "finalText": "CLD_HOOK002_TARGET_DONE_12002",
+    "nativeTranscriptSha256": "fd3376d105895b12b8b816fd055b6f46c90a61c9de8ca37a58c9615d7cb94c7a"
+  },
+  "relayApprovalRequestCount": 0,
+  "diagnosticCount": 0,
+  "state": {"projectSettingsOriginallyExisted": false, "projectSettingsRemoved": true, "temporaryLogRemoved": true},
+  "fixtureSha256": {
+    "probe.mjs": "c53314615659fbf81c111935beb8d8796a7aa70a98b85cb6bc3ea1a53801128d",
+    "project-settings.json": "2c4784856a8ea54f727d85846faba9db6e6e8e22a15ad2a010bfc806cd74fe70",
+    "record-posttool.mjs": "ed39cd1af1689447dddc67abd95a60d8ef4a0a0526e1e9949e117af5b113cf7c"
+  }
+}

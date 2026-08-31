@@ -1,0 +1,18 @@
+{
+  "result": "pass",
+  "sessionId": "c62b0338-76cd-4835-8195-a2f31da591bd",
+  "markerSha256": "fc902e70a4c6f0afd12b2f4da9d2d85821ee18342030bccd6a56c2cdd8fb667e",
+  "establishFinal": "CLD_SES005_ESTABLISHED_45005",
+  "fillerFinals": ["CLD_SES005_FILLER_1_DONE", "CLD_SES005_FILLER_2_DONE", "CLD_SES005_FILLER_3_DONE"],
+  "toolCountAcrossTurns": 0,
+  "hooks": {"beforeCompactCount": 0, "preCompactCount": 1, "postCompactCount": 1, "trigger": "manual", "preCustomInstructionsExact": true, "postSummaryContainsMarker": true},
+  "boundary": {"count": 1, "trigger": "manual", "preTokens": 62018, "postTokens": 1968, "droppedTokens": 60050, "durationMs": 27699, "sha256": "2c152048c3087dc997b7f646e9dcc8ba0561fdaf56884d5fa6248f3be47e5f32"},
+  "compactionSummaryRecord": {"line": 33, "markerOccurrences": 4, "sha256": "4eae3cf9457aa0517a01d7e0d998be73ced75c8284d8be3ce65c1c5591a16aca"},
+  "recallPromptContainsMarker": false,
+  "recallFinal": "CLD_SES005_EARLY_MARKER_45005_Q7M2",
+  "diagnosticCount": 0,
+  "nativeTranscriptSha256": "3aad0c561b1b1efa4cc9f681a007fbb4b68e31eacf041abab39c5f61d0f85d59",
+  "excludedPriorTrial": {"sessionId": "d247f69a-6423-414d-88fb-c62326f82052", "reason": "Not enough messages; no boundary"},
+  "cleanup": {"projectSettingsOriginallyExisted": false, "projectSettingsRemoved": true, "temporaryHookLogRemoved": true},
+  "fixtureSha256": {"probe.mjs": "ac79e64e61175d85940542707fd83f9d92e26e930a76c0a925b7e5125fda9c37", "project-settings.json": "522cc06a7b79d6abfa3500a8d4a6bdfef430a3713c2c13385edde6db63ae661e", "record-compact.mjs": "3895bec153a94070ab8595fbad44ce0a282bf6dccc5dbb99943f1b17a8afbdce"}
+}

@@ -1,0 +1,20 @@
+{
+  "requirement": "CLD-CFG-008",
+  "result": "pass",
+  "sessionId": "548c4805-7ebd-468b-acc2-644bec1298e2",
+  "queries": [
+    { "turn": 1, "resume": false, "sources": ["project"], "output": "HOT_A_8008", "calls": 1, "approvals": 1 },
+    { "turn": 2, "resume": true, "sources": ["project"], "output": "HOT_B_8008", "calls": 1, "approvals": 1 }
+  ],
+  "sameSession": true,
+  "sameCommand": "node -e 'process.stdout.write(process.env.CLD_CFG008_HOT || \"MISSING_8008\")'",
+  "turnsCompleted": 2,
+  "diagnostics": 0,
+  "artifacts": {
+    "transcriptSha256": "2ccf9e34011ad824edde12672b889711392632e2788c2593b150120add16f5c3",
+    "transcriptBytes": 27605,
+    "probeSha256": "abb7d41769d362c6a4f2aa96c627f50ed46ce01072de866c16745b924a553cc6",
+    "restoredSettingsSha256": "7e0a83fc97ac62efab03831f5b1dd4393dd05b9b6e2f00eb049d9ca638f441a5"
+  },
+  "postconditions": { "fixtureRestored": true, "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731" }
+}

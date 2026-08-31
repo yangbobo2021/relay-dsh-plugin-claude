@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "sessionCount": 1,
+  "dshSessionId": "session-c12c5480-523c-4d76-84ed-bac517b1ead4",
+  "claudeSessionId": "a701446b-2dc1-493d-bb7c-e2e40ec608e8",
+  "config": {
+    "model": "haiku",
+    "effort": "low",
+    "sandbox": "workspace-write",
+    "approvalPolicy": "on-request",
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/plain-text-workspace",
+    "settingSources": ["user", "project", "local"],
+    "systemPrompt": {"type": "preset", "preset": "claude_code"}
+  },
+  "linkStoreSha256": "a351e5f2b0ac2a6750888ca7a2276168d2d81c758ddf9ae5323da40e6279e0b5"
+}

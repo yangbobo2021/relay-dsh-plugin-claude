@@ -1,0 +1,56 @@
+{
+  "requirement": "CLD-TOOL-014",
+  "result": "pass",
+  "live": {
+    "pauseVisibleMs": 11579,
+    "pauseState": "waiting-for-answer",
+    "bothOptionsVisible": true,
+    "finalBeforeAnswer": false,
+    "selectedOption": "BETA_1414",
+    "submitEnabledAfterSelection": true,
+    "submissionCount": 1,
+    "resumeToFinalMs": 1877,
+    "questionGoneAfterSubmit": true,
+    "finalText": "ASK_RESULT=BETA_1414"
+  },
+  "native": {
+    "toolSequence": ["ToolSearch", "AskUserQuestion"],
+    "toolSearchQuery": "select:AskUserQuestion",
+    "toolSearchMatch": "AskUserQuestion",
+    "question": {
+      "header": "Pick",
+      "text": "Choose CLD_TOOL014 option",
+      "multiSelect": false,
+      "options": ["ALPHA_1414", "BETA_1414"]
+    },
+    "answers": {"Choose CLD_TOOL014 option": "BETA_1414"},
+    "finalText": "ASK_RESULT=BETA_1414"
+  },
+  "dsh": {
+    "toolSearchStartedAndCompleted": true,
+    "askStartedAt": 1787998163515,
+    "askCompletedAt": 1787998177610,
+    "askPauseDurationMs": 14095,
+    "askOutputContainsBeta": true,
+    "turnReason": "completed"
+  },
+  "state": {
+    "businessSessionStable": true,
+    "workspaceAndNestedGitStateUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-f941147c-ed82-4f73-a6eb-59b020d4b3c8",
+    "claudeBusinessSessionId": "b3032711-81f8-4362-8492-7d949795d425",
+    "claudeAuxiliarySessionId": "06e293e6-8876-4ed9-b047-fd2de2f6965b"
+  },
+  "hashes": {
+    "businessNative": "388ebc08acc6c4d771c7961a2d99c72949691b467a49e0f6b78771162de70b71",
+    "auxiliaryNative": "92f4ecf211816c4f6bb4af81691a57374576167eec0e9021ecd72aebc488add1",
+    "dshArchive": "4bb1a54779406568f26345bfaeeac9e1c2c5fb461bbb28c17bad05f677e725ea",
+    "linkStore": "818cc30368e41d9be6fcbf09f392854cc84d12f0b54973afe5369fbfead3d736",
+    "pausedScreenshot": "0e31c70cf3d568404e532ef97c39059e6d6a8519fc22f2fa7567fa7abc6a85dd",
+    "selectedScreenshot": "53e3f9b2fa1f14e5aeb9b5437cab9aa92a998c4e2c4322226d365f7b8f56e68a",
+    "finalScreenshot": "340a25bf3e7a4c384ac8a504ca2951bb3be8b65d15f63ca1da8e667ab39ca899"
+  }
+}

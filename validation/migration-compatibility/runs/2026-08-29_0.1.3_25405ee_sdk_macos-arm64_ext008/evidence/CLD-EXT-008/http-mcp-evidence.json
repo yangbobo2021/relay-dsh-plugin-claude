@@ -1,0 +1,75 @@
+{
+  "requirement": "CLD-EXT-008",
+  "result": "pass",
+  "fixture": {
+    "serverName": "relay_cld_http",
+    "toolName": "echo_http_transport",
+    "serverSha256BeforeAndAfter": "ef304c16b9b365bf128e50f9a93b4e393f87a4e6e1e2b65d05893594bc1618af",
+    "temporaryProjectConfigSha256": "831066a86c190bea9c46b477300f9955b412ed74c91c371ae3499e0a5295158c",
+    "url": "http://127.0.0.1:47891/mcp",
+    "readyMarker": "CLD_EXT008_HTTP_READY:47891",
+    "healthBeforeCall": {"status": "ok"},
+    "outputPrefixInPrompt": false
+  },
+  "httpLog": {
+    "sha256": "236c7e6bbfc8e17f65da349c07e13a0b4b482856c74aaedde4679e5cfe234831",
+    "pid": 83006,
+    "listenHost": "127.0.0.1",
+    "listenPort": 47891,
+    "requestMethods": [
+      "server/discover",
+      "initialize",
+      "notifications/initialized",
+      "tools/list",
+      "tools/call"
+    ],
+    "businessCalls": 1,
+    "businessInput": "CLD_EXT008_HTTP_INPUT_0808",
+    "shutdown": {"signal": "SIGINT"},
+    "listenerClosedAfterShutdown": true,
+    "healthClosedAfterShutdown": true
+  },
+  "native": {
+    "deferredToolsContainsHttpTool": true,
+    "pendingMcpServers": [],
+    "needsAuthMcpServers": [],
+    "toolSearchMatches": ["mcp__relay_cld_http__echo_http_transport"],
+    "businessToolCalls": 1,
+    "businessInputExact": true,
+    "businessResult": "CLD_EXT008_HTTP_OUTPUT_0808:CLD_EXT008_HTTP_INPUT_0808",
+    "finalTextExact": true,
+    "finalAttributionMcpServer": "relay_cld_http",
+    "finalAttributionMcpTool": "echo_http_transport"
+  },
+  "dsh": {
+    "toolSearchStartedCompleted": [1, 1],
+    "businessToolStartedCompleted": [1, 1],
+    "approvalAsked": 1,
+    "approvalOutcome": "allowed-once",
+    "businessOutputExact": true,
+    "turnReason": "completed"
+  },
+  "cleanup": {
+    "temporaryProjectConfigPresentAfterCleanup": false,
+    "listenerPresentAfterCleanup": false,
+    "canonicalServerUnchanged": true
+  },
+  "state": {
+    "workspaceAndNestedGitStateUnchangedApartFromTemporaryConfig": true,
+    "nestedGitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "nestedGitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "attachmentObjectCountBeforeAndAfter": 11
+  },
+  "session": {
+    "dshSessionId": "session-98789725-9d8f-4f29-adfe-2e8c51442f72",
+    "claudeBusinessSessionId": "3dc126d2-9cfb-4e8e-9419-68d3c8b9ac43",
+    "claudeAuxiliarySessionId": "fe92620d-72a5-49b5-9828-36fab4349dcb"
+  },
+  "hashes": {
+    "businessNative": "8d52c0c00d00d89f672631116662cd67201ad974f80d459720fdaa1241c0422a",
+    "auxiliaryNative": "3e41be4b55ae4fd5966b88419e1bb4a92d697ccd6bc8ee12fa9dcfc580b22c6d",
+    "dshArchive": "5058a012922954fc8e4ec4a349fdbe36268b7eba01dd4585e560d40e55a72592",
+    "linkStore": "092a5f583a155f3b836e66ceadcad1b89a85e6460f01e5570726fa29bf0a1de4",
+    "screenshot": "2e0910dc4230a47399468f1a2c0173a04894b152d48f018fcf64f085646dd1bd"
+  }
+}

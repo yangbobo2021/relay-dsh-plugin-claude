@@ -1,0 +1,59 @@
+{
+  "requirement": "CLD-IMG-010",
+  "result": "pass",
+  "workspace": {
+    "beforeFiles": ["generated-img006.png", "safe-img009.svg", "workspace.txt"],
+    "afterFiles": ["edited-img010.png", "generated-img006.png", "safe-img009.svg", "workspace.txt"],
+    "newFiles": ["edited-img010.png"],
+    "missingFiles": [],
+    "helperResidue": [],
+    "unchanged": {
+      "generated-img006.png": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+      "safe-img009.svg": "8770eb932841883550f1ef8b6718bf81a0a4cbbd9137afc867a3bc2a6088a46f",
+      "workspace.txt": "177dfbfcbff10b51a5277a2e63c1ccb530834324e079ff19e55b7502b57bf6f7"
+    }
+  },
+  "source": {
+    "name": "generated-img006.png",
+    "sha256BeforeAndAfter": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+    "bytes": 620,
+    "width": 320,
+    "height": 200,
+    "encoding": "8-bit RGB non-interlaced PNG",
+    "colors": {"255,0,170": 48000, "0,204,255": 16000}
+  },
+  "edited": {
+    "name": "edited-img010.png",
+    "sha256": "e2986c33e7a210b77318a7c9c38db65c42dd297b278165246ae2145af463e5d9",
+    "bytes": 622,
+    "width": 320,
+    "height": 200,
+    "encoding": "8-bit RGB non-interlaced PNG",
+    "colors": {"34,197,94": 48000, "0,204,255": 16000},
+    "samples": {
+      "0,0": [34, 197, 94],
+      "159,100": [34, 197, 94],
+      "160,99": [34, 197, 94],
+      "160,100": [0, 204, 255],
+      "319,199": [0, 204, 255]
+    }
+  },
+  "session": {
+    "dshSessionId": "session-c854425e-820a-4897-bed6-5854038fa6e7",
+    "claudeBusinessSessionId": "3d77e4e5-8f04-44f5-af76-f61737c49013",
+    "claudeAuxiliarySessionId": "71af3e51-cdf8-4370-b581-fa3d0464f2c6",
+    "toolSequence": ["Bash", "Write", "Bash", "Write", "Bash", "Bash"],
+    "toolResults": 6,
+    "toolErrors": 0,
+    "approvalsAsked": 5,
+    "approvalsAllowedOnce": 5,
+    "finalText": "CLD_IMG010_EDITED_1010",
+    "turnReason": "completed",
+    "newAttachmentObjects": [],
+    "archiveSha256": "73b7a7c8aacb8f8006e5cc895ac6a9d653fb0c3af43a5177025a004960b899ac",
+    "businessNativeSha256": "e680d14d3218ac5c284cb003d16ed1531e4b974ebdb14d562abdf5634157e8da",
+    "auxiliaryNativeSha256": "44a5e86f69b77a98af38ca42b89951b31ff563839ae1c1455f81cfebf7b0264e",
+    "linkStoreSha256": "1e425a63a333e25ac320ab4115d80f9bad43576cb417a06f418f9217831bc139",
+    "screenshotSha256": "b02b24ef6e07d9443ff726447195afe88cb8917bf1fe4b2a3c6ca6b6bc974452"
+  }
+}

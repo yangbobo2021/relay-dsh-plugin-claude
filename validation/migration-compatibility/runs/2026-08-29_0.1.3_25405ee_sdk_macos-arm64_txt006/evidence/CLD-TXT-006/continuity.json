@@ -1,0 +1,22 @@
+{
+  "dshSessionId": "session-37b2db60-bea4-46e6-9ccc-ca9b836661b9",
+  "claudeSessionId": "ec354d24-1804-485d-a96c-18443c1eae30",
+  "privateMarker": "CLD_CTX_PRIVATE_1006_Q7NX",
+  "firstFinal": "ACK_CTX_1006",
+  "secondPromptContainsMarker": false,
+  "secondFinal": "CLD_CTX_PRIVATE_1006_Q7NX",
+  "linkSha256AfterTurn1": "f711720748400ee6b1cc4fe85bd6bd1c30d7de1bc4429bf9dfd20c93250dfb09",
+  "linkSha256AfterTurn2": "f711720748400ee6b1cc4fe85bd6bd1c30d7de1bc4429bf9dfd20c93250dfb09",
+  "archiveAfterTurn1": {
+    "bytes": 4061,
+    "sha256": "7019f2663d2b95e1e854c56186d2f61b57733f8db39808a759841fb57a734d19"
+  },
+  "archiveAfterTurn2": {
+    "bytes": 6161,
+    "sha256": "28c9644b625677a15e8d9935ed6bac4522b220a8d497f91eb78c4818b206a118"
+  },
+  "turnStartCount": 2,
+  "turnEndCompletedCount": 2,
+  "assistantMessageCount": 2,
+  "toolEventCount": 0
+}

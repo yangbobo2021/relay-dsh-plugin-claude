@@ -1,0 +1,26 @@
+{
+  "runtimePolicy": {"sandbox": "workspace-write", "approvalPolicy": "on-request"},
+  "sdkPermissionModes": ["default", "default"],
+  "allow": {
+    "sessionId": "0165b697-a857-460d-8313-cefd01a89e35",
+    "tools": ["Read", "Write"],
+    "writeDecision": "accept",
+    "targetContent": "CLD_PERM001_ALLOWED_21001\n",
+    "targetSha256": "7f962700e2b82f12372f1d35a9b8588af144e85bf018badf09acd74c51302b4a",
+    "finalText": "CLD_PERM001_ALLOW_DONE_21001",
+    "nativeTranscriptSha256": "402677298eb4826561706eee5cb9980bec1b5d0828620b9e8fe2a38b169e46fd"
+  },
+  "deny": {
+    "sessionId": "014149fc-3554-4f4d-9e57-a78738e2c0ca",
+    "tools": ["Write"],
+    "writeDecision": "decline",
+    "resultStatus": "failed",
+    "resultOutput": "CLD-PERM-001 deliberate deny",
+    "targetExists": false,
+    "finalText": "CLD_PERM001_DENY_DONE_21001",
+    "nativeTranscriptSha256": "a9fc3b5cc3fd8a809c3ce098aaf1210ece62ad89946928f969fc9fed55d9bf87"
+  },
+  "readFixtureSha256BeforeAfter": "fff88a728b4149414323937f56f0eb3cfeeb90dcceb4e89b3ae36d4d5b38b5b4",
+  "cleanup": {"allowTargetAbsent": true, "denyTargetAbsent": true},
+  "probeSha256": "aa30226d60eaec4c6f234f744e94ca1964f853bba49e0bec4895037fc2a3f7d4"
+}

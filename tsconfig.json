@@ -3,14 +3,19 @@
     "target": "ES2024",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "preserveSymlinks": true,
-    "paths": { "@deepseek-ai/*": ["./node_modules/@deepseek-ai/*"] },
     "jsx": "react-jsx",
     "strict": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
-    "types": ["react"]
+    "types": [
+      "react"
+    ]
   },
-  "include": ["src/client/**/*.ts", "src/client/**/*.tsx", "src/client/**/*.d.ts"]
+  "include": [
+    "src/client/**/*.ts",
+    "src/client/**/*.tsx",
+    "src/client/**/*.d.ts"
+  ],
+  "extends": "./node_modules/.relay-dsh-types.json"
 }

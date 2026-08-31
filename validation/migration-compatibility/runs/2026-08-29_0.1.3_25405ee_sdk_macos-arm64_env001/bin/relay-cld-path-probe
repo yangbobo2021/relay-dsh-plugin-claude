@@ -1,0 +1,2 @@
+#!/bin/sh
+printf 'CLD_ENV001_PATH_EXECUTED_31001\n'

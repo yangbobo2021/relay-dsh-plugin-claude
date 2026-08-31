@@ -1,0 +1,70 @@
+{
+  "requirement": "CLD-EXT-010",
+  "result": "pass",
+  "fixture": {
+    "serverSha256": "513106b04ae898098a47e01bbd77a0ff5aee9c0fdf8a0b36b2d18cb9a26735d5",
+    "configSha256BeforeCleanup": "07174716c5fc6dbe6f540699f67e16aa08037bcc89f80c0df7f21c459175ce20",
+    "configuredTimeoutMs": 1500,
+    "slowToolDelayMs": 8000,
+    "serverLogSha256": "8f065a3a4e528c39e352776f8b02727aa6979cb1031b5cd8ca682603b490dc15"
+  },
+  "serverLog": {
+    "processStarts": 8,
+    "explicitCalls": 1,
+    "timeoutCallStarts": 1,
+    "lateFinishes": 0,
+    "explicitCallAt": 1788001028637,
+    "timeoutCallStartAt": 1788001173118
+  },
+  "explicitError": {
+    "dshSessionId": "session-ecfbb9e6-cbf2-4b5f-9da5-5fb6c1f028c8",
+    "claudeSessionId": "39208fbf-bf6c-47d4-822d-9a5884ea4266",
+    "toolSearchCalls": 1,
+    "businessCalls": 1,
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "activityStatus": "error",
+    "nativeIsError": true,
+    "nativeToolResult": "CLD_EXT010_EXPLICIT_ERROR_1010",
+    "completedTurns": 2,
+    "finalTexts": [
+      "CLD_EXT010_EXPLICIT_SEEN_1010",
+      "CLD_EXT010_EXPLICIT_RECOVERY_1010"
+    ],
+    "nativeTranscriptSha256": "ac463cb9d26d61ab36b6161f6c6d425fbb94e5d986d44aea6ab17ea70dc64441",
+    "dshArchiveSha256": "2b947e54efb81b033040e8e79670aa0d64a01165f05e776a43c4ecdd110a9b4f",
+    "screenshotSha256": "a4b1b4299a5b6273510d7848c7c8fd20f3d4ea97287faf4de3a43372ba1e8f66"
+  },
+  "timeout": {
+    "dshSessionId": "session-c045b88a-f0b6-4a8c-baf1-21894e69c432",
+    "claudeSessionId": "e6488d54-53aa-4685-8782-7e46a780996a",
+    "toolSearchCalls": 1,
+    "businessCalls": 1,
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "activityStatus": "error",
+    "nativeIsError": true,
+    "nativeToolResult": "MCP server \"relay_cld_failure_timeout\" tool \"slow_timeout\" timed out after 1s",
+    "serverStartToDshErrorMs": 1516,
+    "dshActivityStartToErrorMs": 1670,
+    "completedTurns": 2,
+    "finalTexts": [
+      "CLD_EXT010_TIMEOUT_SEEN_1010",
+      "CLD_EXT010_TIMEOUT_RECOVERY_1010"
+    ],
+    "forbiddenLateResultOccurrencesAfterSafetyWindow": 0,
+    "serverProcessesAfterSafetyWindow": 0,
+    "nativeTranscriptSha256": "bc23f6ab00307908c538781d624033543b352594633fc243d30222a4bd41c241",
+    "dshArchiveSha256": "c06bb7da89c35cd3085e474543ac97696cece34fab8abd7de992fca9521526ad",
+    "screenshotSha256": "020bc812c2b6025aab6898e39a27e4a079c72d05a7c0525cefda7b0153df7277"
+  },
+  "postconditions": {
+    "temporaryProjectConfigPresent": false,
+    "fixtureProcesses": 0,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "fixtureSourceUnchanged": true
+  }
+}

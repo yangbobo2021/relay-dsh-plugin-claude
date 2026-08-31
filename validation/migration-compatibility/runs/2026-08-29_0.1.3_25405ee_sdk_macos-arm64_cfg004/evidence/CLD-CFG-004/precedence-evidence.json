@@ -1,0 +1,22 @@
+{
+  "requirement": "CLD-CFG-004",
+  "result": "pass",
+  "command": "printf %s \"$CLD_CFG004_PRECEDENCE\"",
+  "branches": [
+    { "sessionId": "6cef0e51-6377-4647-a2d2-82ef22b4dafd", "sources": ["user"], "output": "USER_4004", "calls": 1, "approvals": 1, "transcriptSha256": "91d577ab3e751fbab02bf7e59948b757c70c21898cd68f8c6c5d464f52156a4b", "bytes": 20368 },
+    { "sessionId": "cc200cc6-2107-4dd7-bb38-020363fa8051", "sources": ["user", "project"], "output": "PROJECT_4004", "calls": 1, "approvals": 1, "transcriptSha256": "aa6c42d2d4785a972bfc7d762738a9c9f09a01804ce29f99d355747977698906", "bytes": 17759 },
+    { "sessionId": "61b39845-809a-485b-b40a-5968527f4159", "sources": ["user", "project", "local"], "output": "LOCAL_4004", "calls": 1, "approvals": 1, "transcriptSha256": "9663bacb739c69f5c12f368b6c2efbca51a6dd5bd765dfd938b7f4f407a8acfe", "bytes": 17726 }
+  ],
+  "artifacts": {
+    "userFixtureSha256": "f30888796eed68be363217f9fa4cb5d92c003a7db86bf2b60a664dfc8923d6ac",
+    "projectSettingsSha256": "b660f6521eb1c613aab33af4395bf1272e3e0f232742d228dcb3b93ba7a06bf4",
+    "localSettingsSha256": "c36209c4c96f4cbaf07879dbf530581611a558c859710058d5c211bd59ef7ef3",
+    "probeSha256": "f5afd841db4f467eb3156e56e00308d4de1c6a7334bb0874fcb2d7f7266bcbcc"
+  },
+  "postconditions": {
+    "userSettingsBytes": 38,
+    "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731",
+    "diagnostics": 0,
+    "dshObjectCount": 11
+  }
+}

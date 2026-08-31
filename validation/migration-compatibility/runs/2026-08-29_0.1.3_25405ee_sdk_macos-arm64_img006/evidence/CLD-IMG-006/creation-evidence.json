@@ -1,0 +1,45 @@
+{
+  "workspaceBefore": {
+    "paths": ["workspace.txt"],
+    "baselineSha256": "177dfbfcbff10b51a5277a2e63c1ccb530834324e079ff19e55b7502b57bf6f7",
+    "outputExisted": false
+  },
+  "workspaceAfter": {
+    "paths": ["generated-img006.png", "workspace.txt"],
+    "baselineSha256": "177dfbfcbff10b51a5277a2e63c1ccb530834324e079ff19e55b7502b57bf6f7",
+    "temporaryScriptPresent": false
+  },
+  "artifact": {
+    "path": "generated-img006.png",
+    "format": "png",
+    "width": 320,
+    "height": 200,
+    "channels": 3,
+    "bytes": 620,
+    "sha256": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+    "pixelSamples": [
+      {"x": 0, "y": 0, "rgb": [255, 0, 170]},
+      {"x": 159, "y": 99, "rgb": [255, 0, 170]},
+      {"x": 160, "y": 100, "rgb": [0, 204, 255]},
+      {"x": 319, "y": 199, "rgb": [0, 204, 255]},
+      {"x": 160, "y": 99, "rgb": [255, 0, 170]},
+      {"x": 159, "y": 100, "rgb": [255, 0, 170]}
+    ]
+  },
+  "dshSessionId": "session-d896983b-88ff-4109-82a3-08834bcddedd",
+  "businessClaudeSessionId": "9a404da8-15f4-478e-b372-60fd202ba859",
+  "auxiliaryClaudeSessionId": "c14cdb1e-5706-48c0-a69e-ca18f8009678",
+  "businessNativeSha256": "3e233134fab5959f9bcb2685ff69b9b745fe606bfd7fd58c9ccebbb99dc03740",
+  "auxiliaryNativeSha256": "6ed395f08d37e0f4b336470893741676c7992c8ced6ba2266e7a4702e49670ca",
+  "dshArchiveSha256": "b2ad0ff55ca49efa6602a6ec701f01ec7f88eb43f7ccb9a82dbe877bd56a256f",
+  "linkStoreSha256": "d64571e64bc93dec140a8a0524c3f6d3a2292807a546514844b213ac45b98568",
+  "approvalAsked": 4,
+  "approvalAllowedOnce": 4,
+  "toolOrder": ["Bash", "Write", "Bash", "Bash"],
+  "toolStatuses": ["error", "completed", "completed", "completed"],
+  "networkUsed": false,
+  "expectedAndObservedFinal": "CLD_IMG006_CREATED_1006",
+  "assistantMessages": 1,
+  "turnEnd": "completed",
+  "screenshotSha256": "9ecba2a60df7256c31ec26c14bf83d0c81d6deacec9321ec8de2bd9023d12b4c"
+}

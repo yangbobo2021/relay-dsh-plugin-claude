@@ -1,0 +1,38 @@
+{
+  "source": {
+    "path": "generated-img006.png",
+    "format": "png",
+    "width": 320,
+    "height": 200,
+    "bytes": 620,
+    "sha256Before": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+    "sha256After": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482"
+  },
+  "workspacePathsBefore": ["generated-img006.png", "workspace.txt"],
+  "workspacePathsAfter": ["generated-img006.png", "workspace.txt"],
+  "baselineSha256BeforeAndAfter": "177dfbfcbff10b51a5277a2e63c1ccb530834324e079ff19e55b7502b57bf6f7",
+  "dshSessionId": "session-8e4e6d40-1527-4bc5-b9db-18587258830e",
+  "businessClaudeSessionId": "b232e0fc-e7ed-43b8-9472-50df3a6d3a59",
+  "auxiliaryClaudeSessionId": "9617f532-093d-4c21-aa39-bc3851a0143f",
+  "businessNativeSha256": "241a72d1b520f6cb2252b58e0bb4599c9224ca9c8099acf5fca3dcd72e716e5c",
+  "auxiliaryNativeSha256": "6ebc5b491f868c10b17afe35b6c423f72d407aa8272a9f2c174bc207c7bd3424",
+  "dshArchiveSha256": "12259c52574864bc0f50443a1c697916a1fda9147b53a36568e83409080e09b9",
+  "linkStoreSha256": "21a16dd0b7428afb2d313dd53eb791207ce07428ed8ceecabe9f08882e1e236f",
+  "nativeExactFinal": "IMAGE_RESULT=./generated-img006.png",
+  "nativeToolUses": 0,
+  "dshChunkOrder": ["text", "image", "finish"],
+  "dshAssistantContentTypes": ["text", "image"],
+  "promotedAttachment": {
+    "attachmentId": "sha256:0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+    "mediaType": "image/png",
+    "width": 320,
+    "height": 200,
+    "bytes": 620,
+    "name": "generated-img006.png",
+    "storedObjectSha256": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+    "objectWasAbsentBefore": true
+  },
+  "uiVisibleImageControls": 1,
+  "turnEnd": "completed",
+  "screenshotSha256": "d286fe170d49324563f9db86d63ee0e0f6a359b9002fd90f2b2ad21d26379373"
+}

@@ -1,0 +1,40 @@
+{
+  "requirement": "CLD-EXT-018",
+  "result": "pass",
+  "dshSessionId": "session-7d6d77a5-8304-424e-a05b-5c76f12a0d52",
+  "claudeSessionId": "564cadd6-6186-4ef6-9996-683bcbcca216",
+  "bridge": {
+    "sourceSha256": "7ca6dda7dbb765d93d5a0dc686bcacbb187ae62cb53983401b03736835f51a85",
+    "serverName": "dsh",
+    "internalAllowedTool": "mcp__dsh__CronList",
+    "publicAdvertisedName": "CronList",
+    "initialAdvertisementOccurrences": 1
+  },
+  "execution": {
+    "toolSearchCalls": 1,
+    "toolSearchInput": {"query": "select:CronList", "max_results": 5},
+    "toolReference": "CronList",
+    "cronListCalls": 1,
+    "cronListInput": {},
+    "otherToolCalls": 0,
+    "approvalRequests": 0,
+    "nativeResult": "No scheduled jobs.",
+    "dshActivityStatus": "completed",
+    "dshResult": "No scheduled jobs.",
+    "dshExecutionDurationMs": 10,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT018_DSH_BRIDGE_OK_1818",
+    "nativeTranscriptSha256": "8c979326dae91882d67f44165c073436c20e6c770f8e4246c5d38d7f573a8eda",
+    "dshArchiveSha256": "97ba8126958c46fea06c5ed0b75e59041a7533604fa9c61827401e276d528ee2",
+    "screenshotSha256": "0e347eb3d0484283fca095be3fc803df91b3c69957e3c5cbc665b2c46bbbe271"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "fixtureExtensionConfigurationPresent": false,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "productSourceUnchanged": true
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "requirement": "CLD-EXT-017",
+  "result": "pass",
+  "sources": [
+    {
+      "marketplace": "relay-cld-validation-marketplace",
+      "plugin": "relay-cld-installed-fixture",
+      "version": "1.0.4",
+      "marketplaceSha256": "606b36a3b84dfb11391a0aae45550ca0250079f84a5a353fc2da2e933a66130d",
+      "manifestSha256": "dcc8f6fd78d27a883b001b89dc5a81092af91743c7e5e17c1664a06e594aa1a0",
+      "skillSha256": "1dd9cbf26aefa8599439b3c34375c5e4fa9ac3a40d7e12dc2155aeb63df2b5f1"
+    },
+    {
+      "marketplace": "relay-cld-validation-marketplace-second",
+      "plugin": "relay-cld-second-fixture",
+      "version": "1.0.0",
+      "marketplaceSha256": "8d6b770d910652515451c45c1bb087b443958fd87bc276106cd5a30e90ec0e9a",
+      "manifestSha256": "4d01834fdcb11f280775b4771990454644db9241c4339d4a33e5c672b9451f71",
+      "skillSha256": "7efa7e70c63532a9a988c593878a5bf15de104e6e956e017f384146741f6dc88"
+    }
+  ],
+  "cli": {
+    "installedPluginCount": 2,
+    "bothEnabled": true,
+    "bothUserScope": true
+  },
+  "sdk": {
+    "dshSessionId": "session-42b3a82b-af95-409b-addc-43b2be27de0a",
+    "claudeSessionId": "9029b457-f4b8-41b7-ac38-949e66fcfdbc",
+    "initialSkillCount": 16,
+    "firstName": "relay-cld-installed-fixture:installed-discovery",
+    "secondName": "relay-cld-second-fixture:installed-discovery",
+    "firstNameOccurrences": 1,
+    "secondNameOccurrences": 1,
+    "unnamespacedInstalledDiscoveryOccurrences": 0,
+    "skillCalls": [
+      {"id": "toolu_017CPiFy2PZG1MSAhLL3VDxP", "skill": "relay-cld-installed-fixture:installed-discovery"},
+      {"id": "toolu_01XTDiUyPyd7YfdK5p2W3c5n", "skill": "relay-cld-second-fixture:installed-discovery"}
+    ],
+    "otherToolCalls": 0,
+    "firstMetaBodyAndBaseMatch": true,
+    "secondMetaBodyAndBaseMatch": true,
+    "metaSourceToolIdsMatchCalls": true,
+    "finalAttributionPlugin": "relay-cld-second-fixture",
+    "finalAttributionSkill": "relay-cld-second-fixture:installed-discovery",
+    "approvalRequests": 0,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT011_INSTALLED_PLUGIN_1111|CLD_EXT017_SECOND_PLUGIN_1717",
+    "nativeTranscriptSha256": "380443e6d7dd2a4a23dbbf421aca746bbbe4d7a0e668e4dcfce48923dd9a602e",
+    "dshArchiveSha256": "f306e56e75c717a962f615bf6e31ccd923b82f0d0be673ad773a3acac446d77e",
+    "screenshotSha256": "a33767b17e69fe45964d79663f5946572e48ec56e51b9909ba753bb52ca52a2f"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "firstCachePresent": false,
+    "secondCachePresent": false,
+    "installedRegistryPresent": false,
+    "settingsByteIdenticalToBaseline": true,
+    "knownMarketplacesByteIdenticalToBaseline": true,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "fixtureSourcesUnchanged": true
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "requirement": "CLD-EXT-002",
+  "result": "pass",
+  "fixture": {
+    "name": "relay-cld-project-skill",
+    "path": "fixtures/tool-workspace/.claude/skills/relay-cld-project-skill/SKILL.md",
+    "sha256": "fc5e494a3473dc6c4bef3b46721359e6444f7811b2384efc351eebcc92b43f28"
+  },
+  "projectTrial": {
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "businessSkillCount": 14,
+    "businessHasUserSkill": true,
+    "businessHasProjectSkill": true,
+    "businessHasExactProjectDescription": true,
+    "businessToolSequence": [],
+    "finalText": "CLD_EXT002_PROJECT_PROBE_0202",
+    "dshSessionId": "session-27f474a3-99b3-468c-8a23-0eb73a660e63",
+    "claudeBusinessSessionId": "f7161321-8dc1-4015-8c56-1cb7f86f220e",
+    "claudeAuxiliarySessionId": "8a4a75a3-15e2-4fb9-a8a8-4087e91f3e1b"
+  },
+  "siblingTrial": {
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/plain-text-workspace",
+    "businessSkillCount": 13,
+    "businessHasUserSkill": true,
+    "businessHasProjectSkill": false,
+    "businessHasProjectDescription": false,
+    "businessToolSequence": [],
+    "finalText": "CLD_EXT002_SIBLING_PROBE_0202",
+    "dshSessionId": "session-1ad4287e-57af-4992-84b6-d8dcabaa3f11",
+    "claudeBusinessSessionId": "f5375df7-2fb8-48c9-97f9-97f80c8a0960",
+    "claudeAuxiliarySessionId": "8e0015c0-b35e-4a2e-aec9-90969fe42eb5"
+  },
+  "state": {
+    "toolWorkspaceRestored": true,
+    "workspaceAndNestedGitStateUnchangedExceptIntentionalSkillFixture": true,
+    "newAttachmentObjects": []
+  },
+  "hashes": {
+    "projectBusinessNative": "09a7869dbd82c07c8fe3341d08fd63a7dbee6ea72cd320c671aff96e93d34d13",
+    "projectAuxiliaryNative": "92205cd06b5a297c76beec4c57c04b1fe823d581efafcb130ea9882c2f36363f",
+    "projectDshArchive": "3e774f87177db3af33807be35566121b7b9c549ed43bb51ff38d1cf575caf3fa",
+    "siblingBusinessNative": "453a662a2c607c95d70f9fda1199fcf3279fc729157d3b7c8446edc61494b9cc",
+    "siblingAuxiliaryNative": "7e82dd75c9c5b025f7a1aaeefcac344e7171a18327664c09320824f3dbeeaf77",
+    "siblingDshArchive": "3dd54a04b1d05acb527a4b661a609f59cc90d6dde718ecc44164baa850a0413b",
+    "linkStore": "8f00b9339432ad8294e2d3d23fb1c2179f8ca281b9989e08d389dfe7f0909c0c",
+    "projectScreenshot": "4acd2301a4cc3636993879e41db977cc8588316a9476fc8ff13688940016effa",
+    "siblingScreenshot": "08d98a74e150c7fa96be2121c3ecd7d4b2042785f95dd840a83d16acf0f934df"
+  }
+}

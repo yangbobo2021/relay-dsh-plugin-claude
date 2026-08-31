@@ -1,0 +1,9 @@
+{
+  "requirement": "CLD-INS-001",
+  "result": "pass",
+  "opaquePrompt": "CLD_INS001_QUERY — state the validation response. Use no tools.",
+  "userSource": { "sessionId": "25aa7f85-3bec-42f0-b6b2-af44ff0857a8", "sources": ["user"], "toolCalls": 0, "finalText": "CLD_INS001_USER_RULE_10001", "transcriptSha256": "cd30126b9da61bf5ebbfafe5c42acdcb380b9341b34e774bc0c865c14aa579b1", "bytes": 12312 },
+  "noSourceControl": { "sessionId": "7dc8ae79-ed0e-421b-aa77-d7f8d5473810", "sources": [], "toolCalls": 0, "expectedMarkerOccurrences": 0, "finalDiffered": true, "transcriptSha256": "58d21e22a2ea1d42920840495faa0728279a2fc6782c0fc593612db42b565a74", "bytes": 15796 },
+  "artifacts": { "instructionSha256": "4328b7b6ae8460e92fc904171a2b32026edee685488664e5a3a10f4f3d5dda82", "probeSha256": "98c948d9366729137bfb0d608e388b34fa0c57713c7dfafe48bdbe517ebd5fdd" },
+  "postconditions": { "userInstructionPresent": false, "diagnostics": 0, "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731" }
+}

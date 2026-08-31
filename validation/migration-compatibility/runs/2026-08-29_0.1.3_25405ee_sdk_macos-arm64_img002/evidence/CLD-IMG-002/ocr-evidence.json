@@ -1,0 +1,60 @@
+{
+  "diagnosticTrials": [
+    {
+      "dshSessionId": "session-fe0d8d73-9d3d-43e5-a927-c315b60cc814",
+      "businessClaudeSessionId": "3e881797-c612-4b4b-85e8-8d7cacf0302f",
+      "prompt": "third line with explicit NO_IMAGE fallback",
+      "nativeImageSha256": "f0bb1781faae53e27af84e64feb4e87212f99c4d8e0cdf46ece6b11b65bee3f4",
+      "observedFinal": "NO_IMAGE"
+    },
+    {
+      "dshSessionId": "session-216c949f-dd7f-4875-9bdc-d28da7a169fc",
+      "businessClaudeSessionId": "6c13c66c-a311-43d7-b72e-0da3a6479c17",
+      "prompt": "identical independent repeat",
+      "observedFinal": "NO_IMAGE"
+    },
+    {
+      "dshSessionId": "session-384472ad-d081-45dd-9940-523c4317f19a",
+      "businessClaudeSessionId": "d49edf8d-e8f9-4692-8158-2cee5d0f4b5c",
+      "prompt": "all visible lines without fallback",
+      "observedFinal": "OCR VALIDATION|READ THIRD LINE|CLD-OCR-7Q9M-2026",
+      "reasoningBoundary": "Claude identified instruction-like image text as possible prompt injection before safely transcribing it"
+    }
+  ],
+  "formalNeutralFixture": {
+    "sourceSha256": "62bc5afcae43accf17bbd41abf4fcd5e5efbeaa7844c3bf1fb0d76d3bdffde0d",
+    "pngSha256": "7650e5be8f2d0d6d68f07ec4747a3b895a4c9550012c1796e3b5ac55a53a61d5",
+    "format": "png",
+    "width": 900,
+    "height": 420,
+    "bytes": 25069,
+    "textLines": ["RELAY MIGRATION", "SAMPLE CARD", "CLD-OCR-7Q9M-2026"]
+  },
+  "formalTrial": {
+    "dshSessionId": "session-19fd2693-ebe5-47f9-b582-82234ecd6c78",
+    "businessClaudeSessionId": "83a1114a-a2bc-47be-ad2e-e3512bb57279",
+    "auxiliaryClaudeSessionId": "79734b77-f18e-43f8-9042-706c34904502",
+    "businessNativeSha256": "085e8851ea02fdcb833782ce144d876af74e69ca055774a4cc77bcc3ac19d9bd",
+    "auxiliaryNativeSha256": "39529a29cc29049e70c6d6099850b0adbbcb542244ad2272aec961588dc0f25d",
+    "dshArchiveSha256": "459bdc5334b45f5fab4043dd990c840c70fc5c62f0481ee6822d727d1711e53b",
+    "linkStoreSha256": "4b1d7a5a3dbe84df52ec2baa588b45c039fcc5e90c67369089c42417bd971484",
+    "nativeUserContentTypes": ["image", "text"],
+    "nativeImage": {
+      "mediaType": "image/png",
+      "decodedBytes": 25069,
+      "decodedSha256": "7650e5be8f2d0d6d68f07ec4747a3b895a4c9550012c1796e3b5ac55a53a61d5"
+    },
+    "dshAttachmentId": "sha256:7650e5be8f2d0d6d68f07ec4747a3b895a4c9550012c1796e3b5ac55a53a61d5",
+    "dshStoredObjectSha256": "7650e5be8f2d0d6d68f07ec4747a3b895a4c9550012c1796e3b5ac55a53a61d5",
+    "expectedAndObservedFinal": "RELAY MIGRATION|SAMPLE CARD|CLD-OCR-7Q9M-2026",
+    "dshUserImageBlocks": 1,
+    "dshAssistantMessages": 1,
+    "dshToolEvents": 0,
+    "nativeToolBlocks": 0,
+    "turnEnd": "completed"
+  },
+  "screenshots": {
+    "formalComposerSha256": "ef7f6781cfb4366c5a6e0dfb2bc9c3f67c5b9d81c16db21990739099dcdab960",
+    "formalCompletedSha256": "c8ce71af9cb0b6eab3fbef3d57008359305b3744c0b83d5a8942a95a8733a77d"
+  }
+}

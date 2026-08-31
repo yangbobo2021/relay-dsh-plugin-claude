@@ -1,0 +1,17 @@
+{
+  "validationResult": "pass-explicit-gap",
+  "supportStatus": "unsupported",
+  "sourceNative": {"sessionId": "fc77673d-d4ec-415c-8631-3bce5da7ef7a", "exists": true, "bytes": 19848, "sha256": "aad11285f7fb6f81a21b46adf4aced941bd4d8cf5c17a4c5af9a1d4a62866ac4", "liveMappingCount": 0},
+  "liveUi": {"newSessionIdTextboxCount": 0, "importOrResumeButtonCount": 0},
+  "api": {
+    "adapterMethods": ["constructor", "providerInfo", "listModels", "resolveModel", "attachAgent", "servesAgent", "detachAgent", "configuration", "configure", "ensureSession", "createOrResumeSession", "persistLink", "sessionFor", "dshSessionForClaudeSession", "stream", "streamAuxiliary", "projectActivity", "completeItem", "appendActivity"],
+    "linkStoreMethods": ["constructor", "entries", "set", "delete", "persist"],
+    "publicImportOrBindMethod": false,
+    "dshCapabilityOnlyProvider": true,
+    "backendExecutionExposesInternalResume": true,
+    "adapterResumeRequiresExistingLink": true,
+    "unlinkedPathCreatesNewSession": true,
+    "manualLinkStoreSetIsUnsupportedWorkaround": true
+  },
+  "hashes": {"liveLinkSha256": "8504f5c24663bef632e068c5310dc8600331f06e68c16ee7933ab3b68d7a63c0", "adapterSha256": "f3fd34b08a0b2a4b91fe78dbdf5363dceaf9afc4ffd8efc563eeb988b8bcbbd4", "dshPluginSha256": "02abc0971118e6054b5e0849f5d1d42438772445e395884c7ee38cea6998bc7e", "executionPluginSha256": "54525429e8f1c1dfead87f19b7c411d5fe33051b862af8d6ae0057749ce0c6a6", "linkStoreSha256": "a2c369db08ece5d15776a5022725a64973e20945a232b068cf6640b509a2b930", "probeSha256": "6bb3a05b8f37c3d4ba90d93418a70ffe1e0628f7ac20b926fede09b63d4e6741"}
+}

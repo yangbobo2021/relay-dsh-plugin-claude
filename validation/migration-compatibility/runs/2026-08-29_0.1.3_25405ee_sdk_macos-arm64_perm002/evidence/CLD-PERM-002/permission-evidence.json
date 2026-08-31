@@ -1,0 +1,26 @@
+{
+  "workspace": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace/",
+  "outsidePath": "/private/tmp/relay-cld-perm002-outside.txt",
+  "outsideContentSha256": "e219fb7826cdd598f1a856c8212113a90888d3906642fddf8af2dba9aed8ed8a",
+  "sdkPermissionModes": ["default", "default"],
+  "deny": {
+    "sessionId": "4730e864-e6b5-4f52-aa7f-d08bd80601df",
+    "decisionReason": "Path is outside allowed working directories",
+    "decision": "decline",
+    "resultStatus": "failed",
+    "resultOutput": "CLD-PERM-002 deliberate outside deny",
+    "outsideMarkerInResultOrFinal": false,
+    "nativeTranscriptSha256": "4ab48f17382752168a22b4640b44525a62b3d6b7f63986efa74af8e78caf598f"
+  },
+  "allow": {
+    "sessionId": "86e7047a-789d-4633-86b4-ebd8f651f100",
+    "decisionReason": "Path is outside allowed working directories",
+    "decision": "accept",
+    "resultStatus": "completed",
+    "resultOutput": "1\tCLD_PERM002_OUTSIDE_SECRET_22002\n2\t",
+    "nativeTranscriptSha256": "a75cb3e67087feaa7e0e692c2bde5c9a44a57a2a85a406910bb6e0d89f4d9716"
+  },
+  "outsideUnchanged": true,
+  "outsideRemoved": true,
+  "probeSha256": "638104589b5a17fb24a0728c18a87c8d8f6280547e1e4cf2ea7d30b344f80028"
+}

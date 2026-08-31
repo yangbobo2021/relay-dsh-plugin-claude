@@ -1,0 +1,78 @@
+{
+  "requirement": "CLD-EXT-007",
+  "result": "pass",
+  "fixture": {
+    "serverName": "relay_cld_project_stdio",
+    "toolName": "echo_project_scope",
+    "serverSha256BeforeAndAfter": "0d80e31f08b064ec3f81b6fa2ca3c6138f44d76538e2f8a614670df249c70530",
+    "temporaryProjectConfigSha256": "8651b0b512026f5c8ddec3dcce69ef91b963ccd2b969c0fdb6c54dbf1b4cc1d6",
+    "input": "CLD_EXT007_PROJECT_STDIO_INPUT_0707",
+    "output": "CLD_EXT007_PROJECT_STDIO_OUTPUT_0707:CLD_EXT007_PROJECT_STDIO_INPUT_0707",
+    "rootUserFixtureConfigPresent": false,
+    "siblingProjectConfigPresent": false
+  },
+  "serverLog": {
+    "sha256": "65a9ff1d8a6e597088eb2bfe931fd7d70ba7a6391a779076f44dc277a4fd9614",
+    "processStartsAfterPositive": 2,
+    "transportConnectionsAfterPositive": 2,
+    "businessCallsAfterPositive": 1,
+    "uniquePids": [79082, 79088],
+    "callPid": 79088,
+    "logLinesBeforeAndAfterSibling": 5,
+    "processOrCallDeltaDuringSibling": 0
+  },
+  "positive": {
+    "deferredToolsContainsProjectTool": true,
+    "pendingMcpServers": [],
+    "needsAuthMcpServers": [],
+    "toolSearchMatches": ["mcp__relay_cld_project_stdio__echo_project_scope"],
+    "businessToolCalls": 1,
+    "businessInputAndResultExact": true,
+    "approvalOutcome": "allowed-once",
+    "finalTextExact": true,
+    "finalAttributionMcpServer": "relay_cld_project_stdio",
+    "finalAttributionMcpTool": "echo_project_scope",
+    "turnReason": "completed"
+  },
+  "sibling": {
+    "deferredToolsContainsProjectTool": false,
+    "toolSearchQuery": "select:mcp__relay_cld_project_stdio__echo_project_scope",
+    "toolSearchMatches": [],
+    "toolSearchText": "No matching deferred tools found",
+    "businessToolCalls": 0,
+    "approvals": 0,
+    "finalText": "CLD_EXT007_SIBLING_ABSENT_0707",
+    "turnReason": "completed"
+  },
+  "cleanup": {
+    "temporaryProjectConfigPresentAfterCleanup": false,
+    "fixtureProcessesAfterCleanup": 0,
+    "canonicalServerUnchanged": true
+  },
+  "state": {
+    "workspaceAndNestedGitStateUnchangedApartFromTemporaryConfig": true,
+    "nestedGitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "nestedGitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "attachmentObjectCountBeforeAndAfter": 11,
+    "emptySourceWorkspaceDshShellCreatedBySwitch": "session-98789725-9d8f-4f29-adfe-2e8c51442f72"
+  },
+  "sessions": {
+    "positiveDsh": "session-d55c16c9-0738-4e69-97a8-c6855bd89e10",
+    "positiveBusiness": "ddc6b19e-85c3-49ec-b746-1341882f6415",
+    "positiveAuxiliary": "13741fe0-7f32-4236-8660-eec022ffd520",
+    "siblingDsh": "session-bf29bd1f-3f69-46ae-8593-acb67da7da4e",
+    "siblingBusiness": "f2f7f5e2-cc5f-49fc-aea7-01db379b17cf",
+    "siblingAuxiliary": "9ba98b7b-103d-46a5-90d7-d2266dd3d7b2"
+  },
+  "hashes": {
+    "positiveBusinessNative": "f235f6cf1536c48dc7c86f126375d287d3ea07def04d2de3b3f12b0f0679f59e",
+    "positiveAuxiliaryNative": "bf47a9d63ae0f301f87830e429a15629652af4a9fbac855a8b860930afca7bb8",
+    "positiveDshArchive": "9a4ce9344b0b914de7ec30f0f017b3838672a3fce8d8c772790e2948360b121f",
+    "siblingBusinessNative": "554d54018b383ed2322580469c8bcdb30c55073920c8b4952bb77e393640c622",
+    "siblingAuxiliaryNative": "e43baf65f586bf2991904f62312d90ba327602af1f9a74420a2f94cf5cb1a642",
+    "siblingDshArchive": "15f9054bfd075838426e1c01eee5c70ed137ef9806a43e05be7b0b92d13b4fb2",
+    "linkStore": "2094ec251b1be5f1f647e9f4960ed5d55c49f1724e63cb2944269101640a0401",
+    "positiveScreenshot": "8da296ebc5c02b701c23e8f82da0a8b7cf6399b2e11da72be7a5c4160d49e82d",
+    "siblingScreenshot": "f253506c6c57b484d39a82dbce5e1f7367f0edb6800eb46ded6a4c1296bed1f1"
+  }
+}

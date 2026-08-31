@@ -1,0 +1,13 @@
+{
+  "result": "pass",
+  "dshSessionId": "session-f9e1e017-2a77-4632-ad0a-8557b316e7a3",
+  "claudeSessionIdBeforeAfter": "3954adc5-53db-459d-bf12-be6e84063020",
+  "browserReload": {"firstPromptRestored": true, "firstFinalRestored": true, "preset": "Claude Code", "model": "Claude Sonnet", "effort": "Medium"},
+  "followUpContainedOldToken": false,
+  "secondFinal": "PREVIOUS=CLD_SES001_NEW_BINDING_OK_41001; CURRENT=CLD_SES002_RELOAD_OK_42002",
+  "toolCount": 0,
+  "visibleTurnCount": 2,
+  "link": {"countBeforeAfter": 70, "sha256BeforeAfter": "8504f5c24663bef632e068c5310dc8600331f06e68c16ee7933ab3b68d7a63c0"},
+  "native": {"bytesBefore": 12589, "bytesAfter": 15473, "sha256Before": "1ca9a61e2cddcd5b07140eb8fd24ccb20a6139b83f3c89e5b39440d17a8e2807", "sha256After": "ff29f5e11053a0b5938d99767909fe2bc5e7b44d76bc67755d9f4d73f9654a89", "userRecordsAfter": 2, "assistantRecordsAfter": 2},
+  "dshArchive": {"bytesBefore": 3933, "bytesAfter": 5473, "sha256Before": "74feec59d71fc7fea752d6397f3e379e733b0b38b6bdf7455c72dd2d03b55943", "sha256After": "1767825c6db0ab71236979a3440472e99eeb2f99feadf2dbfbb6683015b025b6", "turnStartsAfter": 2, "turnEndsAfter": 2}
+}

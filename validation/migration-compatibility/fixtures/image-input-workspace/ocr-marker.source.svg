@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
+  <rect width="900" height="420" fill="#ffffff"/>
+  <rect x="24" y="24" width="852" height="372" rx="24" fill="none" stroke="#111111" stroke-width="8"/>
+  <text x="450" y="125" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700" fill="#111111">RELAY MIGRATION</text>
+  <text x="450" y="225" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="48" fill="#111111">SAMPLE CARD</text>
+  <text x="450" y="335" text-anchor="middle" font-family="Courier New, monospace" font-size="64" font-weight="700" letter-spacing="3" fill="#111111">CLD-OCR-7Q9M-2026</text>
+</svg>

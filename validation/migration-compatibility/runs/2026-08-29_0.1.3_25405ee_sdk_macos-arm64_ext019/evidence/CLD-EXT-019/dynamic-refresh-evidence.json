@@ -1,0 +1,63 @@
+{
+  "requirement": "CLD-EXT-019",
+  "result": "pass",
+  "validSessionId": "49c3095e-02e7-4fc6-b0bb-b2f6b5c9b3c1",
+  "sameSessionAcrossQueries": true,
+  "queries": [
+    {
+      "turn": 1,
+      "resume": false,
+      "registration": { "server": "dsh", "alwaysLoad": true, "tools": ["refresh_alpha"] },
+      "allowedTools": ["mcp__dsh__refresh_alpha"],
+      "toolSequence": ["ToolSearch", "mcp__dsh__refresh_alpha"],
+      "toolSearchResult": "No matching deferred tools found",
+      "handlerCall": { "name": "refresh_alpha", "arguments": { "token": "A-1919" } },
+      "handlerResult": "ALPHA_RESULT_1919",
+      "status": "completed",
+      "finalText": "CLD_EXT019_TURN1_OK_1919"
+    },
+    {
+      "turn": 2,
+      "resume": true,
+      "registration": { "server": "dsh", "alwaysLoad": true, "tools": ["refresh_beta"] },
+      "allowedTools": ["mcp__dsh__refresh_beta"],
+      "toolSequence": ["ToolSearch", "mcp__dsh__refresh_beta", "ToolSearch"],
+      "toolSearchResults": ["No matching deferred tools found", "No matching deferred tools found"],
+      "handlerCall": { "name": "refresh_beta", "arguments": { "token": "B-1919" } },
+      "handlerResult": "BETA_RESULT_1919",
+      "staleAlphaCalls": 0,
+      "status": "completed",
+      "finalText": "CLD_EXT019_TURN2_REFRESH_OK_1919",
+      "nativeDiagnostic": "cache_miss_reason: tools_changed"
+    }
+  ],
+  "counts": {
+    "registrations": 2,
+    "queries": 2,
+    "handlerCalls": 2,
+    "approvalRequests": 0,
+    "diagnosticsFromRelayClient": 0
+  },
+  "excludedAttempt": {
+    "sessionId": "4d24eff5-fe34-4021-a605-7006d092e169",
+    "classification": "invalid-pre-model-environment-attempt",
+    "reason": "SDK auto-resolved binary failed to launch; both turns failed before any tool or model event"
+  },
+  "artifacts": {
+    "nativeTranscript": "/Users/boboyang/.claude/projects/-Users-boboyang-work-Relay-integrations-claude-validation-migration-compatibility-fixtures-tool-workspace/49c3095e-02e7-4fc6-b0bb-b2f6b5c9b3c1.jsonl",
+    "nativeTranscriptSha256": "e2a7e933a3b3b0d36cf8b0b41fe1020f7ac89951917e854797bde197d75b0946",
+    "nativeTranscriptBytes": 42324,
+    "probeSha256": "11ba4b0f786a598f371ad08c583293b460fdfcc35c77d86d07ff3d3b6a210732",
+    "sdkClientSha256": "7ca6dda7dbb765d93d5a0dc686bcacbb187ae62cb53983401b03736835f51a85",
+    "adapterSha256": "f3fd34b08a0b2a4b91fe78dbdf5363dceaf9afc4ffd8efc563eeb988b8bcbbd4"
+  },
+  "postconditions": {
+    "dshObjectCount": 11,
+    "nestedGitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "nestedGitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "nestedGitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731",
+    "knownMarketplacesSha256": "cc211679063d1097946ab7af4ebbbb0fa341e2c8305a6e0012e19a269c7e49e9",
+    "installedPluginFiles": []
+  }
+}

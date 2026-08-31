@@ -1,0 +1,48 @@
+{
+  "requirement": "CLD-TOOL-006",
+  "result": "pass",
+  "targets": [
+    {
+      "path": "multi/tool006-a.txt",
+      "beforeSha256": "96abf0caffab0f9b230cd9d5c7436931d6e029198a827f72909eb209682d8597",
+      "afterSha256": "05bc2c6fb6dda2a87777cb5df26ee2bd37dc24cbd22fb6fbb5516c31909a9be9",
+      "old": "value=A_before",
+      "new": "value=A_after",
+      "exact": true
+    },
+    {
+      "path": "multi/tool006-b.txt",
+      "beforeSha256": "6c6ae6ba913d869670da1c11aac5fb81c2fb472186afbb55993b791f5292f3a2",
+      "afterSha256": "e7cb0eaaa3171d1c0fd633d94378d907f0b64fa3fbf995e8fa0cddf41e187759",
+      "old": "value=B_before",
+      "new": "value=B_after",
+      "exact": true
+    }
+  ],
+  "tools": ["Read", "Read", "Edit", "Edit"],
+  "alternateMutationTools": [],
+  "approvals": {"asked": 2, "allowedOnce": 2, "targetsInOrder": ["tool006-a.txt", "tool006-b.txt"]},
+  "workspace": {
+    "filesBefore": 7,
+    "filesAfter": 7,
+    "newFiles": [],
+    "missingFiles": [],
+    "unrelatedFiles": 5,
+    "unrelatedHashesUnchanged": true
+  },
+  "session": {
+    "dshSessionId": "session-50b5d387-e491-4cd1-b32b-11142073f50d",
+    "claudeBusinessSessionId": "eaece75f-2945-4404-98e4-3cb37b61f0cc",
+    "claudeAuxiliarySessionId": "9c47e78a-a8f2-4cab-9841-173c5c5455db",
+    "finalText": "CLD_TOOL006_MULTI_EDITED_6006",
+    "turnReason": "completed",
+    "newAttachmentObjects": []
+  },
+  "hashes": {
+    "businessNative": "459fb17cf21eaa0867ad68a131866409c3bd4fc931342dc62ab1d1f14174a339",
+    "auxiliaryNative": "1ad91e246f812e93e1d12b8178de68c93aa681adb7e888e65faa9bbe20489dbf",
+    "dshArchive": "f577dc037915b38910b7f38ca30b7b64f0c997472879b392cee7bd0860b42bf7",
+    "linkStore": "edfa10798b4bb95eaf3d3d6b224107d158111688414b891294a9abf10668c100",
+    "screenshot": "601723dd084a082f997adf2bbf5b0986fc5da79e1da87c2d0f8a283e2c359860"
+  }
+}

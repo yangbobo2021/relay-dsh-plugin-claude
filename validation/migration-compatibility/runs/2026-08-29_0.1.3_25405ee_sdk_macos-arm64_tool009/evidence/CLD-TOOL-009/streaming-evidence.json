@@ -1,0 +1,61 @@
+{
+  "requirement": "CLD-TOOL-009",
+  "result": "fail",
+  "command": "printf 'CLD_TOOL009_FIRST_9009\\n'; sleep 15; printf 'CLD_TOOL009_LAST_9009\\n'",
+  "liveSampling": {
+    "sampleCount": 86,
+    "toolDetailOpenedMs": 5692,
+    "firstSampleMs": 5352,
+    "lastNoOutputSampleMs": 20764,
+    "firstMarkerVisibleMs": 20961,
+    "lastMarkerVisibleMs": 20961,
+    "finalVisibleMs": 22570,
+    "firstOnlyStateObserved": false,
+    "runningWithoutOutputScreenshot": "running-no-output.png",
+    "finalScreenshot": "final.png",
+    "boundarySamples": [
+      {"ms": 20367, "first": false, "last": false, "final": false, "running": true},
+      {"ms": 20566, "first": false, "last": false, "final": false, "running": true},
+      {"ms": 20764, "first": false, "last": false, "final": false, "running": true},
+      {"ms": 20961, "first": true, "last": true, "final": false, "running": true},
+      {"ms": 21164, "first": true, "last": true, "final": false, "running": true},
+      {"ms": 22570, "first": true, "last": true, "final": true, "running": false}
+    ]
+  },
+  "native": {
+    "toolSequence": ["Bash"],
+    "toolContent": "CLD_TOOL009_FIRST_9009\nCLD_TOOL009_LAST_9009",
+    "structuredStdout": "CLD_TOOL009_FIRST_9009\nCLD_TOOL009_LAST_9009",
+    "structuredStderr": "",
+    "interrupted": false,
+    "isError": false,
+    "finalText": "CLD_TOOL009_DONE_9009"
+  },
+  "dsh": {
+    "activityStartedAt": 1787997099173,
+    "activityCompletedAt": 1787997114673,
+    "toolDurationMs": 15500,
+    "eventsBetweenStartAndCompletion": ["session/title"],
+    "intermediateOutputEvents": 0,
+    "completedOutput": "CLD_TOOL009_FIRST_9009\nCLD_TOOL009_LAST_9009",
+    "turnReason": "completed"
+  },
+  "state": {
+    "workspaceFileCountBeforeAndAfter": 7,
+    "workspaceHashesUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-1be12590-0e72-43c7-a7dd-1e9b8d912275",
+    "claudeBusinessSessionId": "3f9c4521-3883-4256-b0b0-26efa9bb6a4c",
+    "claudeAuxiliarySessionId": "ef393751-0501-4fb7-88f0-fd3a07f7a881"
+  },
+  "hashes": {
+    "businessNative": "78864b7233c47a8b7c22b224bfa5efda82cd9cea278641b78f57701332eb7c23",
+    "auxiliaryNative": "dd2476aa550f6dfc4b2e51950d8fafa964f5568ffc1ab74019d482edf552e2c6",
+    "dshArchive": "515a09c1bfa98356a3edebfd9e8c2d06cb5f38f4db9353e25784fa6aa04faad5",
+    "linkStore": "4d923e559a303b89b4a74c0986741d2f713fc2874762151be769591005115549",
+    "runningScreenshot": "56dad664e5747bd2b66ac53ed6e75ddce15683c75c5401291f956cae8bf63f45",
+    "finalScreenshot": "f46c4a8c1518cd453fcd680c3a91d1af9ba85ecda308efbae72ba774f3ef1742"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "requirement": "CLD-TOOL-012",
+  "result": "pass",
+  "command": "git -C git/tool012-repo status --short && git -C git/tool012-repo diff -- tracked.txt && git -C git/tool012-repo diff --cached -- staged.txt",
+  "fixture": {
+    "headBeforeAndAfter": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "statusBeforeAndAfter": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "indexEntriesBeforeAndAfter": [
+      "100644 f273747483f78d0f9c563328ddc7ce17b744173f 0 staged.txt",
+      "100644 d0d6095fcbe415208759ac2eba0d8e6ef4c8610e 0 tracked.txt"
+    ],
+    "workingDiffUnchanged": true,
+    "cachedDiffUnchanged": true,
+    "rawIndexSha256BeforeAndAfter": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "headRefSha256BeforeAndAfter": "7d69f7511b351e60c1d11b3d2bd1e8c31a908c00040002b339d1962037d6b071",
+    "workingFilesUnchanged": {
+      "tracked.txt": "33da7106073f04599ff02f3677b9f577a8ed7d9df1e180bd04829167ab021715",
+      "staged.txt": "359e2a4a88c0742c0f7ff41f165de2e7d1e6e354f6edb94798efd5f82d746c6b",
+      "untracked.txt": "82e5729764937f3a903b6ece464d72493245f8268afb041666b356af97003b21"
+    }
+  },
+  "native": {
+    "toolSequence": ["Bash"],
+    "isError": false,
+    "structuredStderr": "",
+    "interrupted": false,
+    "statusClassesPresent": true,
+    "workingDiffPresent": true,
+    "cachedDiffPresent": true,
+    "finalText": "GIT_RESULT=stagedM|workingM|untracked|workingDiff|cachedDiff"
+  },
+  "dsh": {
+    "activityStarted": 1,
+    "activityCompleted": 1,
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "turnReason": "completed"
+  },
+  "state": {
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-cdc05a20-518e-4bc5-b622-2f6b102369aa",
+    "claudeBusinessSessionId": "e46d5f54-1a5f-4360-a615-760ad52661e3",
+    "claudeAuxiliarySessionId": "3cf5a007-50b3-44a3-8c72-33448d320a02"
+  },
+  "hashes": {
+    "businessNative": "556154a748beb8bcc5b548a96f758b7bf24283e9915c623a9b7673b8531cf342",
+    "auxiliaryNative": "5bb7019e097d95d0a8f10d69997a7fe2ea4df97a807d38c1223a909253c71f7c",
+    "dshArchive": "89b3ffc7ef4be0afbca9eb0520882e7980b50edc8d1546e8aff9fa73c8e9ae93",
+    "linkStore": "c133ae3518f6ddd4eb870f4d60f63529d48c5cf2e651d4dbcf353bf5fd7a7754",
+    "screenshot": "1bbe04d8afade3be065cd0adf3eea237280217290b8afb509a3d4a01fada0468"
+  }
+}

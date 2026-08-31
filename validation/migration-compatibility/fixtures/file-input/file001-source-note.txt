@@ -1,0 +1,3 @@
+Relay Claude attachment fixture
+CLD_FILE001_MARKER_7319_KQVT
+End.

@@ -1,6 +1,6 @@
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type { ChatNodeOwnerProps } from '@deepseek-ai/dsh-client-ui-conversation/client'
+import type { ChatNodeOwnerProps } from '@deepseek-ai/dsh-client-ui-chat/client'
 import { installModelSelection, type ModelSelectionContext } from '../../model-selection.mjs'
 import { ClaudeSessionImportProvider, type ClaudeSessionImportInjected } from './ClaudeSessionImportAction.tsx'
 import { ClaudeActivityView } from './ClaudeActivityView.tsx'
@@ -24,11 +24,11 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
   }
 }
 
-export const inject = ['slots', 'theme', 'locale', 'remote', 'sessions', 'workspaces', 'connection', 'conversationEvents']
+export const inject = ['slots', 'theme', 'locale', 'remote', 'sessions', 'workspaces', 'connection', 'uiConversation', 'modelDirectories']
 
 export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
   ctx.effect(() => ctx.locale.register('relay.claude', { zh, en }), 'relay-claude: dictionaries')
-  ctx.conversationEvents.register(claudeActivityDefinition)
+  ctx.uiConversation.events.register(claudeActivityDefinition)
   ctx.slots.inject('conversation.chat.node', () => ctx.slots.register({
     name: 'conversation.chat.node', key: 'relay-claude-activity',
   }, ClaudeActivityView))

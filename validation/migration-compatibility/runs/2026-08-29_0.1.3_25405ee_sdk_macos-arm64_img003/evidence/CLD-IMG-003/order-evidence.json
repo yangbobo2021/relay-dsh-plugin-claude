@@ -1,0 +1,59 @@
+{
+  "fixtures": [
+    {
+      "position": 0,
+      "semantic": "red square",
+      "sourceSha256": "5ffb16d8974be6cae39217ad27e02f6cec1e40dead6d698b21b0fed5c2e87dde",
+      "pngSha256": "6e9d6c114c9857bbac8c54936325f1e686c0bea2124ea9d4b3d3ad9093f99bd4",
+      "bytes": 2017,
+      "width": 400,
+      "height": 400
+    },
+    {
+      "position": 1,
+      "semantic": "blue circle",
+      "sourceSha256": "c02200cf492ae3ee89b70831347d457d1b8b07de6ec993a45b6de142b28cd1a5",
+      "pngSha256": "deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4",
+      "bytes": 9227,
+      "width": 400,
+      "height": 400
+    }
+  ],
+  "dshSessionId": "session-3a177e1e-7da8-47f7-9f5a-5624f44d4403",
+  "businessClaudeSessionId": "772d7321-8f64-468e-b336-487f8f556a5d",
+  "auxiliaryClaudeSessionId": "83731d88-003d-4f12-acd8-4f520ad3cb7c",
+  "businessNativeSha256": "637ee4a0f3e01988ee387039c85fd594bbdcf2dc306604cd81c0e628bf8750d8",
+  "auxiliaryNativeSha256": "3e982104f846650647d96a5a90979c70201d37c1d049320aabf5bcdb74a07287",
+  "dshArchiveSha256": "1e9c350aa88b37478c9717326e69d6d41b230f4f8e0f8b2a29b241781ef31c05",
+  "linkStoreSha256": "17e82a492b42c75ae7e988ef2dadb1520bea47371a517a5c9a83a5d5e1c99c36",
+  "uiPreviewCount": 2,
+  "uiPreviewOrder": ["red square", "blue circle"],
+  "dshAttachments": [
+    {
+      "attachmentId": "sha256:6e9d6c114c9857bbac8c54936325f1e686c0bea2124ea9d4b3d3ad9093f99bd4",
+      "name": "clipboard.png",
+      "bytes": 2017,
+      "storedObjectSha256": "6e9d6c114c9857bbac8c54936325f1e686c0bea2124ea9d4b3d3ad9093f99bd4"
+    },
+    {
+      "attachmentId": "sha256:deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4",
+      "name": "clipboard.png",
+      "bytes": 9227,
+      "storedObjectSha256": "deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4"
+    }
+  ],
+  "nativeUserContentTypes": ["image", "image", "text"],
+  "nativeDecodedImages": [
+    {"position": 0, "bytes": 2017, "sha256": "6e9d6c114c9857bbac8c54936325f1e686c0bea2124ea9d4b3d3ad9093f99bd4"},
+    {"position": 1, "bytes": 9227, "sha256": "deeb52677127a930bf5f42eeaf4b3e45c0922aaaba8724363e4b6d146e0325e4"}
+  ],
+  "expectedAndObservedFinal": "FIRST=SQUARE,RED;SECOND=CIRCLE,BLUE",
+  "dshAssistantMessages": 1,
+  "dshToolEvents": 0,
+  "nativeToolBlocks": 0,
+  "turnEnd": "completed",
+  "screenshots": {
+    "composerSha256": "cde22884522fc9e941444e96ae25fe06fd2e36f3214de6b9320dbf5de9358ef4",
+    "completedSha256": "348fda66177f9a1daefc4af633a391c0124b8d3f04a409ff18bf9dfd4e2f726a"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "requirement": "CLD-FILE-002",
+  "result": "pass",
+  "capabilityClassification": "gracefully-unsupported",
+  "fixture": {
+    "path": "fixtures/file-input/file002-document.pdf",
+    "sha256": "d050177c867384bc45c2c25e04ca866f67d162b5cc32abedf6f16ac824a8e0d9",
+    "bytes": 1962,
+    "pages": 1,
+    "pageSizePoints": [612, 792],
+    "pdfVersion": "1.4",
+    "extractedMarkerCount": 1,
+    "visualReview": "pass",
+    "renderSha256": "d5a7a09ad2ca0432957409a44c63f2b510beecd20062d92a71406273f8531433"
+  },
+  "live": {
+    "mimeType": "application/pdf",
+    "hiddenFileInputs": 0,
+    "alertText": "仅支持 PNG、JPG、WebP、GIF 格式的图片",
+    "firstObservedMs": 95,
+    "lastObservedBeforeMs": 4086,
+    "draftAttachmentCreated": false,
+    "sendDisabledWithoutText": true,
+    "recoveryDraftVisible": true,
+    "sendEnabledWithRecoveryDraft": true,
+    "recoveryDraftSent": false,
+    "newClaudeNativeRecords": [],
+    "newAttachmentObjects": [],
+    "newDshSessions": [],
+    "linkStoreSha256BeforeAndAfter": "1e425a63a333e25ac320ab4115d80f9bad43576cb417a06f418f9217831bc139",
+    "fixtureMarkerNativeHits": 0,
+    "fixtureMarkerDshHits": 0,
+    "recoveryMarkerNativeHits": 0,
+    "recoveryMarkerDshHits": 0,
+    "hostOutput": ""
+  },
+  "screenshots": {
+    "explicitRejectionCleanSha256": "8215e92d35c8edf338c0fff26cc35e21094c4a36dea588da699d4c890c8e7020",
+    "postRejectionSha256": "f64c38848076cdc109b87076beaf4907154c7ca1b7002b7ebc7af5a9566921dd"
+  }
+}

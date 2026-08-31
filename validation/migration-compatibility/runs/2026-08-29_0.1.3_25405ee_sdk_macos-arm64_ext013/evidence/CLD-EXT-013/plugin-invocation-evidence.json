@@ -1,0 +1,58 @@
+{
+  "requirement": "CLD-EXT-013",
+  "result": "pass",
+  "fixture": {
+    "pluginId": "relay-cld-installed-fixture@relay-cld-validation-marketplace",
+    "version": "1.0.1",
+    "marketplaceSha256": "4ee37eb62b4b5b25fa277ac5d0df064970eb8158cb7a150e6347527971027e74",
+    "manifestSha256": "f224ff170398fe42203b15bc9a8aae878fb7a7203fa8fa6f8b9e610f754be95e",
+    "skillSha256": "1dd9cbf26aefa8599439b3c34375c5e4fa9ac3a40d7e12dc2155aeb63df2b5f1",
+    "commandSha256": "6a4b6bc7ee249062eabd29ac90e8c76f6dc8db27c9c346a0966f7c4b6cbc50ac",
+    "cliSkillInventory": ["installed-command", "installed-discovery"]
+  },
+  "skillBranch": {
+    "dshSessionId": "session-80d479d7-6798-4c87-9ae9-1a8494fa1e57",
+    "claudeSessionId": "2d5b2856-4ba8-4ae8-9741-02af45e884af",
+    "initialSkillCount": 15,
+    "bothFixtureNamesPresent": true,
+    "toolCalls": [{"name": "Skill", "input": {"skill": "relay-cld-installed-fixture:installed-discovery"}}],
+    "injectedBodyMarkerPresent": true,
+    "injectedBaseDirectoryPresent": true,
+    "attributionPlugin": "relay-cld-installed-fixture",
+    "attributionSkill": "relay-cld-installed-fixture:installed-discovery",
+    "approvalRequests": 0,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT011_INSTALLED_PLUGIN_1111",
+    "nativeTranscriptSha256": "d517225dc21506b54b8afa020830b40689868db648f0386c3e5ca4abf58293d1",
+    "dshArchiveSha256": "5b589090f821658840d6cbf91ce17a66eb4cb73578c47db6e67bb095ba5bdc09",
+    "screenshotSha256": "4fdf959b2e11b5b32415355f1728569bf5e2610bf797ee67a85fdecda85d3c9d"
+  },
+  "commandBranch": {
+    "dshSessionId": "session-47a22ca3-5eb6-41fc-8ac6-43a6fd7cec9b",
+    "claudeSessionId": "ff70939d-962e-4532-914d-a06c4f27dc70",
+    "initialSkillCount": 15,
+    "bothFixtureNamesPresent": true,
+    "toolCalls": [{"name": "Skill", "input": {"skill": "relay-cld-installed-fixture:installed-command"}}],
+    "injectedBodyMarkerPresent": true,
+    "attributionPlugin": "relay-cld-installed-fixture",
+    "attributionSkill": "relay-cld-installed-fixture:installed-command",
+    "approvalRequests": 0,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT013_PLUGIN_COMMAND_1313",
+    "nativeTranscriptSha256": "a4f859ca6ac4080a5db0789f658ae7b17a3a90e5afe0b25a1f31645086edcc76",
+    "dshArchiveSha256": "b090972ff037d7daf341c5470b1aabcfccef5767cd00529265ef8ec1e4226202",
+    "screenshotSha256": "9a447cc5fdf1527369597776578bc6b2ed20bfbef1e89f69d285ad8f357f225b"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "fixtureCachePresent": false,
+    "installedRegistryPresent": false,
+    "settingsByteIdenticalToBaseline": true,
+    "knownMarketplacesByteIdenticalToBaseline": true,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "fixtureSourceUnchanged": true
+  }
+}

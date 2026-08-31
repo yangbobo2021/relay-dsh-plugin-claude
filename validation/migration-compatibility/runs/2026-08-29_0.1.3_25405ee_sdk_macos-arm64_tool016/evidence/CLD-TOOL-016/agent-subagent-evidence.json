@@ -1,0 +1,55 @@
+{
+  "requirement": "CLD-TOOL-016",
+  "result": "pass",
+  "parent": {
+    "toolSequence": ["Agent"],
+    "description": "CLD_TOOL016 child",
+    "subagentType": "general-purpose",
+    "runInBackground": false,
+    "prompt": "Reply exactly CHILD_RESULT_1616 and do not call any tools.",
+    "agentResult": "CHILD_RESULT_1616",
+    "agentId": "a4a06f0a5ddfa328c",
+    "agentStatus": "completed",
+    "childDurationMs": 2214,
+    "childToolUseCount": 0,
+    "resolvedModel": "claude-sonnet-5",
+    "finalText": "PARENT_RESULT=CHILD_RESULT_1616",
+    "turnReason": "completed"
+  },
+  "child": {
+    "transcriptExists": true,
+    "agentId": "a4a06f0a5ddfa328c",
+    "agentType": "general-purpose",
+    "spawnDepth": 1,
+    "toolUseId": "toolu_019MKuaJoKUFdceKJyf4YMFp",
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "prompt": "Reply exactly CHILD_RESULT_1616 and do not call any tools.",
+    "toolUseCount": 0,
+    "text": "CHILD_RESULT_1616"
+  },
+  "dsh": {
+    "agentActivityStarted": 1,
+    "agentActivityCompleted": 1,
+    "agentOutputContainsIdAndMarker": true,
+    "turnReason": "completed"
+  },
+  "state": {
+    "parentBusinessBindingStable": true,
+    "workspaceAndNestedGitStateUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-493f257d-54ff-4e00-84c5-789d9d7b746f",
+    "claudeBusinessSessionId": "7f87b0eb-9594-48aa-87ac-bfe4c5e5f674",
+    "claudeAuxiliarySessionId": "130d1ee3-34ef-4085-ba2a-07496d5270c7"
+  },
+  "hashes": {
+    "parentNative": "7379ab50bb80f74f10b38be9322ca495349433f9daff405c39b3706a61f16417",
+    "auxiliaryNative": "76b14106a0a985eeb236a96e23e115cb189edb85d9dac2b29e07f78e5e3d85be",
+    "childTranscript": "9ca1b4f270b52286fcac11748301f48ac57e169a6594d0074dcaab3c983ece4d",
+    "childMetadata": "55d76a87d31ffc8e1a0708bd3193ca1f952532f233a90426f16283fc563bc53c",
+    "dshArchive": "fccc75d6ae292c2b432d7b742096b4cfb3307ed95e9cc747f805bfc3e93019d9",
+    "linkStore": "8ae348289a886c8ad3823f432b452a7a2d4a229ee5632e4dd162ff871b64e322",
+    "screenshot": "dbd4d1c99b87ead8f21322b30b97131b6080533d5e30f939bc13a0e509456d72"
+  }
+}

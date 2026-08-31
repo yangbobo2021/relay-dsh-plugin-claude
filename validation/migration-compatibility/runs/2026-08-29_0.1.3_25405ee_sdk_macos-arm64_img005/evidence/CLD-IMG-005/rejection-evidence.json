@@ -1,0 +1,47 @@
+{
+  "fixture": {
+    "declaredMediaType": "image/png",
+    "actualContent": "23-byte ASCII, not an image",
+    "bytes": 23,
+    "sha256": "5e98c4da6aca54b6a39b7014963c8f5d6ebe411c8db8a5d9be43d03a431f96ed"
+  },
+  "focusedTests": {
+    "commandScope": [
+      "Claude SDK rejects invalid image content before query()",
+      "image input failures stop before a Claude Session or turn starts"
+    ],
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "durationMs": 201.942708,
+    "assertions": {
+      "sdkQueryCount": 0,
+      "adapterRuntimeCreated": 0,
+      "adapterRuntimeSent": 0
+    }
+  },
+  "liveAttempt": {
+    "uiError": "仅支持 PNG、JPG、WebP、GIF 格式的图片",
+    "linkStoreBeforeSha256": "502db2f1a13471a97f07621cae7c85b9ee464b52a9993736c62dca644f5684a4",
+    "linkStoreAfterSha256": "502db2f1a13471a97f07621cae7c85b9ee464b52a9993736c62dca644f5684a4",
+    "newNativeClaudeSessions": 0,
+    "newDurableAttachmentObjects": 0,
+    "newDshSessionShells": 1,
+    "dshSessionId": "session-30a2854c-b984-437f-8df5-b34027088213",
+    "dshArchiveSha256": "647c55e858a877fb8025ca033280cf7f717900b8d313e01c9dbef3bae70e6ce2",
+    "dshArchiveTypes": [
+      "session",
+      "permission/preset",
+      "sandbox/mode",
+      "approval/policy",
+      "agent-preset/selected"
+    ],
+    "dshUserEvents": 0,
+    "dshRequestEvents": 0,
+    "dshTurnEvents": 0,
+    "dshAssistantEvents": 0,
+    "dshToolEvents": 0,
+    "rejectedDraftPreviewRemains": true,
+    "screenshotSha256": "f4ff09b53366f378146106956e72da7420eba1ef8232df540af22cd372ca9a74"
+  }
+}

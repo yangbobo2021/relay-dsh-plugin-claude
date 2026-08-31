@@ -1,0 +1,33 @@
+{
+  "requirement": "CLD-CFG-002",
+  "result": "pass",
+  "settingSourcesBoth": ["project"],
+  "sharedProject": {
+    "sessionId": "a4406729-6a99-4287-9d2c-a4234bc4192f",
+    "commandCalls": 1,
+    "command": "printf CFG002_SHARED_PROJECT_ACTIVE_2002",
+    "status": "failed",
+    "output": "Permission to use Bash with command printf CFG002_SHARED_PROJECT_ACTIVE_2002 has been denied.",
+    "stdoutMarkerOccurrences": 0,
+    "nativeTranscriptSha256": "059c7d8caf0ff2cab559e8c9e8fa934891710bb6836bf36ac7b7d319c0a3394d",
+    "nativeTranscriptBytes": 17943
+  },
+  "siblingProject": {
+    "sessionId": "4e902b87-a8be-4ecd-b960-b3f8d9be692f",
+    "commandCalls": 1,
+    "command": "printf CFG002_SHARED_PROJECT_ACTIVE_2002",
+    "status": "completed",
+    "output": "CFG002_SHARED_PROJECT_ACTIVE_2002",
+    "nativeTranscriptSha256": "9ffa665a22be6a2dfb9dfb58e28ea966dc585619d539bf2d07a4986c2acf167e",
+    "nativeTranscriptBytes": 17886
+  },
+  "counts": { "approvalRequests": 0, "diagnostics": 0 },
+  "artifacts": {
+    "settingsSha256": "be2e628b9c0357714ffc0c4a3521827cdbaa5a3401b48b51b69a23e2ace2d66b",
+    "probeSha256": "5c849d13c893b4caf1c8bd77dc434062a4f3c534662a743d914a9ef42c7141bf"
+  },
+  "postconditions": {
+    "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731",
+    "dshObjectCount": 11
+  }
+}

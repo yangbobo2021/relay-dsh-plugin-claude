@@ -1,0 +1,50 @@
+{
+  "requirement": "CLD-TOOL-011",
+  "result": "pass",
+  "fixture": {
+    "path": "tests/tool011-mixed.test.mjs",
+    "sha256": "bc18bd0e0ca6cc2a413aa4d9b325f16a3a3b52db74ff604a97161e1c9332e0b3",
+    "independentExit": 1,
+    "independentTests": 2,
+    "independentPass": 1,
+    "independentFail": 1,
+    "independentFailure": "CLD_TOOL011_FAIL_1111"
+  },
+  "native": {
+    "toolSequence": ["Bash"],
+    "command": "node --test tests/tool011-mixed.test.mjs",
+    "toolResultIsError": true,
+    "exitCode": 1,
+    "tests": 2,
+    "pass": 1,
+    "fail": 1,
+    "failure": "CLD_TOOL011_FAIL_1111",
+    "finalText": "TEST_RESULT=exit1|tests2|pass1|fail1|failed=CLD_TOOL011_FAIL_1111"
+  },
+  "dsh": {
+    "activityStarted": 1,
+    "activityCompleted": 1,
+    "activityStatus": "error",
+    "activityOutputContainsCalibratedSummary": true,
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "turnReason": "completed"
+  },
+  "state": {
+    "workspaceFileCountBeforeAndAfter": 10,
+    "workspaceHashesUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-fb260f2c-aed9-445d-bb48-367a072acfbb",
+    "claudeBusinessSessionId": "bad72df6-9221-43e6-8b45-740713d1cff5",
+    "claudeAuxiliarySessionId": "5ac8d891-693b-4dbc-af05-5a3c3c471eea"
+  },
+  "hashes": {
+    "businessNative": "69b09ed9a14b585d9b16edc55250c6c2a64aba878bb03f762c9ad7b059ad4f00",
+    "auxiliaryNative": "4a878a0257c96bd8980b13eb460ef3f65cba60b031c7788dd0d77cd013a47fac",
+    "dshArchive": "02b70c9b7bafbe4acab19bd3350d06228456c379a65e3f415c4e3ff973b15cfc",
+    "linkStore": "f6276def16485f26bc50e2f588cd6885ba8d70d478787b7fb41f5793c3884283",
+    "screenshot": "ac98f04a4af54481c6d9cb0ce3a63e3ddf7787356c041e6627d74fa655c830b5"
+  }
+}

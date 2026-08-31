@@ -1,0 +1,61 @@
+{
+  "requirement": "CLD-EXT-016",
+  "result": "pass",
+  "fixture": {
+    "pluginId": "relay-cld-installed-fixture@relay-cld-validation-marketplace",
+    "version": "1.0.4",
+    "marketplaceSha256": "606b36a3b84dfb11391a0aae45550ca0250079f84a5a353fc2da2e933a66130d",
+    "manifestSha256": "dcc8f6fd78d27a883b001b89dc5a81092af91743c7e5e17c1664a06e594aa1a0",
+    "hooksConfigSha256": "93bd9612da26b7c0fea0c77695c62d4d0d2618b11b4ee1514652cb1877ba8c28",
+    "hookScriptSha256": "8c8c741cb9c7cbed86981024e064d9c3987014d5a2c635494346f81adf9d2268",
+    "cliHookInventory": ["PreToolUse"]
+  },
+  "negative": {
+    "dshSessionId": "session-9d75bea3-bd25-4a25-a058-1a9cf7b3c99d",
+    "claudeSessionId": "62026690-79ac-4e69-80ad-de9757996ffc",
+    "toolCalls": 0,
+    "hookRecordsAfterTurn": 0,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT016_NO_HOOK_1616",
+    "nativeTranscriptSha256": "c4c44d37ec4712c205b8d3b527115b70ac755fb3f6e29d60ed936adacfcc625c",
+    "dshArchiveSha256": "3fcde3e4785540eb5cf360fe5c94554773ab60698a3604e2786f48e787d02004"
+  },
+  "target": {
+    "dshSessionId": "session-97258860-3615-4212-a593-25d0bc381b75",
+    "claudeSessionId": "fc583585-153f-409d-999c-34e4335ed78d",
+    "bashCalls": 1,
+    "otherToolCalls": 0,
+    "command": "printf CLD_EXT016_BASH_1616",
+    "approvalRequests": 0,
+    "hookRecords": 1,
+    "hookEventName": "PreToolUse",
+    "hookToolName": "Bash",
+    "hookCommand": "printf CLD_EXT016_BASH_1616",
+    "hookSessionIdMatchesNative": true,
+    "hookCwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "hookAt": 1788002990133,
+    "dshActivityStartAt": 1788002989933,
+    "dshActivityCompleteAt": 1788002990853,
+    "hookPrecedesCompletionMs": 720,
+    "nativeResult": "CLD_EXT016_BASH_1616",
+    "dshResult": "CLD_EXT016_BASH_1616",
+    "finalText": "CLD_EXT016_BASH_1616",
+    "nativeTranscriptSha256": "96e68fe078afb439b6daf6cb772a72594bbdcf0c191fe7d08b41598c1e266e96",
+    "dshArchiveSha256": "ad48c4a06b181f648e9b664ae9fae4562ac3aaed133b65f11c6077e2e19c0598",
+    "screenshotSha256": "c061ad498c0bf12ec76859d16e5a6f51b39d85a4c952760084eae41e0b3157c3",
+    "originalTempLogSha256": "7ff17fdd1d1243f3ba753f34be734e02f686ee46efacc15bba7baa639543c355"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "fixtureCachePresent": false,
+    "installedRegistryPresent": false,
+    "temporaryLogPresent": false,
+    "settingsByteIdenticalToBaseline": true,
+    "knownMarketplacesByteIdenticalToBaseline": true,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "fixtureSourceUnchanged": true
+  }
+}

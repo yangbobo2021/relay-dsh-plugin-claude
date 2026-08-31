@@ -1,0 +1,7 @@
+{
+  "requirement": "CLD-INS-004", "result": "pass",
+  "nested": { "sessionId": "78b7b67e-edbe-44d2-a376-f8f3374feb74", "readCalls": 1, "path": "nested/target.txt", "output": "INS004 nested target content", "finalText": "CLD_INS004_NESTED_RULE_10004", "transcriptSha256": "630f70ccc58792ae99ba27cf4be198c79f373b88e372bc70a1154d5c9a8477bd", "bytes": 21069 },
+  "rootControl": { "sessionId": "36714bfc-1123-4463-bbc8-8b24d35555ba", "readCalls": 1, "path": "root-control.txt", "output": "INS004 root control content", "expectedMarkerOccurrences": 0, "transcriptSha256": "c2fba2151cbe615c3ab432ce0632c7881ba50dd0906aa7230fe0c5adc6e5c926", "bytes": 20702 },
+  "artifacts": { "nestedInstructionSha256": "ce60bf01a8c010945a9c5cf2dc8ecc99f0ecb746bb0031c6076596406961764c", "probeSha256": "1d833e4b4b66f7e6c23844cfe5e7cd6fa06d198288046cdb4dd711f202096853" },
+  "postconditions": { "toolCallsEach": 1, "approvals": 0, "diagnostics": 0, "mutations": 0 }
+}

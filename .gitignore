@@ -1,3 +1,10 @@
 node_modules/
 *.tgz
 .DS_Store
+
+# Local runtime state and raw logs from migration probes
+/validation/migration-compatibility/runs/**/config-dir/
+/validation/migration-compatibility/runs/**/*-log.jsonl
+
+# Generated Git repository used by local migration probes
+/validation/migration-compatibility/fixtures/tool-workspace/git/tool012-repo/

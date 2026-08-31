@@ -1,0 +1,60 @@
+{
+  "requirement": "CLD-EXT-005",
+  "result": "fail",
+  "fixture": {
+    "skill": "relay-cld-user-skill",
+    "skillSha256": "8b95dfc218fa3fae9d7b8243f881ee5395822b0088f66c37331245735b823c99",
+    "referenceSha256": "e5778115933bdad2a5ab8e801f81f61e0894fb9c9aae5b63eb63efb93a2a8df9",
+    "scriptSha256": "070d19b89ead5cf6826c8d72c58a6cac6ce938a5e4db3e1b82c985c794015649",
+    "canonicalAndGlobalBytesEqualBeforeRun": true,
+    "referenceMarkerInPrompt": false,
+    "scriptMarkerInPrompt": false,
+    "finalMarkerInPrompt": false
+  },
+  "native": {
+    "toolSequence": ["Skill", "Read", "Bash", "Bash"],
+    "skillInput": {"skill": "relay-cld-user-skill", "args": "validate bundled resources"},
+    "skillSuccess": true,
+    "injectedBaseDirectory": "/Users/boboyang/.claude/skills/relay-cld-user-skill",
+    "injectedBodyContainsBundledInstructions": true,
+    "readPath": "/Users/boboyang/.claude/skills/relay-cld-user-skill/references/marker.txt",
+    "readOutput": "CLD_EXT005_REFERENCE_0505",
+    "firstBashCommand": "bash scripts/emit-marker.sh",
+    "firstBashExitCode": 127,
+    "firstBashError": "bash: scripts/emit-marker.sh: No such file or directory",
+    "secondBashCommand": "cd /Users/boboyang/.claude/skills/relay-cld-user-skill && bash scripts/emit-marker.sh",
+    "secondBashStdout": "CLD_EXT005_SCRIPT_0505",
+    "secondBashInterrupted": false,
+    "finalText": "CLD_EXT005_BUNDLE_OK_0505"
+  },
+  "dsh": {
+    "skillStartedCompleted": [1, 1],
+    "readStartedCompleted": [1, 1],
+    "bashStartedCompleted": [2, 2],
+    "approvalAsked": 3,
+    "approvalAllowedOnce": 3,
+    "firstBashStatus": "error",
+    "secondBashStatus": "completed",
+    "turnReason": "completed"
+  },
+  "state": {
+    "workspaceAndNestedGitStateUnchanged": true,
+    "nestedGitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "nestedGitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "attachmentObjectCountBeforeAndAfter": 11,
+    "canonicalFixtureUnchangedAfterRun": true,
+    "temporaryGlobalFixtureRemovedAfterEvidence": true
+  },
+  "session": {
+    "dshSessionId": "session-101c5a29-5d92-44e7-b9a7-916407df250e",
+    "claudeBusinessSessionId": "77f9d28d-4649-4bc6-8516-d1a3f66c72dd",
+    "claudeAuxiliarySessionId": "8f227a40-acc1-42c5-b920-479da3854cc3"
+  },
+  "hashes": {
+    "businessNative": "180e92e70eeb16e7b42f48b625392983a97c7b29098069d738ad92c0e1854052",
+    "auxiliaryNative": "3c5384548a5c01e40040c39e5b9d8fa0c7b7942211c9d4e6fb9fca745d6f0b56",
+    "dshArchive": "55d5b5d0f07cf81b2a4511819119b6c6cc4f33acbb0a2b66f33891932fb52f76",
+    "linkStore": "62e0ea1fd5acc2bafb05709dcb2998826a1a4f1bbf89c755a41326dd19b2e2f3",
+    "screenshot": "1a1ffc335b8eb1b33232c566a9fcacca768c5b719bba7f0a33b5d9dde2c98f0b"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "requirement": "CLD-TOOL-004",
+  "result": "pass",
+  "expected": {
+    "relativePath": "tool004-created.txt",
+    "content": "CLD_TOOL004_WRITE_BEGIN\npayload=Z7N4\nCLD_TOOL004_WRITE_END\n",
+    "bytes": 59,
+    "sha256": "1bdfedea11973584148a06306ae8f673abce806541fa96cf72701b01cb7fb35e"
+  },
+  "workspace": {
+    "beforeFiles": ["read/tool003-exact.txt", "search/deep/needle-tool002.txt", "workspace.txt"],
+    "newFiles": ["tool004-created.txt"],
+    "missingFiles": [],
+    "priorHashesUnchanged": true
+  },
+  "tool": {
+    "sequence": ["Write"],
+    "inputContentExact": true,
+    "result": "File created successfully",
+    "activityStarted": 1,
+    "activityCompleted": 1,
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "errors": 0
+  },
+  "session": {
+    "dshSessionId": "session-fd408239-bb50-436f-9d49-18889af9632c",
+    "claudeBusinessSessionId": "7335d387-022e-4650-95ef-4d111b2b0204",
+    "claudeAuxiliarySessionId": "7a2e1b7d-fe33-4de0-9e83-96d8e4fdb03f",
+    "finalText": "CLD_TOOL004_WRITTEN_4004",
+    "turnReason": "completed",
+    "newAttachmentObjects": []
+  },
+  "hashes": {
+    "businessNative": "26d8e9a8cd683e2c1f278a0e1ad326f9d03715e52552121179fd0aa870e34f3a",
+    "auxiliaryNative": "c158ba54b50c1ab5fc8a120f0982d3ceba0a2035a8e6b0c5028dc668ed9c35ff",
+    "dshArchive": "b0d5d706b587622234e7094bddf57f7612a89042b06dcde31c2c0566b3f8fdec",
+    "linkStore": "0911d7f6ebcb338e897f26b43c4607d709713873352d4d4a9d2ee6af41b56307",
+    "screenshot": "d40ae860cce43737442fbe244fc07748de922d8eb9ce83159bba1225f88b9cb9"
+  }
+}
