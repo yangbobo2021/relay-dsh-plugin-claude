@@ -30,7 +30,7 @@ test("release workflow uses guarded tokenless npm publishing", async () => {
   assert.match(workflow, /id-token: write/);
   assert.match(workflow, /node scripts\/release-metadata\.mjs/);
   assert.match(workflow, /git merge-base --is-ancestor/);
-  assert.match(workflow, /b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/);
+  assert.match(workflow, /0a53fb55bea101816fa226bb964ae2bed71c343b/);
   assert.match(workflow, /npm publish --provenance --access public --tag/);
   assert.ok(
     workflow.indexOf("npm install --global") > workflow.indexOf("Check whether this version already exists"),

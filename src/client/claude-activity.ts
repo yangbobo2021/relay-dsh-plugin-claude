@@ -1,4 +1,5 @@
-import type { ChatConversationViewNode, ConversationNodeDefinition } from '@deepseek-ai/dsh-client-runtime/client'
+import type { ConversationNodeDefinition } from '@deepseek-ai/dsh-client-ui-conversation/client'
+import type { ChatConversationViewNode } from '@deepseek-ai/dsh-client-ui-chat/client'
 import type { SessionEventMap } from '@deepseek-ai/dsh-session/types'
 
 type SessionEventContractAnchor = SessionEventMap
@@ -33,7 +34,7 @@ declare module '@deepseek-ai/dsh-session/types' {
   }
 }
 
-declare module '@deepseek-ai/dsh-client-ui-conversation/client' {
+declare module '@deepseek-ai/dsh-client-ui-chat/client' {
   interface ChatNodeDataMap {
     'relay-claude-activity': ClaudeActivityData
   }

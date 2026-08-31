@@ -62,7 +62,7 @@ function normalizeQuestions(input) {
     header: String(question.header ?? "Claude").slice(0, 12),
     options: normalizeOptions(question.options ?? []),
     multiSelect: Boolean(question.multiSelect),
-    detail: typeof question.detail === "string" ? question.detail : undefined,
+    ...(typeof question.detail === "string" ? { detail: question.detail } : {}),
   }));
 }
 
@@ -72,7 +72,7 @@ function normalizeOptions(input) {
   }
   return input.slice(0, 4).map(option => ({
     label: requiredString(option.label ?? option, "option label"),
-    description: typeof option.description === "string" ? option.description : undefined,
+    ...(typeof option.description === "string" ? { description: option.description } : {}),
   }));
 }
 

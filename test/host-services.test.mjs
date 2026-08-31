@@ -59,6 +59,9 @@ test("Claude interaction requests resolve through sibling DSH service providers"
     attachments: {},
     userQuestions: {
       async ask(input) {
+        // New DSH Remote waterfalls reject values changed by JSON transport,
+        // including present-but-undefined optional fields at any depth.
+        assert.deepEqual(JSON.parse(JSON.stringify(input.questions)), input.questions);
         calls.questions.push(input);
         return { answers: [{ id: "question-1", selected: ["Detailed"] }] };
       },
@@ -118,6 +121,39 @@ test("Claude interaction requests resolve through sibling DSH service providers"
       response: { action: "answer", answers: { "How detailed?": "Detailed" } },
     },
   ]);
+});
+
+test("question bridge preserves supplied optional text and emits lossless JSON", async () => {
+  const agent = { id: "dsh-json" };
+  const runtime = new InteractionRuntime();
+  const controller = new AbortController();
+  const captured = [];
+  const ctx = {
+    agents: { get: () => agent },
+    userQuestions: { async ask(request) {
+      assert.equal(request.agent, agent);
+      assert.equal(request.signal, controller.signal);
+      assert.deepEqual(JSON.parse(JSON.stringify(request.questions)), request.questions);
+      captured.push(request.questions);
+      return { answers: [{ id: "question-1", selected: ["BETA"] }] };
+    } },
+  };
+  for (const detail of [undefined, "", "Additional context"]) {
+    await handleClaudeSdkRequest(ctx, {
+      adapter: { dshSessionForClaudeSession: () => agent.id }, runtime,
+      request: { id: `question-${captured.length}`, method: "tool/requestUserInput", signal: controller.signal,
+        params: { sessionId: "claude-json", input: { questions: [{ question: "Choose?", detail,
+          options: [{ label: "ALPHA" }, { label: "BETA", description: "Second choice" }],
+        }] } },
+      },
+    });
+  }
+  assert.equal(runtime.rejected.length, 0);
+  assert.equal(captured.length, 3);
+  assert.equal(captured[1][0].detail, "");
+  assert.equal(captured[2][0].detail, "Additional context");
+  for (const questions of captured) assert.equal(questions[0].options[1].description, "Second choice");
+  for (const result of runtime.resolved) assert.deepEqual(result.response.answers, { "Choose?": "BETA" });
 });
 
 async function composeHostContext(services) {
