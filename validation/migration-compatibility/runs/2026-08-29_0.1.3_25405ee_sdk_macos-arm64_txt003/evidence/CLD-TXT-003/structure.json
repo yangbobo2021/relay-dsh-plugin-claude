@@ -1,0 +1,19 @@
+{
+  "dshSessionId": "session-b9babdf9-8fb7-4740-a649-b5f7265d3e6d",
+  "claudeSessionId": "15548f93-88a2-49f0-ae29-e79da8e679c0",
+  "archiveSha256": "06f1323626ea46f653f20b3c952364796cb043296eae6527f18e3c3f02d07f52",
+  "archiveBytes": 5129,
+  "expectedTextSha256": "03ebf85086d580ba5b659a4eb968221a89cdb69242f41e832186444a53782169",
+  "actualTextSha256": "03ebf85086d580ba5b659a4eb968221a89cdb69242f41e832186444a53782169",
+  "assistantMessageCount": 1,
+  "terminalTextBlockCount": 1,
+  "toolEventCount": 0,
+  "dom": {
+    "level1HeadingCount": 1,
+    "orderedListCount": 1,
+    "listItems": ["alpha", "beta"],
+    "codeCount": 1,
+    "codeText": "const marker = \"CLD_MD_CODE_1003\";\nconsole.log(marker);"
+  },
+  "linkStoreSha256": "208271c734a0eedd7de779417a57c3db89c2c78110bbd6735e1d7f9e7016e375"
+}

@@ -1,0 +1,18 @@
+{
+  "sessionId": "3d51950e-f99e-451b-8ffa-b25e5fb09b8d",
+  "expectedCwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/环境 空格-workspace/",
+  "runtimeCwdMatches": true,
+  "sdkQueryCwdMatches": true,
+  "pwdOutput": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/环境 空格-workspace",
+  "toolSequence": ["Bash", "Read", "Write"],
+  "readPath": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/环境 空格-workspace/源 文件.txt",
+  "readOutput": "1\tCLD_ENV002_SOURCE_中文_32002\n2\t",
+  "writePath": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/环境 空格-workspace/输出 文件.txt",
+  "writeApprovalCount": 1,
+  "targetContent": "CLD_ENV002_OUTPUT_中文_32002\n",
+  "targetSha256": "e6e335ba76679ec98212f9c019ae88fa98583528ec8e7ee56482b0952f08a5e9",
+  "sourceSha256BeforeAfter": "de099001df7f77aeeedf62e732d6d402017db522ce602555182b1254d1bfcb2f",
+  "targetRemoved": true,
+  "nativeTranscriptSha256": "17f716ec0ccae07b74d2d522c627c2c90a5ce9d9bea3ec4fc4f7ab7de16bdb7d",
+  "probeSha256": "4a50b2a9fdd83c950d141d47a3672504abca04d7c5460f4dfb9f33df7eb9c9f2"
+}

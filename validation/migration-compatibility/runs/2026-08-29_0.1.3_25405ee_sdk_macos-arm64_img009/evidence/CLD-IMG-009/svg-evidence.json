@@ -1,0 +1,63 @@
+{
+  "requirement": "CLD-IMG-009",
+  "result": "pass",
+  "fixture": {
+    "path": "fixtures/image-output-workspace/safe-img009.svg",
+    "bytes": 259,
+    "sha256": "8770eb932841883550f1ef8b6718bf81a0a4cbbd9137afc867a3bc2a6088a46f",
+    "unsafeReferences": 0
+  },
+  "focusedTests": {
+    "passed": 3,
+    "failed": 0,
+    "durationMs": 197.643625,
+    "names": [
+      "SVG paths are rasterized once into immutable PNG attachments",
+      "SVG rasterization does not fetch external resources or execute active content",
+      "SVG external entities are rejected without producing an attachment"
+    ]
+  },
+  "attachment": {
+    "attachmentId": "sha256:ee13a30ae87a7659e77cad9879670e98bf960b627ad99a17c14eb86c6eb5cf30",
+    "sha256": "ee13a30ae87a7659e77cad9879670e98bf960b627ad99a17c14eb86c6eb5cf30",
+    "name": "safe-img009.png",
+    "mediaType": "image/png",
+    "bytes": 2762,
+    "width": 240,
+    "height": 160,
+    "format": "8-bit RGBA non-interlaced PNG",
+    "pixelSamples": {
+      "0,0": [255, 255, 255],
+      "30,30": [239, 68, 68],
+      "175,80": [59, 130, 246],
+      "230,150": [255, 255, 255]
+    }
+  },
+  "trialA": {
+    "dshSessionId": "session-6a2b5acd-b271-4252-a4e6-35cf928f7b9c",
+    "claudeBusinessSessionId": "ff31fb24-bd09-41e0-83a6-4329d2d3c896",
+    "claudeAuxiliarySessionId": "b4c0384e-076b-43ea-a8a1-5954caf99c08",
+    "finalText": "SVG_RESULT=./safe-img009.svg",
+    "toolUses": 0,
+    "turnReason": "completed",
+    "newObjects": ["ee/ee13a30ae87a7659e77cad9879670e98bf960b627ad99a17c14eb86c6eb5cf30"],
+    "archiveSha256": "b27d45416820238a1cd1fcd898059ebae4342ef67a586820be11ba07fd0ab459",
+    "businessNativeSha256": "9005432aea12c14c1b72d0b880667fe2c4df42b1e7a5be326df2e84ec8b43494",
+    "auxiliaryNativeSha256": "182ba7bedfbe47d41b9a388de8cf4d14c66ab3f413d8ff355391887e5aa78f9e",
+    "screenshotSha256": "d6ef4e311d5bc9260d278fc0a4815e11e7fd1dd9a8cc664b4f06079fd47e2063"
+  },
+  "trialB": {
+    "dshSessionId": "session-87ad50be-b7bb-415e-bb83-2ee34d160dfe",
+    "claudeBusinessSessionId": "18e5b558-f5fa-4af3-b1a0-87993af513ad",
+    "claudeAuxiliarySessionId": "314e6628-53f7-4726-9461-2d2f0e105ab4",
+    "finalText": "SVG_RESULT=./safe-img009.svg",
+    "toolUses": 0,
+    "turnReason": "completed",
+    "newObjects": [],
+    "archiveSha256": "b2585aa8c38da7da4101e1cea3a96e8fd42706b1c5dc63698a64761fc1a4c480",
+    "businessNativeSha256": "268871d056c065d912cec1bdf8ac743f2182533d014e86e36074fe985e6d32db",
+    "auxiliaryNativeSha256": "9483d85b00d11ed8ac58306607819c13beac604af1106f0c2fdc1a2528f3198c",
+    "screenshotSha256": "3a041403139019dc9e0d8a58188387b307a40916850b074e8659b2447393968f"
+  },
+  "linkStoreSha256AfterBoth": "51f2cf93629167ea9cd3a642939a45cd9e022af2461e91f3f61a2ce3eb0e7cb2"
+}

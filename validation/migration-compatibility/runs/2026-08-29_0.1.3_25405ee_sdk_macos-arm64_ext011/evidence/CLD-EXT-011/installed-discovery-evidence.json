@@ -1,0 +1,53 @@
+{
+  "requirement": "CLD-EXT-011",
+  "result": "pass",
+  "fixture": {
+    "marketplace": "relay-cld-validation-marketplace",
+    "pluginId": "relay-cld-installed-fixture@relay-cld-validation-marketplace",
+    "version": "1.0.0",
+    "marketplaceSha256": "199c458ab067c22a88d940b8ce9df89c2a1b6e7cd693ccfe1a6b2440a3e65332",
+    "manifestSha256": "2f2eb2ab1c36250e321b5834682aca27e617ebb0a2374d583b0834077e596767",
+    "skillSha256": "1dd9cbf26aefa8599439b3c34375c5e4fa9ac3a40d7e12dc2155aeb63df2b5f1"
+  },
+  "cli": {
+    "version": "2.1.248",
+    "listCount": 1,
+    "listedId": "relay-cld-installed-fixture@relay-cld-validation-marketplace",
+    "scope": "user",
+    "enabled": true,
+    "detailsSkillCount": 1,
+    "detailsSkill": "installed-discovery",
+    "installedManifestMatchedSource": true,
+    "installedSkillMatchedSource": true
+  },
+  "sdk": {
+    "claudeCodeVersion": "2.1.233",
+    "dshSessionId": "session-bf6377a7-c5ba-49f3-9c34-f445a6ce2a99",
+    "claudeSessionId": "4248df5a-8624-475a-96f0-5b1e0699e597",
+    "initialSkillCount": 14,
+    "pluginSkillName": "relay-cld-installed-fixture:installed-discovery",
+    "pluginSkillOccurrences": 1,
+    "projectControlPresent": true,
+    "userControlPresent": true,
+    "businessToolCalls": 0,
+    "approvalRequests": 0,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT011_UNRELATED_PROBE_1111",
+    "businessTranscriptSha256": "b57a4052780f6f0dbe1de29ae15d83b626279674daa933402e61daebe3c3ae00",
+    "auxiliaryTranscriptSha256": "753d7b0c3e9d44225ae9c6748c8438f3db2cf3a47e34e1b00e9ca8c92a78edb3",
+    "dshArchiveSha256": "e74591457456daa23e69243707642d26ad433d43d85db521f35916f0eafe8034",
+    "screenshotSha256": "ccb1c7dd7b702e8caa623fcf3a26a2930d5f3065cef918107f4a8cd0d99796a3"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "fixtureCachePresent": false,
+    "installedRegistryPresent": false,
+    "settingsByteIdenticalToBaseline": true,
+    "knownMarketplacesByteIdenticalToBaseline": true,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "fixtureSourceUnchanged": true
+  }
+}

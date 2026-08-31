@@ -1,0 +1,27 @@
+{
+  "dshUi": {"backend": "Claude Code", "model": "Claude Sonnet", "effort": "Medium"},
+  "dshSessionId": "session-3c96d1a4-9d37-4002-965d-912715aca2a1",
+  "claudeSessionId": "479c16f9-f5c2-483a-b1cc-33b9f473b2ba",
+  "link": {"model": "sonnet", "effort": "medium"},
+  "linkStoreSha256": "aabbdc9bc606e30e7a453ea2b2179f75d94273d753a8c20eec10051ca61f557e",
+  "dshArchive": {
+    "sha256": "9663a647f2de23a513da6f51746b036c10fee65c3cd642ae831a635936e5abeb",
+    "bytes": 4025,
+    "sourceProvider": "relay-claude",
+    "sourceModel": "sonnet",
+    "claudeSessionId": "479c16f9-f5c2-483a-b1cc-33b9f473b2ba",
+    "final": "CLD_TXT008_SONNET_OK_1008",
+    "toolEventCount": 0
+  },
+  "nativeClaudeSession": {
+    "sha256": "01492a580aee108944d703eb5a6a4872f997a8a80db255d958ac763db7963cf0",
+    "lines": 9,
+    "bytes": 12278,
+    "assistantCount": 1,
+    "sessionId": "479c16f9-f5c2-483a-b1cc-33b9f473b2ba",
+    "messageModel": "claude-sonnet-5",
+    "messageRole": "assistant",
+    "stopReason": "end_turn",
+    "contentTypes": ["text"]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "requirement": "CLD-EXT-001",
+  "result": "pass",
+  "fixture": {
+    "name": "relay-cld-user-skill",
+    "userPath": "/Users/boboyang/.claude/skills/relay-cld-user-skill",
+    "canonicalPath": "fixtures/extensions/user-skill/relay-cld-user-skill",
+    "priorSkillCount": 12,
+    "priorListingContainsFixture": false,
+    "freshSkillCount": 13,
+    "freshListingContainsFixture": true,
+    "freshListingContainsExactDescription": true,
+    "skillSha256": "8b95dfc218fa3fae9d7b8243f881ee5395822b0088f66c37331245735b823c99",
+    "referenceSha256": "e5778115933bdad2a5ab8e801f81f61e0894fb9c9aae5b63eb63efb93a2a8df9",
+    "scriptSha256": "070d19b89ead5cf6826c8d72c58a6cac6ce938a5e4db3e1b82c985c794015649",
+    "canonicalAndUserBytesEqual": true,
+    "retainedThroughRequirement": "CLD-EXT-005"
+  },
+  "native": {
+    "businessInitialSkillListing": true,
+    "auxiliaryInitialSkillListing": true,
+    "businessToolSequence": [],
+    "businessFinalText": "CLD_EXT001_DISCOVERY_PROBE_0101"
+  },
+  "dsh": {
+    "toolActivities": 0,
+    "turnReason": "completed"
+  },
+  "state": {
+    "workspaceAndNestedGitStateUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-0b99953c-fea9-4439-b96c-ece193b1eb9a",
+    "claudeBusinessSessionId": "fc7058b6-7fec-44f9-b57c-d545de3a7967",
+    "claudeAuxiliarySessionId": "19000e83-71dd-48a7-9a31-3817f55e2d1d"
+  },
+  "hashes": {
+    "businessNative": "08329d71469dedb6df2e924dd0c110151009a6feaca7b9aadf438ff4975f65dc",
+    "auxiliaryNative": "24573357ac6540207877446ef4d5bcc8b5998542454ada7d601ce40582980eb0",
+    "dshArchive": "4a6afc2aa8070325679282cd6fd95a92a85241a392e9e71e9c4109d1b2b13fcc",
+    "linkStore": "cd64e0ff168424d6223191f07ebcbc782a4ed584f8cc6a0ef4336c1b3047fb30",
+    "screenshot": "7227e729cf0750cd54f95937838dac7bd46f306f9802f1d7d1e2924f43e54dbe"
+  }
+}

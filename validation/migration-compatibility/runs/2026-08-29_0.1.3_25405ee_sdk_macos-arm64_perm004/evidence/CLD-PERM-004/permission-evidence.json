@@ -1,0 +1,11 @@
+{
+  "projectDenyRules": ["mcp__dsh__PermissionProbe", "Agent"],
+  "mcpControl": {"sessionId": "cc23a0e5-78f7-4b9d-9e4d-5b99e1a45b00", "allowedTools": ["mcp__dsh__PermissionProbe"], "callbackCount": 1, "status": "completed", "result": "CLD_PERM004_MCP_EXECUTED_24004", "nativeTranscriptSha256": "d43c36393e9410927784d5673b0134dfc21b41ec25c11f3fe950647aed65b620"},
+  "mcpDenied": {"sessionId": "cb01dd88-f746-4ade-80b5-c93faf49646c", "allowedTools": ["mcp__dsh__PermissionProbe"], "callbackCount": 0, "status": "failed", "result": "Permission to use mcp__dsh__PermissionProbe has been denied.", "normalizedResultCountForOneToolId": 2, "nativeTranscriptSha256": "7700cf88b487e7670bb137fe727d04cfb2dc739226af3d4ba14f6ba76118aafc"},
+  "agentControl": {"sessionId": "9560ee40-69a1-4705-b645-270a28e579c7", "agentCount": 1, "status": "completed", "childMarker": "CLD_PERM004_CHILD_CONTROL_24004", "childId": "af45676b24dc2eda4", "childToolCount": 0, "nativeTranscriptSha256": "7cd160fffa08fbd17dfb8252c63097b5bfbbd57c585c301696f370462493345a", "childTranscriptSha256": "13ee0f4e501d29ece3bd1579cb6984f8d9c2fe82735035cfcf12fb8c2ffa1ec7"},
+  "agentDenied": {"sessionId": "4900fb80-d849-40ad-8f3f-79d6d6018f4c", "agentCount": 0, "toolSearchCount": 1, "toolSearchResult": "No matching deferred tools found", "deniedChildMarkerPresent": false, "nativeTranscriptSha256": "a13a78972f19815a8e29822f4a19a1e4d3588ab8e52402959a1c0728d25fd32b"},
+  "approvalRequestCount": 0,
+  "settingsRemoved": true,
+  "probeSha256": "bfe487c7c5fdaf757c3028196a361ea2553f8a49ac83fbe0be4301c4cf87362e",
+  "settingsFixtureSha256": "aa7f11d83df539569819e007bf45b49e8794c517fb783a21257dc342bd74c2ae"
+}

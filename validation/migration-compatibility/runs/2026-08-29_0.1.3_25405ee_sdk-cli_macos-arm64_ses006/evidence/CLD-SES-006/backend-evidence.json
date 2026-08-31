@@ -1,0 +1,32 @@
+{
+  "result": "pass",
+  "sourceAssertions": {
+    "autoDefault": true,
+    "explicitCli": true,
+    "explicitSdk": true,
+    "sdkPrimary": true,
+    "fallbackOnlyAfterSdkStartFailure": true
+  },
+  "runtime": {
+    "sdkStarted": true,
+    "sdkModelInputModalities": ["text+image"],
+    "cliStarted": true,
+    "cliModelInputModalities": ["text"],
+    "cliImageError": "The Claude CLI backend cannot accept image input; use the Claude Agent SDK backend",
+    "cliDshToolError": "The Claude CLI backend cannot expose DSH tools; use the Claude Agent SDK backend",
+    "cliProcessesAfterRejections": 0
+  },
+  "liveProductEvidence": {
+    "dshSessionId": "session-f9e1e017-2a77-4632-ad0a-8557b316e7a3",
+    "claudeSessionId": "3954adc5-53db-459d-bf12-be6e84063020",
+    "entrypoints": ["sdk-ts"],
+    "promptSources": ["sdk"],
+    "transcriptSha256": "2a8446d7ba490474492ab0b48c426bbdcba2145bdead9a41305c3e0cb9b5173d"
+  },
+  "focusedTests": {"tests": 46, "passed": 46, "failed": 0, "durationMs": 285.55075},
+  "sourceSha256": {
+    "plugin.mjs": "54525429e8f1c1dfead87f19b7c411d5fe33051b862af8d6ae0057749ce0c6a6",
+    "cli-client.mjs": "8528973c5200e6691c958f08a126e51996264ec3f6f3256a6033ee7def161c58",
+    "sdk-client.mjs": "7ca6dda7dbb765d93d5a0dc686bcacbb187ae62cb53983401b03736835f51a85"
+  }
+}

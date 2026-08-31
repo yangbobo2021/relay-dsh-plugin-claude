@@ -1,0 +1,40 @@
+{
+  "requirement": "CLD-TOOL-008",
+  "result": "pass",
+  "command": "printf 'CLD_TOOL008_STDERR_8008\\n' >&2; exit 23",
+  "native": {
+    "toolSequence": ["Bash"],
+    "toolUseCount": 1,
+    "toolResultCount": 1,
+    "toolContent": "Exit code 23\nCLD_TOOL008_STDERR_8008",
+    "isError": true,
+    "toolUseResult": "Error: Exit code 23\nCLD_TOOL008_STDERR_8008",
+    "finalText": "FAIL_RESULT=exit23|CLD_TOOL008_STDERR_8008"
+  },
+  "dsh": {
+    "activityStarted": 1,
+    "activityCompleted": 1,
+    "activityStatus": "error",
+    "activityOutput": "Exit code 23\nCLD_TOOL008_STDERR_8008",
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "turnReason": "completed"
+  },
+  "state": {
+    "workspaceFileCountBeforeAndAfter": 7,
+    "workspaceHashesUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-9a60580d-473a-476d-ae41-bdf0cc3c00de",
+    "claudeBusinessSessionId": "240de3b6-e505-43f4-9d45-822905543730",
+    "claudeAuxiliarySessionId": "732a2fa2-53d3-4465-a1f2-52a64162ac16"
+  },
+  "hashes": {
+    "businessNative": "3f01442d52b8f69f70404e1d0747745b7ae3bb9162e40a77b4467471f4fb986a",
+    "auxiliaryNative": "1435b261a778070ff4709b8e574e94373a1cc047957f2e874c7f4dd48764e8a8",
+    "dshArchive": "214bb635151a3bec2f82076a3a180a1c9ba88c6a5e1162711d46bbf378abf59d",
+    "linkStore": "73dfab61a975c219023c7ca7ae71dcdb329fe9dc1b6e48c718a947ac12906e49",
+    "screenshot": "da4b7ec28e547c9dac37106405dc46c5d94dcf9a5b8f9ca29594e23e747ef4ad"
+  }
+}

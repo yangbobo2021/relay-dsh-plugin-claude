@@ -1,0 +1,21 @@
+{
+  "dshSessionId": "session-5efb1ea3-ffeb-40b6-873b-fcfd3f2ae0d6",
+  "claudeSessionId": "ec6c4bb5-a3ce-4fe6-8cbe-ea5cb562c84e",
+  "archiveSha256": "fe2bb25c2afee8d0f8829ca4af2457180a3ce9d4040a2fefd398c054769e5c4f",
+  "assistantMessageCount": 1,
+  "contentBlocks": [
+    {"type": "reasoning", "characters": 405, "sha256": "aab6ee52c9a6cb1fab8ad42c2dc27e3dbcfcefd72ab585aa45578810808a61e0"},
+    {"type": "text", "characters": 26, "sha256": "6f89afedf3575c562f47dba01cae5468dc47652480ade7072aa2fbf6aaee5603", "text": "CLD_THINK_RESULT_3973_1005"}
+  ],
+  "blocksEqual": false,
+  "turnEndReason": "completed",
+  "toolEventCount": 0,
+  "dom": {
+    "thinkControlCount": 1,
+    "thinkVisibleTextCharacters": 34,
+    "finalParagraphCount": 1,
+    "finalText": "CLD_THINK_RESULT_3973_1005",
+    "visibleTextsEqual": false
+  },
+  "linkStoreSha256": "5ab12d0318275068242f9aae9fd0d2311060a3e30b6dd659709de0e6a4cdb2aa"
+}

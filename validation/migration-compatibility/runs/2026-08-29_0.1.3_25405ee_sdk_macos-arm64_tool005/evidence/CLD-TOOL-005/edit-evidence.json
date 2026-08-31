@@ -1,0 +1,41 @@
+{
+  "requirement": "CLD-TOOL-005",
+  "result": "pass",
+  "criterionAdjustedDuringReview": true,
+  "fixture": {
+    "relativePath": "edit/tool005-target.txt",
+    "beforeBytes": 51,
+    "beforeSha256": "cfb4511fa0067198081c184bc0c73d02932fd1fb8835d0a2d38cd1c0035e382b",
+    "afterBytes": 50,
+    "afterSha256": "fe2ca2a167d5b34712cc7a599543ed467964a6be8090ab3c9f5f5422846a885c",
+    "terminalLfPreserved": true,
+    "exactChange": {"old": "status=before", "new": "status=after", "count": 1},
+    "surroundingLinesUnchanged": true
+  },
+  "tools": [
+    {"name": "Read", "readOnlyPreflight": true, "requestedByPrompt": false},
+    {"name": "Edit", "replaceAll": false, "oldString": "status=before", "newString": "status=after"}
+  ],
+  "alternateMutationTools": [],
+  "workspace": {
+    "newFiles": [],
+    "missingFiles": [],
+    "unrelatedHashesUnchanged": true
+  },
+  "approval": {"asked": 1, "allowedOnce": 1, "tool": "Claude Edit"},
+  "session": {
+    "dshSessionId": "session-611d09b1-91e8-4e98-8eb3-a18a3eb472a9",
+    "claudeBusinessSessionId": "2d0615dd-79b7-48ff-9191-608e3d1159bb",
+    "claudeAuxiliarySessionId": "69b9b575-55e5-4dbb-8687-4f1952aa4d0e",
+    "finalText": "CLD_TOOL005_EDITED_5005",
+    "turnReason": "completed",
+    "newAttachmentObjects": []
+  },
+  "hashes": {
+    "businessNative": "86d38dd085d13d8a9384e239780b5b85f481af2baebc34f4703fa5d549d11c08",
+    "auxiliaryNative": "abc140627a339d40dde5be826d48d503281d20cb835e15f88d9d226792419cff",
+    "dshArchive": "32ee5e286195f69d00522358d350958af304c45fee9bce584eec8ae1b599bd8e",
+    "linkStore": "46edb064a909416a22e302e4bd993463608697f4c6c7c1a835838465eea0e57e",
+    "screenshot": "59da38b77bccfd5fd5f767fb4c7638bc480ceb7f757a20d09ed7bbac5d0c7718"
+  }
+}

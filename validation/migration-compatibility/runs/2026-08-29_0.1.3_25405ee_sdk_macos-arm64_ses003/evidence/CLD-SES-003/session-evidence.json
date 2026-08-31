@@ -1,0 +1,13 @@
+{
+  "result": "pass",
+  "host": {"oldPid": 35281, "oldPortClosed": true, "newPid": 92864, "newPortHealthy": true, "url": "http://127.0.0.1:4394/"},
+  "dshSessionId": "session-f9e1e017-2a77-4632-ad0a-8557b316e7a3",
+  "claudeSessionIdBeforeAfter": "3954adc5-53db-459d-bf12-be6e84063020",
+  "restartReload": {"priorTurnCountRestored": 2, "priorFinalsRestored": true, "preset": "Claude Code", "model": "Claude Sonnet", "effort": "Medium"},
+  "thirdPromptContainedPriorToken": false,
+  "thirdFinal": "PREVIOUS_CURRENT=CLD_SES002_RELOAD_OK_42002; CURRENT=CLD_SES003_RESTART_OK_43003",
+  "toolCount": 0,
+  "link": {"countBeforeAfter": 70, "sha256BeforeAfter": "8504f5c24663bef632e068c5310dc8600331f06e68c16ee7933ab3b68d7a63c0"},
+  "native": {"bytesBefore": 15473, "bytesAfter": 18287, "sha256Before": "ff29f5e11053a0b5938d99767909fe2bc5e7b44d76bc67755d9f4d73f9654a89", "sha256After": "2a8446d7ba490474492ab0b48c426bbdcba2145bdead9a41305c3e0cb9b5173d", "userRecordsAfter": 3, "assistantRecordsAfter": 3},
+  "dshArchive": {"sha256Before": "1767825c6db0ab71236979a3440472e99eeb2f99feadf2dbfbb6683015b025b6", "sha256After": "9a1bb7278ed91320c101e6fa74806a14b60bcc8e88ca11ed68aea1cdf811a7bb", "turnStartsAfter": 3, "turnEndsAfter": 3, "assistantMessagesAfter": 3}
+}

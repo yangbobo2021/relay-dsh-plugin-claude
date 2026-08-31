@@ -1,0 +1,16 @@
+{
+  "result": "fail",
+  "validSessionId": "fc77673d-d4ec-415c-8631-3bce5da7ef7a",
+  "excludedSession": {"sessionId": "acfe5f82-ef77-46d3-9a0c-c0bfa0294e46", "reason": "Claude refused before any tool execution"},
+  "tool": {"name": "Bash", "command": "relay-cld-env003-probe", "status": "completed", "approvalCount": 1},
+  "finalText": "CLD_ENV003_DONE_33003",
+  "fakeSecretSha256": "39ab7f6d16666c0a55d134df8416406ac87ce63dea9746e8067b0736f6736f12",
+  "occurrences": {"sdkActivities": 1, "nativeTranscript": 2, "finalText": 0, "diagnostics": 0},
+  "nativeOccurrenceRecord": {"line": 10, "type": "user", "messageRole": "user", "contentTypes": ["tool_result"], "occurrences": 2},
+  "nativeTranscriptSha256": "aad11285f7fb6f81a21b46adf4aced941bd4d8cf5c17a4c5af9a1d4a62866ac4",
+  "settingsFixtureSha256": "50c2c3235450969834fae746d0684075f9f3d43664d079dacce621a49a3c9fcb",
+  "fixtureExecutableSha256": "175c233ae892d5451b68987ffaeb0c5cf51d8a2e234946933b106cf53fc64c51",
+  "probeSha256": "c688606bc4282bbb08129617782352bb696d8667e4f1f283f8614b323f28817f",
+  "projectSettingsOriginallyExisted": false,
+  "projectSettingsRemoved": true
+}

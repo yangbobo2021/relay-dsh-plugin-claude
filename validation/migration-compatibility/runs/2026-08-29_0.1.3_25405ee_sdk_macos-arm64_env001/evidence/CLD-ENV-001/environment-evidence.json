@@ -1,0 +1,10 @@
+{
+  "command": "relay-cld-path-probe",
+  "hostPathContainsFixtureBin": false,
+  "configured": {"sessionId": "e6eb8b96-7b2e-4aeb-b780-fd45f0af5351", "settingSources": ["project"], "approvalCount": 1, "status": "completed", "output": "CLD_ENV001_PATH_EXECUTED_31001", "nativeTranscriptSha256": "52de8ea3f7fe96087100427d553ce6e35d0d1d12460725622073f25a68b9c162"},
+  "control": {"sessionId": "a9165e96-ceb0-4f13-8e41-1715f76e8795", "settingSources": [], "approvalCount": 1, "status": "failed", "output": "Exit code 127\n(eval):1: command not found: relay-cld-path-probe", "nativeTranscriptSha256": "eb41884456e10f33ee0432546fcb5f2b10c5816ca3b6e871ffb21481cd4cee91"},
+  "projectSettingsOriginallyExisted": false,
+  "projectSettingsRemoved": true,
+  "probeSha256": "b2babbfc339146b25808dd99f4cd2c1521a24afdf7c670874b254f6eaad16d07",
+  "executableSha256": "0b5d366195212f568df2afab4dba6c491581c845f0b80b897e25b5edd25dc9e6"
+}

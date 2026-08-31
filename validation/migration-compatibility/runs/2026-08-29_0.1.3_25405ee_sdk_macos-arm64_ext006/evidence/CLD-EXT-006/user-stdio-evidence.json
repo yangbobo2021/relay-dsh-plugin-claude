@@ -1,0 +1,72 @@
+{
+  "requirement": "CLD-EXT-006",
+  "result": "pass",
+  "fixture": {
+    "serverName": "relay_cld_user_stdio",
+    "toolName": "echo_user_scope",
+    "serverSha256BeforeAndAfter": "72258d0384a5a00d17fe950783357fb2e3d9e850c963c9a0615d2debd74f5749",
+    "input": "CLD_EXT006_USER_STDIO_INPUT_0606",
+    "output": "CLD_EXT006_USER_STDIO_OUTPUT_0606:CLD_EXT006_USER_STDIO_INPUT_0606",
+    "outputPrefixInPrompt": false,
+    "projectMcpConfigPresent": false
+  },
+  "serverLog": {
+    "sha256": "44ed2f15270b94dbc27e0c1980334d83eab1aef55acdf614ea25ad4ff3950ea1",
+    "processStarts": 4,
+    "transportConnections": 4,
+    "uniquePids": [75253, 75254, 75263, 75264],
+    "businessCalls": 1,
+    "callPid": 75264,
+    "callTool": "echo_user_scope",
+    "callInputExact": true
+  },
+  "native": {
+    "deferredToolsAddedContainsFixture": true,
+    "pendingMcpServers": [],
+    "needsAuthMcpServers": [],
+    "toolSequence": ["ToolSearch", "mcp__relay_cld_user_stdio__echo_user_scope"],
+    "toolSearchQuery": "select:mcp__relay_cld_user_stdio__echo_user_scope",
+    "toolSearchMatches": ["mcp__relay_cld_user_stdio__echo_user_scope"],
+    "businessToolCalls": 1,
+    "businessInputExact": true,
+    "businessResultExact": true,
+    "finalTextExact": true,
+    "finalAttributionMcpServer": "relay_cld_user_stdio",
+    "finalAttributionMcpTool": "echo_user_scope"
+  },
+  "dsh": {
+    "toolSearchStartedCompleted": [1, 1],
+    "businessToolStartedCompleted": [1, 1],
+    "businessApprovalAsked": 1,
+    "businessApprovalOutcome": "allowed-once",
+    "businessOutputExact": true,
+    "turnReason": "completed"
+  },
+  "cleanup": {
+    "userConfigSha256BeforeFixture": "44dc6e95cfebdb347a087b648e2a13126eb6b61f805da08301781db23b75149f",
+    "userConfigSha256WithFixtureBeforeRun": "484a24b48ee5b2ac9fae91f32b2cc76cceffd4c13cdfa44b97c0363b721fa2df",
+    "userConfigSha256AfterSemanticCleanup": "0334a80c65986a515d7022a24faf9f3b26b7fb4d91b4ac50fa93d1b5d41e5a34",
+    "runtimeRewroteVolatileUserCacheFields": true,
+    "rootMcpServersKeyPresentAfterCleanup": false,
+    "fixtureStringOccurrencesAfterCleanup": 0,
+    "fixtureProcessesAfterCleanup": 0
+  },
+  "state": {
+    "workspaceAndNestedGitStateUnchanged": true,
+    "nestedGitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "nestedGitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "attachmentObjectCountBeforeAndAfter": 11
+  },
+  "session": {
+    "dshSessionId": "session-d1b1b3ff-adea-4c1b-8c48-ad7ed4c76a46",
+    "claudeBusinessSessionId": "f3163116-c736-49d5-9f48-7919725b2797",
+    "claudeAuxiliarySessionId": "8de6903f-7d07-45f3-9299-7c797da1b952"
+  },
+  "hashes": {
+    "businessNative": "d8dcbf226414dc7e78b098de9dd9100307373e13e58bb12bc9c3c5f909293813",
+    "auxiliaryNative": "e295cd6125c59da90ff0d681da8ba297bec752e673b381a1e077e7cd0e351640",
+    "dshArchive": "29051d3bdbf05dc9790d495bb7c5132f055dfa87f44183ceedfc4a892f58ed10",
+    "linkStore": "4918d4b8332706eaa28cd819e65c9bd9c47e8421f6173978c81bb28f62804778",
+    "screenshot": "b89746143f37bac255f41ff6b6ff9933932a5d589d24fbb44e88ba533540eb4a"
+  }
+}

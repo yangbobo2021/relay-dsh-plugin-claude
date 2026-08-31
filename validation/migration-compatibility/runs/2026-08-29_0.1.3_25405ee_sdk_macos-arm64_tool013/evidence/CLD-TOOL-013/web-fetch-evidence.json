@@ -1,0 +1,48 @@
+{
+  "requirement": "CLD-TOOL-013",
+  "result": "pass",
+  "classification": "supported",
+  "sourceCalibration": {
+    "url": "https://example.com/",
+    "httpCode": 200,
+    "bodySha256": "ff67a9d764d6a2367a187734e697f6a53217db9a21c101d410a113ca871a299d",
+    "heading": "Example Domain"
+  },
+  "native": {
+    "toolSequence": ["ToolSearch", "WebFetch"],
+    "toolSearchQuery": "select:WebFetch",
+    "toolSearchMatch": "WebFetch",
+    "deferredToolCount": 46,
+    "webFetchUrl": "https://example.com/",
+    "webFetchCode": 200,
+    "webFetchBytes": 559,
+    "webFetchDurationMs": 2059,
+    "webFetchResult": "The exact main heading text on this page is:\n\n\"Example Domain\"",
+    "forbiddenFallbackTools": [],
+    "finalText": "WEB_RESULT=EXAMPLE_DOMAIN"
+  },
+  "dsh": {
+    "toolSearchStartedAndCompleted": true,
+    "webFetchStartedAndCompleted": true,
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "turnReason": "completed"
+  },
+  "state": {
+    "workspaceContentHashesUnchanged": true,
+    "nestedGitHeadStatusAndIndexUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "session": {
+    "dshSessionId": "session-db957bc1-3eb6-4570-8b39-c7c56e0359e2",
+    "claudeBusinessSessionId": "32ec46ad-26e4-4e00-af18-f79bc25c2ef5",
+    "claudeAuxiliarySessionId": "8a7926dc-7d07-49b1-9182-8d91afaad8bd"
+  },
+  "hashes": {
+    "businessNative": "59ed7fab3720b026772369b64a99cce8e555813c2d03470b77477cba253b7afd",
+    "auxiliaryNative": "7db1c7632bcbfa7eccbb923ae290976645c7860bf5b46bbf0536fde862121e32",
+    "dshArchive": "e9c857e16bc01f363322519495f6dfb889a32bec76c863a73d904c90923305d3",
+    "linkStore": "96e40cb03e527a459108d56ea59381f26a9e50ec8bf9c70b7a5ba2dc8f9e0fd1",
+    "screenshot": "bc956bad661809853dabd5771d888b6133e115e4b14462070fc9cab3c651e1f7"
+  }
+}

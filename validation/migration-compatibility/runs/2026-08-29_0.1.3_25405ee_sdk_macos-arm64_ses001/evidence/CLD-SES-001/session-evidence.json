@@ -1,0 +1,22 @@
+{
+  "result": "pass",
+  "baselineLinkSha256": "f49be55933a9ade07ae8d22bf69bdaa2bb6a3c08955045663bd6e629c3bcc257",
+  "finalLinkSha256": "8504f5c24663bef632e068c5310dc8600331f06e68c16ee7933ab3b68d7a63c0",
+  "baselineLinkCount": 69,
+  "finalLinkCount": 70,
+  "business": {
+    "dshSessionId": "session-f9e1e017-2a77-4632-ad0a-8557b316e7a3",
+    "claudeSessionId": "3954adc5-53db-459d-bf12-be6e84063020",
+    "mappingCount": 1,
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "preset": "Claude Code",
+    "model": "sonnet",
+    "effort": "medium",
+    "toolCount": 0,
+    "visibleFinal": "CLD_SES001_NEW_BINDING_OK_41001",
+    "nativeTranscriptSha256": "1ca9a61e2cddcd5b07140eb8fd24ccb20a6139b83f3c89e5b39440d17a8e2807",
+    "dshArchiveSha256": "74feec59d71fc7fea752d6397f3e379e733b0b38b6bdf7455c72dd2d03b55943"
+  },
+  "title": {"claudeSessionId": "b28cd382-59fb-4166-835f-3e28456ce767", "businessMappingCount": 0, "nativeTranscriptSha256": "a6d4d33c547d537e087c1b15f08daa1fe6660807c8280cd476ba1b2b6b9125b5"},
+  "excluded": {"dshSessionId": "session-bd9bf8c0-0bd3-43d0-9ae2-31c66692a569", "claudeMappingCount": 0, "reason": "Default Standard/DeepSeek mode failed before Claude", "dshArchiveSha256": "a13de39a6fbc86ced8ea4e97dae4553a529c71e32b612fe7d29ecb19929f8a3c"}
+}

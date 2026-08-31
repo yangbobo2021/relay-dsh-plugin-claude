@@ -1,0 +1,29 @@
+{
+  "focusedTest": {
+    "name": "Claude SDK requests summarized adaptive thinking without replacing effort",
+    "pass": 1,
+    "fail": 0,
+    "durationMs": 112.885584,
+    "assertion": "query(options.effort) equals selected effort"
+  },
+  "dshUi": {"model": "Claude Sonnet", "effort": "High"},
+  "dshSessionId": "session-99d9a6e7-ef6b-4802-a7de-3eb2499f5cb0",
+  "claudeSessionId": "d0ff6f72-1c87-4893-891b-5e41bff0a1b2",
+  "link": {"model": "sonnet", "effort": "high"},
+  "linkStoreSha256": "a4dddaa4ad63e0ab65701669af76afb54804dd031bd2305d30dd9aee6a1dbe75",
+  "dshArchive": {
+    "sha256": "e9a4dff454c14328a73b6b10623bcfc8232c03405f30804d88868a47ed4b434e",
+    "sourceModel": "sonnet",
+    "final": "CLD_TXT009_HIGH_OK_1009",
+    "toolEventCount": 0
+  },
+  "nativeClaudeSession": {
+    "sha256": "5d286f01c29dee5a44abb22645e1fe5cab39a21c1fc44aefd8a9a4962ccddcbc",
+    "lines": 9,
+    "bytes": 12275,
+    "sessionId": "d0ff6f72-1c87-4893-891b-5e41bff0a1b2",
+    "effort": "high",
+    "messageModel": "claude-sonnet-5",
+    "stopReason": "end_turn"
+  }
+}

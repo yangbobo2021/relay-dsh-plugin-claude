@@ -1,0 +1,3 @@
+B-header
+value=B_after
+B-footer

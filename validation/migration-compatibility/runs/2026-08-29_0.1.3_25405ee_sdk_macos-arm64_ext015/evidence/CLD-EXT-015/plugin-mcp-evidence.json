@@ -1,0 +1,64 @@
+{
+  "requirement": "CLD-EXT-015",
+  "result": "pass",
+  "fixture": {
+    "pluginId": "relay-cld-installed-fixture@relay-cld-validation-marketplace",
+    "version": "1.0.3",
+    "marketplaceSha256": "e3e0298acd3003757670263f2dc7de3e2a9a80a68923b7ed86f0f5c7571a0c49",
+    "manifestSha256": "f2d1dbb9ed1892d8ad8683566daa3acb57ca71ee7b4df257265116e7eb819d77",
+    "mcpConfigSha256": "a050a3871b1b9480d28e52de08374fdda85e7c64186304b39f23ac10aaf5e538",
+    "serverSha256": "2b62f13a16e102d1193c4ef2c1bee8d76c671a9a8a655d0b38ac6b2ac4e16764",
+    "cliMcpInventory": ["relay-cld-plugin-mcp"]
+  },
+  "discovery": {
+    "dshSessionId": "session-9b6e123c-67f1-4ac4-8f0f-f58db146d460",
+    "claudeSessionId": "8aef6a4f-c570-41fd-9bcd-34175351f813",
+    "toolName": "mcp__plugin_relay-cld-installed-fixture_relay-cld-plugin-mcp__plugin_echo",
+    "toolNameOccurrences": 1,
+    "pendingMcpServers": [],
+    "businessToolCalls": 0,
+    "serverBusinessCallsAfterDiscovery": 0,
+    "finalText": "CLD_EXT015_DISCOVERY_PROBE_1515",
+    "nativeTranscriptSha256": "51a63d5cc6df5f9485bb2ce4298b9251f2bf7e3bb6fe45374c5222198902eb82",
+    "dshArchiveSha256": "8c4bf3300f0d73b062262eb679882b4480ab131545ccda2c638551df573baabe"
+  },
+  "business": {
+    "dshSessionId": "session-26730c9d-57c4-4207-b854-855eef6480c3",
+    "claudeSessionId": "a2f364ad-1d6f-4c18-b48b-78a098d8fbd9",
+    "toolSearchCalls": 1,
+    "toolSearchMaxResults": 1,
+    "mcpCalls": 1,
+    "mcpInput": {"value": "VALUE_1515"},
+    "serverCallCount": 1,
+    "serverResult": "CLD_EXT015_PLUGIN_MCP_1515:VALUE_1515",
+    "nativeResult": "CLD_EXT015_PLUGIN_MCP_1515:VALUE_1515",
+    "attributionMcpServer": "plugin:relay-cld-installed-fixture:relay-cld-plugin-mcp",
+    "approvalsAsked": 1,
+    "approvalsAllowedOnce": 1,
+    "completedTurns": 1,
+    "finalText": "CLD_EXT015_PLUGIN_MCP_1515:VALUE_1515",
+    "nativeTranscriptSha256": "7802b6352a194aed9c2ca88c4c71b6fefb5739c467cf663a56b3360c9008c30c",
+    "dshArchiveSha256": "853fbf0cde59f88c48d45566a18d06ffb3205be22dbc8d93e15c12b97cd18588",
+    "screenshotSha256": "5528d32e36870544e251a458d6ad29b23155242f9ef644ecb2121bbcd7bd2d51"
+  },
+  "serverLifecycle": {
+    "processStarts": 8,
+    "transportConnections": 8,
+    "businessCalls": 1,
+    "originalTempLogSha256": "890f97ac9e14fdea0ec09771c0221831746cee6364914f2c6bbe8b59071ceee5"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "fixtureCachePresent": false,
+    "installedRegistryPresent": false,
+    "fixtureProcesses": 0,
+    "temporaryLogPresent": false,
+    "settingsByteIdenticalToBaseline": true,
+    "knownMarketplacesByteIdenticalToBaseline": true,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "fixtureSourceUnchanged": true
+  }
+}

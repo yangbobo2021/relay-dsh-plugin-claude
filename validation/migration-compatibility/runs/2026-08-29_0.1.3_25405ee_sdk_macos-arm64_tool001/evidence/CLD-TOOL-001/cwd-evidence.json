@@ -1,0 +1,38 @@
+{
+  "requirement": "CLD-TOOL-001",
+  "result": "pass",
+  "expectedCwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+  "surfaces": {
+    "selectedWorkspaceUi": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "dshSessionCwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "linkConfigCwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "nativeBusinessCwds": ["/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace"],
+    "nativeAuxiliaryCwds": ["/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace"],
+    "bashStdout": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "finalText": "CWD_RESULT=/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace"
+  },
+  "tool": {
+    "name": "Bash",
+    "command": "pwd",
+    "resultError": false,
+    "activityStarted": 1,
+    "activityCompleted": 1,
+    "approvalsAsked": 0
+  },
+  "session": {
+    "dshSessionId": "session-3a4ef3ac-1d55-42c5-ba18-936c727a9a1c",
+    "claudeBusinessSessionId": "70e211cc-7baf-45bd-86a8-8657095046ca",
+    "claudeAuxiliarySessionId": "44b8c2d4-05bc-4519-8c22-806047f1f7a0",
+    "turnReason": "completed",
+    "newAttachmentObjects": [],
+    "workspaceFilesBeforeAndAfter": ["workspace.txt"]
+  },
+  "hashes": {
+    "workspaceMarker": "7732d4d7eecd48167cdc2c8adbf9e4be305b02059120a26614f44a2c75ae2b7b",
+    "businessNative": "3dd39d1852a790df6f07cac20f88a01ad20372605505ba340859c0b5b166d25c",
+    "auxiliaryNative": "c28e0d5fefbc6fbddc803942c28692ad553b2e38739fa2be8fdd65239f13b034",
+    "dshArchive": "951f56cff4165735d5b7434fdde7171459d9dc464475076620bd66f05cef8c2d",
+    "linkStore": "339b045293b1e0d7a7d3c51ba68bcb81c0d33813457b01aae386d9300e5c4dab",
+    "screenshot": "fed6c5ccdf323314a1b1dfa64c852532631dc4d50122dab132792022fa256218"
+  }
+}

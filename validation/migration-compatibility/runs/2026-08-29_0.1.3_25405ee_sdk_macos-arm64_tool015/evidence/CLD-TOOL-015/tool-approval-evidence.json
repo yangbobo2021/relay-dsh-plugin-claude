@@ -1,0 +1,54 @@
+{
+  "requirement": "CLD-TOOL-015",
+  "result": "pass",
+  "allow": {
+    "command": "printf 'CLD_TOOL015_ALLOWED_1515\\n' > approval/tool015-allowed.txt",
+    "approvalSeenMs": 6605,
+    "decision": "allowed-once",
+    "decisionMs": 6905,
+    "activityStatus": "completed",
+    "toolIsError": false,
+    "targetContent": "CLD_TOOL015_ALLOWED_1515\n",
+    "targetSha256": "01a9cffcd8d1316dacaaf6fda7ebd40c194dac2e1f318f7716c4ed54cdf4bd7c",
+    "finalText": "ALLOW_RESULT=created",
+    "turnReason": "completed",
+    "dshSessionId": "session-365e158c-36c0-4c9c-82d6-d9edb1736cef",
+    "claudeBusinessSessionId": "ff28d680-e36a-4419-b369-962659c90bd7",
+    "claudeAuxiliarySessionId": "832ccbb2-d36e-40ae-a8c7-9fa4620815d1"
+  },
+  "deny": {
+    "command": "printf 'CLD_TOOL015_DENIED_1515\\n' > approval/tool015-denied.txt",
+    "approvalSeenMs": 10357,
+    "targetBeforeDecision": false,
+    "decision": "rejected",
+    "decisionMs": 10717,
+    "activityStatus": "error",
+    "toolIsError": true,
+    "toolResult": "DSH approval returned rejected.",
+    "targetAfterCompletionAndSafety": false,
+    "finalText": "The command was rejected by approval (not executed).",
+    "turnReason": "completed",
+    "dshSessionId": "session-3f4ac119-5996-4c3c-89fe-e3c9157ca3c2",
+    "claudeBusinessSessionId": "34e38f8d-f6a5-45dc-811d-4e655612aa36",
+    "claudeAuxiliarySessionId": "9259b289-05f2-4a23-867c-ac5098021797"
+  },
+  "state": {
+    "baselineSha256BeforeAndAfter": "b907ad106d16c48913d1f4e279f02d604d6d2b6e0bcfa66be955a7566c633a22",
+    "allowedFileStableAfterDeny": true,
+    "deniedFileExists": false,
+    "unrelatedWorkspaceAndNestedGitStateUnchanged": true,
+    "newAttachmentObjects": []
+  },
+  "hashes": {
+    "allowBusinessNative": "91b4b1126ca5a70c0aa525bc0ce80de0e449d13d3ec571da8da0664b3c51be20",
+    "allowAuxiliaryNative": "7e7f126fbbcc03e5eccdbab57229173c49c15817e0a8fa359da72b890cd703ac",
+    "allowDshArchive": "6b422afb7f86cebcb772bcef95103f5620424853e13c30078e1ee24ed6e67e01",
+    "denyBusinessNative": "2ab61773ebc59bd46b9a3f186c77be13f61460a1a7a425e69e7378d2b7a25938",
+    "denyAuxiliaryNative": "d9f6c781e1d84ac76c6c07498995c61c6f497707f5f0c1633636e63387f349b9",
+    "denyDshArchive": "93e8e2648eaa59945a23233c5ab5ce95567149eb0b9bd3cec4c89ac42e22e21e",
+    "linkStore": "e092a4ea276e93eed709e46c6c046ad8d8de33e1883eff26f9c30df67f3d97e5",
+    "allowScreenshot": "995d15e9126ade32b511cf79a43560132671d50abddd094dfed9bbd7c7fa4419",
+    "denyPendingScreenshot": "fc8b73b2fb4fa324829a9da68341f45b58501588ad95afb3d76ab4d2d69b7859",
+    "denyFinalScreenshot": "6f884dc9f72e5f7bcf108fdbabc72263d8d931fa4a11b39fb01bd1b6ad462c3c"
+  }
+}

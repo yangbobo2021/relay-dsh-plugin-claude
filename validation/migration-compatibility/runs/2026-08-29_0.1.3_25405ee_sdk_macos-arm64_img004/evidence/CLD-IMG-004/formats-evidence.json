@@ -1,0 +1,63 @@
+{
+  "fixturesAndTransport": [
+    {
+      "position": 0,
+      "format": "png",
+      "mediaType": "image/png",
+      "semantic": "red square",
+      "sourceSha256": "4e4faa65d2da0711cae8161af60e14f7ac0854102c4faac6a4e4decd16b1f2dd",
+      "bytes": 3867,
+      "sha256": "07291aaf6d80d1324a7191000c4c09b104df341aebf2a0553f8f97502370dff4"
+    },
+    {
+      "position": 1,
+      "format": "jpeg",
+      "mediaType": "image/jpeg",
+      "semantic": "green triangle",
+      "sourceSha256": "ba8f2de1eceda83cbf3cca61714fbd5c9e66a1cacdb8c3f63d450f9ef181da15",
+      "bytes": 14187,
+      "sha256": "545f73cfc8400458b3d92f95afe0b747e20c156833c61e9d9f5be239a0b35e12"
+    },
+    {
+      "position": 2,
+      "format": "gif",
+      "mediaType": "image/gif",
+      "semantic": "blue circle",
+      "sourceSha256": "9d72c39118ef7371cb055874a519a6f54267ca094fb4ef71990fcebe44fd7200",
+      "bytes": 5369,
+      "sha256": "8bff47ceba1032db096849dd230cb9da8bfd8fb6d5456b2331f30c4b56f08ae5"
+    },
+    {
+      "position": 3,
+      "format": "webp",
+      "mediaType": "image/webp",
+      "semantic": "purple diamond",
+      "sourceSha256": "993b51e5b780242c972fcc8f8ad01fb9232b1380b93c27ebe691bef614188e7b",
+      "bytes": 946,
+      "sha256": "336879420dcd3719133480f07c68deef427bd06456e485a40241f00e01e5fa7a"
+    }
+  ],
+  "dshSessionId": "session-328bf72b-9071-4140-94d7-9627f703a9f2",
+  "businessClaudeSessionId": "e73482ca-ed3e-440e-b475-5f9c75d827a2",
+  "auxiliaryClaudeSessionId": "a78c0417-51b3-4b3e-94da-8fc3130aeaa3",
+  "businessNativeSha256": "2b0fa27e726a4cbd498a6c4ab3097b5de2d9a310d0853700db06166c6ac77280",
+  "auxiliaryNativeSha256": "298675fd030cbc3bf61b98920deedbfffe883b8b421cd725a21485c1e859ea79",
+  "dshArchiveSha256": "7b1fba126a045cd616781b6b724c07c9b2bfc783d5f89458e5c44fa41b4e0548",
+  "linkStoreSha256": "502db2f1a13471a97f07621cae7c85b9ee464b52a9993736c62dca644f5684a4",
+  "uiPreviewNames": ["clipboard.png", "clipboard.jpeg", "clipboard.gif", "clipboard.webp"],
+  "dshMediaTypeOrder": ["image/png", "image/jpeg", "image/gif", "image/webp"],
+  "nativeUserContentTypes": ["image", "image", "image", "image", "text"],
+  "nativeMediaTypeOrder": ["image/png", "image/jpeg", "image/gif", "image/webp"],
+  "allAttachmentIdsDistinct": true,
+  "allDshStoredObjectDigestsMatch": true,
+  "allNativeDecodedDigestsMatch": true,
+  "expectedAndObservedFinal": "ONE=SQUARE,RED;TWO=TRIANGLE,GREEN;THREE=CIRCLE,BLUE;FOUR=DIAMOND,PURPLE",
+  "dshAssistantMessages": 1,
+  "dshToolEvents": 0,
+  "nativeToolBlocks": 0,
+  "turnEnd": "completed",
+  "screenshots": {
+    "composerSha256": "c4eb04794aedbc7854330c8601839c67f1249a2aaadce4682b82b156417eb3c4",
+    "completedSha256": "8e4c65bab3d74d5f52965a8d4e550d57436d95e1f6acf628adb6487edeffad2a"
+  }
+}

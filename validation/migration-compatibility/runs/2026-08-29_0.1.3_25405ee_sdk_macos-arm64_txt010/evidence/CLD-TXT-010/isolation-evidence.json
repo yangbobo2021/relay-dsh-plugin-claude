@@ -1,0 +1,45 @@
+{
+  "trial1": {
+    "purpose": "initial structural isolation check",
+    "dshSessionId": "session-0f86b550-32f6-4002-b85c-3de567f9a51d",
+    "businessClaudeSessionId": "e70ef1ce-601f-4df4-9173-223767bd24c0",
+    "auxiliaryClaudeSessionId": "c017d157-fb6c-421f-a967-5e1a0e5ee826",
+    "businessNativeSha256": "f8ed1e85c8c4827604b8e4728902bd0dfd7a0de8107d8cffaafd53b238f322ab",
+    "auxiliaryNativeSha256": "805f8918d64d3fa8a67910c8a0651eb3948b7a27b21c4f68c53305d3681fa78f",
+    "dshArchiveSha256": "9a129837ff2af3a2a9e4f68bce31f91e543b984e902ac194e4b5c043f12a0827",
+    "businessConversationCounts": {"user": 1, "assistant": 1},
+    "businessTitlePromptMatches": 0,
+    "businessLinkCount": 1,
+    "auxiliaryLinkCount": 0,
+    "limitation": "title and business answer text coincided; retained only as corroboration"
+  },
+  "trial2": {
+    "purpose": "decisive distinct-content isolation check",
+    "dshSessionId": "session-d7208540-b7f7-4594-8729-23bbafdf439b",
+    "businessClaudeSessionId": "517a85e9-a6f7-4079-8e49-1ff4bd219948",
+    "auxiliaryClaudeSessionId": "9114e3ce-dc89-4406-919e-6eb2b7b6f24a",
+    "businessNativeSha256": "985499d7b0eeb393c3419dc592afde56cf6122e4a41e40ebe07cf3df1b55ffa6",
+    "auxiliaryNativeSha256": "2182bcec5e79c382be72cc153054cbeade01fafdc78c3ef675a757620302ba8f",
+    "dshArchiveSha256": "1458ce0d8bf99d62ac15bb9f139b8ae7c5ba79ca926e3784829a01a5f3ccba3d",
+    "linkStoreSha256": "ad881e2659172c2344d4d5e2fa5eec92942cc6d6899a69848728dd8150738ccb",
+    "screenshotSha256": "b4650b87888b7cd55ced91bb5f8c16f9712eceb161dec693a4a8912d22444969",
+    "businessConversationCounts": {"user": 1, "assistant": 1},
+    "businessFinal": "CLD_TXT010_SECOND_BUSINESS_OK_1010",
+    "businessTitlePromptMatches": 0,
+    "businessToolBlocks": 0,
+    "auxiliaryConversationCounts": {"user": 1, "assistant": 1},
+    "auxiliaryFinal": "Auxiliary Title Isolation Test",
+    "businessLinkCount": 1,
+    "auxiliaryLinkCount": 0,
+    "dshTitleRequestCount": 1,
+    "dshTitleRoute": {"provider": "relay-claude", "model": "sonnet"},
+    "dshAssistantMessageCount": 1,
+    "dshTurnEnd": "completed",
+    "dshToolEventCount": 0
+  },
+  "nativeMetadataBoundary": {
+    "businessAiTitleRecords": 1,
+    "classification": "non-conversational Claude Code metadata; not a user or assistant message"
+  },
+  "workspaceSha256": "5128c2e7d026a428d190b7341a15ebbb1ffc2bdd5f540f115731768216fd3a55"
+}

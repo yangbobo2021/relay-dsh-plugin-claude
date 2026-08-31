@@ -1,0 +1,8 @@
+{
+  "name": "relay-cld-second-fixture",
+  "description": "Second deterministic plugin for Relay Claude namespace validation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Relay Validation"
+  }
+}

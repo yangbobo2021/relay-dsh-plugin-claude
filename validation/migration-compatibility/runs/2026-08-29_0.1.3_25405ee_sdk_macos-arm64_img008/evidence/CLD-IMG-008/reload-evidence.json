@@ -1,0 +1,34 @@
+{
+  "dshSessionId": "session-8e4e6d40-1527-4bc5-b9db-18587258830e",
+  "businessClaudeSessionId": "b232e0fc-e7ed-43b8-9472-50df3a6d3a59",
+  "attachmentId": "sha256:0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+  "before": {
+    "textVisible": true,
+    "visibleImageCount": 1,
+    "contentOrder": ["text", "image"],
+    "archiveSha256": "12259c52574864bc0f50443a1c697916a1fda9147b53a36568e83409080e09b9",
+    "objectSha256": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+    "sourceSha256": "0678f20ec7a868edb0c3abf49da4384e7f3dfd828deadc747ca7a1a8f4b30482",
+    "linkSha256": "21a16dd0b7428afb2d313dd53eb791207ce07428ed8ceecabe9f08882e1e236f",
+    "domSha256": "ec14572bf4a3ace648ee92136c2e17e9df498514b1cd70de7ffb94fe1ad935eb",
+    "screenshotSha256": "d286fe170d49324563f9db86d63ee0e0f6a359b9002fd90f2b2ad21d26379373"
+  },
+  "reload": {
+    "kind": "full page reload",
+    "url": "http://127.0.0.1:4394/",
+    "sessionRestoredAutomatically": true
+  },
+  "after": {
+    "textVisible": true,
+    "visibleImageCount": 1,
+    "contentOrder": ["text", "image"],
+    "archiveUnchanged": true,
+    "objectUnchanged": true,
+    "sourceUnchanged": true,
+    "linkUnchanged": true,
+    "nativeSessionSetUnchanged": true,
+    "workspacePathsAndDigestsUnchanged": true,
+    "domSha256": "ef43575e34f3ff114a5aa4300df9e6d15ddee9af0fbc5a9afe55d708159cced0",
+    "screenshotSha256": "e224b1d8ccf637df0ed5e9a717e166ff8de15bf4bca41879604ffb550c85f812"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "relay-cld-validation-marketplace",
+  "description": "Sanitized local marketplace for Relay Claude migration validation.",
+  "owner": {
+    "name": "Relay Validation"
+  },
+  "plugins": [
+    {
+      "name": "relay-cld-installed-fixture",
+      "description": "Deterministic installed-plugin discovery fixture for Relay Claude validation.",
+      "version": "1.0.4",
+      "source": "./plugins/relay-cld-installed-fixture"
+    }
+  ]
+}

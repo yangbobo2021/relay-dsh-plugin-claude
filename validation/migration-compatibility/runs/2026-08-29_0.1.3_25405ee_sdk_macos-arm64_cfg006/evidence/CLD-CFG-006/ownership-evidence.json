@@ -1,0 +1,38 @@
+{
+  "requirement": "CLD-CFG-006",
+  "result": "pass",
+  "conflictingProjectSettings": { "model": "haiku", "effort": "low", "permissionDefaultMode": "plan" },
+  "adapterMapping": {
+    "model": "sonnet",
+    "effort": "high",
+    "sandbox": "read-only",
+    "approvalPolicy": "never",
+    "cwd": "/fixture/dsh-owned-cwd-6006",
+    "settingSources": ["user", "project", "local"],
+    "createdAndSentAgree": true,
+    "completed": true
+  },
+  "liveQuery": {
+    "sessionId": "e9da588a-3bb6-42d7-b6c2-b1c4a2c6379f",
+    "modelOption": "sonnet",
+    "nativeModel": "claude-sonnet-5",
+    "effortOption": "medium",
+    "nativeEffort": "medium",
+    "permissionOption": "default",
+    "nativePermissionMode": "default",
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/config-collision-project",
+    "settingSources": ["project"],
+    "toolCalls": 0,
+    "finalText": "CLD_CFG006_LIVE_OWNERSHIP_OK_6006",
+    "transcriptSha256": "ac8411f509f6cc7e5e3acb95c14fc42a42c165c8f52912edd55a8b5f54a40a2c",
+    "transcriptBytes": 12519
+  },
+  "artifacts": {
+    "settingsSha256": "ca2d7a610b2e87bb081887a9533edba0828ce2b84d87cce7fc77e0a520e2f6d1",
+    "adapterSha256": "f3fd34b08a0b2a4b91fe78dbdf5363dceaf9afc4ffd8efc563eeb988b8bcbbd4",
+    "sdkClientSha256": "7ca6dda7dbb765d93d5a0dc686bcacbb187ae62cb53983401b03736835f51a85",
+    "liveProbeSha256": "8d1ab4626806fd3d7d11a3c78ba93854f3850b723465ca92c437b96b5ee9bbe5",
+    "adapterProbeSha256": "43b2fdc80437e95827ad0675f2d8100293f398d8a0413b726d7526646585fc8c"
+  },
+  "postconditions": { "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731", "diagnostics": 0, "excludedInvalidAdapterAttempts": 1 }
+}

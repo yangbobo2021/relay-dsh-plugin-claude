@@ -1,0 +1,30 @@
+{
+  "control": {
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/plain-text-workspace/",
+    "sessionId": "9430ff9b-d67d-4367-8b44-1326742866a8",
+    "hookRecordCount": 0,
+    "toolCount": 0,
+    "finalText": "CLD_HOOK003_CONTROL_DONE_13003",
+    "nativeTranscriptSha256": "c0992ffea57c9f46a3164f694256d4c0f95626664e2913c2444114c1546e8b5b"
+  },
+  "target": {
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace/",
+    "sessionId": "372badc1-3fc3-4261-9bb1-f20740ac52de",
+    "startedAt": 1788006382262,
+    "hookAt": 1788006382631,
+    "completedAt": 1788006387797,
+    "hookRecordCount": 1,
+    "hookEventName": "SessionStart",
+    "source": "startup",
+    "toolCount": 0,
+    "finalText": "CLD_HOOK003_TARGET_DONE_13003",
+    "nativeTranscriptSha256": "ac88419984981a5f9c079fc8d5afe81958f082dfbc5836af9eab8c8f46b2c0ca"
+  },
+  "diagnosticCount": 0,
+  "state": {"projectSettingsOriginallyExisted": false, "projectSettingsRemoved": true, "temporaryLogRemoved": true},
+  "fixtureSha256": {
+    "probe.mjs": "af1b83a561cdffe67c16f158ffc7e9c4f1df04b5be93fc4fd52bb039775eaa9f",
+    "project-settings.json": "450398b6ed9d23e3ee8b64bbc9141670f96e8504ef6c808bcf20642fb29eed8b",
+    "record-sessionstart.mjs": "747c8f0aacf2d9c5bee0cf82e6b2f6335139b680b1d0ec5312e53bcc5494c925"
+  }
+}

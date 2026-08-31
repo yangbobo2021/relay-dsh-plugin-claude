@@ -1,0 +1,62 @@
+{
+  "requirement": "CLD-EXT-014",
+  "result": "pass",
+  "fixture": {
+    "pluginId": "relay-cld-installed-fixture@relay-cld-validation-marketplace",
+    "version": "1.0.2",
+    "marketplaceSha256": "ed2493fa11acc9028bcae92248e24e7364c8d2652408ad7330fb06c3730dd631",
+    "manifestSha256": "67f43ed118cf20357db873bc826d709e83d44c2595367805c16b257c447087e4",
+    "agentSha256": "fcf11d1f3e83d247d0fa5b92153ff51c6558f83336c5387921cc138248e94382",
+    "cliAgentInventory": ["relay-probe"]
+  },
+  "parent": {
+    "dshSessionId": "session-f5f8b67b-a1f9-47bf-856e-f5d472e122ff",
+    "claudeSessionId": "a2790cb2-b072-40f2-bf3f-0e1c533c0fab",
+    "initialAgentName": "relay-cld-installed-fixture:relay-probe",
+    "agentCalls": [{
+      "id": "toolu_013zsnceVmG2sRKXcGc63oja",
+      "input": {
+        "description": "CLD_EXT014 plugin agent",
+        "subagent_type": "relay-cld-installed-fixture:relay-probe",
+        "prompt": "Return the plugin Agent configured exact marker. Do not use tools.",
+        "run_in_background": false
+      }
+    }],
+    "otherToolCalls": 0,
+    "approvalRequests": 0,
+    "resultAgentId": "abb37825764ff03e1",
+    "resultMarker": "CLD_EXT014_PLUGIN_AGENT_1414",
+    "completedTurns": 1,
+    "finalText": "CLD_EXT014_PLUGIN_AGENT_1414",
+    "nativeTranscriptSha256": "ea6c788f5b8dd4ee3dea4850ee161d18d70fba3a0b354e8d0b5e0ce9f97f51b1",
+    "dshArchiveSha256": "1816b2c5a1fb2745e1db8caedd2ceb592135729e4903a38b1b1b781a26344c44",
+    "screenshotSha256": "85f71f0da23b4ef3587cd377b3dcfe0bcbb985da0a40547ac82f184b1fb03b39"
+  },
+  "child": {
+    "agentId": "abb37825764ff03e1",
+    "agentType": "relay-cld-installed-fixture:relay-probe",
+    "spawnDepth": 1,
+    "parentToolUseId": "toolu_013zsnceVmG2sRKXcGc63oja",
+    "sessionId": "a2790cb2-b072-40f2-bf3f-0e1c533c0fab",
+    "cwd": "/Users/boboyang/work/Relay/integrations/claude/validation/migration-compatibility/fixtures/tool-workspace",
+    "model": "claude-haiku-4-5-20251001",
+    "attributionPlugin": "relay-cld-installed-fixture",
+    "attributionAgent": "relay-cld-installed-fixture:relay-probe",
+    "toolCalls": 0,
+    "finalText": "CLD_EXT014_PLUGIN_AGENT_1414",
+    "transcriptSha256": "2dba3e7d9681aa54067bc2d28c1a52b9e816393f546e91f78fe9cbf9376a80c2",
+    "metaSha256": "369c39dcbcaf729739a69048a2120afe2531a6300763bd89f00d61ca1bddf57a"
+  },
+  "postconditions": {
+    "cliInstalledPlugins": 0,
+    "fixtureCachePresent": false,
+    "installedRegistryPresent": false,
+    "settingsByteIdenticalToBaseline": true,
+    "knownMarketplacesByteIdenticalToBaseline": true,
+    "attachmentObjectCount": 11,
+    "gitHead": "d5deeb53d474ddd6d29b48bcc91a5889f4cb227c",
+    "gitStatus": ["M  staged.txt", " M tracked.txt", "?? untracked.txt"],
+    "gitIndexSha256": "53adec129b433f00835a4eef2bab6cb31e42eaba45bdb8ae351ca73322c288cd",
+    "fixtureSourceUnchanged": true
+  }
+}

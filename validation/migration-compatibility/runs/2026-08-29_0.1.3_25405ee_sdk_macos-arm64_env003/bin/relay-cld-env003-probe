@@ -1,0 +1,2 @@
+#!/bin/sh
+printf '%s' "$CLD_ENV003_SECRET"

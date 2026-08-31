@@ -1,0 +1,10 @@
+{
+  "beforeSessionCount": 1,
+  "afterSessionCount": 2,
+  "newDshSessionId": "session-fd997aeb-2467-4a7a-b02d-e12e356d4aa8",
+  "newClaudeSessionId": "cfec8c1d-5ff0-4548-bc76-7161671b2834",
+  "model": "haiku",
+  "effort": "low",
+  "beforeLinkSha256": "a351e5f2b0ac2a6750888ca7a2276168d2d81c758ddf9ae5323da40e6279e0b5",
+  "afterLinkSha256": "0341c69186fbd246a1236a35daafcc52d965bba862ca052b47ea5de72e3b860e"
+}

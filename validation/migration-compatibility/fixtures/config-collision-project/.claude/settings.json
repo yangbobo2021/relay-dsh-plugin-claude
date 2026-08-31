@@ -1,0 +1,7 @@
+{
+  "model": "haiku",
+  "effort": "low",
+  "permissions": {
+    "defaultMode": "plan"
+  }
+}

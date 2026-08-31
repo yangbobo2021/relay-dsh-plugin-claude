@@ -1,0 +1,38 @@
+{
+  "requirement": "CLD-CFG-005",
+  "result": "pass",
+  "pluginId": "relay-cld-installed-fixture@relay-cld-validation-marketplace",
+  "version": "1.0.4",
+  "enabled": {
+    "configValue": true,
+    "sessionId": "18973780-8dd5-49b4-a1b0-74afa82ad50b",
+    "skillCount": 14,
+    "namespaces": ["relay-cld-installed-fixture:installed-command", "relay-cld-installed-fixture:installed-discovery", "relay-cld-installed-fixture:relay-probe"],
+    "toolCalls": 0,
+    "finalText": "CLD_CFG005_ENABLED_DONE_5005",
+    "transcriptSha256": "1ed51aa19de5e682aa3362701d516788bfd5b449147053c8d2c4c9011c3ff656"
+  },
+  "disabled": {
+    "configValue": false,
+    "pluginStillInstalled": true,
+    "sessionId": "99a72a16-9eac-406e-b60e-5de7f9920c52",
+    "skillCount": 12,
+    "fixtureNamespaceOccurrences": 0,
+    "toolCalls": 0,
+    "finalText": "CLD_CFG005_DISABLED_DONE_5005",
+    "transcriptSha256": "649ba0678b76bafc71bc7bbcd2b1871ee19305d8b5b6556e055f3f44517eca77"
+  },
+  "artifacts": {
+    "probeSha256": "fd11f7140a62396d9defd6f9d335be98673b2c5380eb535954c2e6b47cd79259",
+    "marketplaceSha256": "606b36a3b84dfb11391a0aae45550ca0250079f84a5a353fc2da2e933a66130d",
+    "manifestSha256": "dcc8f6fd78d27a883b001b89dc5a81092af91743c7e5e17c1664a06e594aa1a0"
+  },
+  "postconditions": {
+    "installedPlugins": 0,
+    "fixtureCachePresent": false,
+    "installedRegistryPresent": false,
+    "userSettingsSha256": "5dc7d8ff06a744d9cb0c376ac468fa7e1febb0038365cf293eab4363e8a90731",
+    "knownMarketplacesSha256": "cc211679063d1097946ab7af4ebbbb0fa341e2c8305a6e0012e19a269c7e49e9",
+    "dshObjectCount": 11
+  }
+}
