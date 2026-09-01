@@ -1,3 +1,4 @@
+import { sessionPreset, modelDirectory } from "./dsh-client-compat.mjs";
 export function installModelSelection(ctx, preset, provider, otherProvider) {
   let stopped = false;
   const selecting = new Set();
@@ -13,15 +14,15 @@ export function installModelSelection(ctx, preset, provider, otherProvider) {
       return;
     }
 
-    const selectedPreset = list.byId[id]?.projectionValues?.agentPreset;
+    const selectedPreset = sessionPreset(list.byId[id]);
     if (selectedPreset !== preset && selectedPreset === otherProvider) return;
     selecting.add(id);
     void (async () => {
-      const directory = ctx.modelDirectories.directoryFor(id);
+      const directory = modelDirectory(ctx, id);
       const models = await directory.load();
       if (stopped || !models.current) return;
       const latest = ctx.sessions.list.getSnapshot().byId[id];
-      if (ctx.sessions.list.getSnapshot().current !== id || latest?.blank !== true || latest.projectionValues?.agentPreset !== selectedPreset) {
+      if (ctx.sessions.list.getSnapshot().current !== id || latest?.blank !== true || sessionPreset(latest) !== selectedPreset) {
         pending.add(id);
         return;
       }

@@ -1,6 +1,7 @@
+import { toolCallId as ToolCallId } from "./dsh-compat.mjs";
 import { createHash } from "node:crypto";
 
-import { ToolCallId, freezeMessage, MessageId } from "@deepseek-ai/dsh-llm";
+import { freezeMessage, MessageId } from "@deepseek-ai/dsh-llm";
 import { SessionId } from "@deepseek-ai/dsh-session";
 
 import { CLAUDE_PRESET, CLAUDE_PROVIDER } from "./claude-adapter.js";

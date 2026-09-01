@@ -1,13 +1,18 @@
 # 在 DeepSeek Harness 中使用 Claude Code 对话
 
-> 未发布适配：本分支已迁移到 DSH `0.1.2-alpha.2`。npm 版本和标签尚未更新；下方已发布版本的安装示例不代表新版兼容性。见[适配说明](docs/dsh-0.1.2-alpha.2.md)。
+> **现已支持最新 DSH `0.1.2-alpha.2`。** 同一插件版本已在 DSH `0.1.2-alpha.2` 与 `0.1.1-rc.2` 上完成兼容验证。[安装插件，立即体验最新版 DSH](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [兼容性详情](docs/dsh-0.1.2-alpha.2.md)。
+
+```bash
+npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@0.2.0-rc.1
+npx @deepseek-ai/dsh@0.1.2-alpha.2 web
+```
 
 [![npm 版本](https://img.shields.io/npm/v/relay-dsh-plugin-claude?label=npm)](https://www.npmjs.com/package/relay-dsh-plugin-claude)
 [![CI](https://github.com/yangbobo2021/relay-dsh-plugin-claude/actions/workflows/ci.yml/badge.svg)](https://github.com/yangbobo2021/relay-dsh-plugin-claude/actions/workflows/ci.yml)
 [![npm 月下载量](https://img.shields.io/npm/dm/relay-dsh-plugin-claude?label=downloads)](https://www.npmjs.com/package/relay-dsh-plugin-claude)
 [![GitHub Stars](https://img.shields.io/github/stars/yangbobo2021/relay-dsh-plugin-claude?style=flat)](https://github.com/yangbobo2021/relay-dsh-plugin-claude/stargazers)
 [![MIT 许可证](https://img.shields.io/github/license/yangbobo2021/relay-dsh-plugin-claude)](LICENSE)
-[![DSH 兼容版本](https://img.shields.io/badge/DSH-0.1.1--rc.2-2f7d68)](https://github.com/deepseek-ai/deepseek-harness)
+[![DSH 兼容版本](https://img.shields.io/badge/DSH-0.1.1--rc.2%20%7C%200.1.2--alpha.2-2f7d68)](https://github.com/deepseek-ai/deepseek-harness)
 [![npm 来源证明](https://img.shields.io/badge/npm_provenance-verified-2f9e44)](https://www.npmjs.com/package/relay-dsh-plugin-claude/v/0.1.5)
 
 [English](README.md) | 中文
@@ -321,3 +326,13 @@ npm pack
 请通过本仓库的
 [Issue Tracker](https://github.com/yangbobo2021/relay-dsh-plugin-claude/issues)
 报告错误或提出功能建议。
+
+### 新候选版安装（发布后才可用）
+
+同一候选面向 DSH `0.1.1-rc.2` 和 `0.1.2-alpha.2`；此版本和 Git Tag 目前尚未发布。
+
+```sh
+npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@next
+# Git tag alternative, after publication:
+npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.0-rc.1
+```

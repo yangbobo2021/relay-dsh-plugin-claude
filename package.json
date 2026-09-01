@@ -1,6 +1,6 @@
 {
   "name": "relay-dsh-plugin-claude",
-  "version": "0.1.5",
+  "version": "0.2.0-rc.1",
   "description": "Claude Code integration plugin for DeepSeek Harness, providing native Claude conversations powered by the Claude Agent SDK, with model selection, approvals, questions, tools, and session continuation.",
   "keywords": [
     "dsh-plugin",
@@ -22,7 +22,8 @@
     "node": ">=22.13"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "next"
   },
   "scripts": {
     "prepare:dsh": "bash scripts/link-dsh-development-peers.sh",
@@ -57,7 +58,10 @@
     "lib/host-plugin.js.map",
     "lib/typert.host.js",
     "lib/typert.host.js.map",
-    "docs/dsh-0.1.2-alpha.2.md"
+    "docs/dsh-0.1.2-alpha.2.md",
+    "dsh-compat.mjs",
+    "dsh-client-compat.mjs",
+    "dsh-client-compat.d.mts"
   ],
   "dsh": {
     "client": {
@@ -89,14 +93,14 @@
     "@anthropic-ai/claude-agent-sdk": "^0.3.241",
     "@anthropic-ai/sdk": "^0.120.0",
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "relay-dsh-plugin-session-import": "^0.1.0",
+    "relay-dsh-plugin-session-import": "0.2.0-rc.1",
     "sharp": "^0.35.3",
     "zod": "4.4.3"
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh-llm": ">=0.1.2-alpha.2 <0.1.3",
-    "@deepseek-ai/dsh-session": ">=0.1.2-alpha.2 <0.1.3",
-    "@deepseek-ai/dsh-typert-protocol": ">=0.1.2-alpha.2 <0.1.3",
+    "@deepseek-ai/dsh-llm": ">=0.1.1-rc.2 <0.1.2-0 || >=0.1.2-alpha.2 <0.1.3-0",
+    "@deepseek-ai/dsh-session": ">=0.1.1-rc.2 <0.1.2-0 || >=0.1.2-alpha.2 <0.1.3-0",
+    "@deepseek-ai/dsh-typert-protocol": ">=0.1.1-rc.2 <0.1.2-0 || >=0.1.2-alpha.2 <0.1.3-0",
     "react": "^18.2.0"
   },
   "peerDependenciesMeta": {
@@ -123,6 +127,7 @@
     "react-dom": "^18.3.1",
     "tsdown": "0.22.2",
     "typescript": "6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "relay-dsh-plugin-session-import": "github:yangbobo2021/relay-dsh-plugin-session-import#65417a5abd365d19c619c8a1c1679768189a68e4"
   }
 }
