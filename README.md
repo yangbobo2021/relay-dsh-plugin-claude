@@ -3,7 +3,7 @@
 > **Now supports the latest DSH `0.1.2-alpha.2`.** The same plugin release is verified on DSH `0.1.2-alpha.2` and `0.1.1-rc.2`. [Install it and try the latest DSH](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [Compatibility details](docs/dsh-0.1.2-alpha.2.md).
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@0.2.0-rc.1
+npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@0.2.0
 npx @deepseek-ai/dsh@0.1.2-alpha.2 web
 ```
 
@@ -364,5 +364,5 @@ The same candidate targets DSH `0.1.1-rc.2` and `0.1.2-alpha.2`; this version an
 ```sh
 npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@next
 # Git tag alternative, after publication:
-npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.0-rc.1
+npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.0
 ```

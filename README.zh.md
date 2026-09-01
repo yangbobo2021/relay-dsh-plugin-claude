@@ -3,7 +3,7 @@
 > **现已支持最新 DSH `0.1.2-alpha.2`。** 同一插件版本已在 DSH `0.1.2-alpha.2` 与 `0.1.1-rc.2` 上完成兼容验证。[安装插件，立即体验最新版 DSH](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [兼容性详情](docs/dsh-0.1.2-alpha.2.md)。
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@0.2.0-rc.1
+npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@0.2.0
 npx @deepseek-ai/dsh@0.1.2-alpha.2 web
 ```
 
@@ -334,5 +334,5 @@ npm pack
 ```sh
 npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add relay-dsh-plugin-claude@next
 # Git tag alternative, after publication:
-npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.0-rc.1
+npx @deepseek-ai/dsh@0.1.2-alpha.2 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.0
 ```
