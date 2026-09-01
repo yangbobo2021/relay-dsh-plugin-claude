@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
-import test from "node:test";
+import nodeTest from "node:test";
 
 import { installModelSelection } from "../model-selection.mjs";
 
+for (const generation of ['legacy', 'current']) {
+const test = (name, run) => nodeTest(`${generation}: ${name}`, run);
+const presetFields = agentPreset => generation === 'legacy' ? { agentPreset } : { projectionValues: { agentPreset } };
 test("a preset change during model discovery still selects the Claude provider", async () => {
   const harness = modelHarness("standard");
   const stop = installModelSelection(harness.ctx, "relay-claude", "relay-claude", "relay-codex");
@@ -20,7 +23,7 @@ test("a preset change during model discovery still selects the Claude provider",
 });
 
 function modelHarness(initialProvider) {
-  let state = { current: "session-1", byId: { "session-1": { id: "session-1", blank: true, projectionValues: { agentPreset: "standard" } } } };
+  let state = { current: "session-1", byId: { "session-1": { id: "session-1", blank: true, ...presetFields("standard") } } };
   let currentProvider = initialProvider;
   let firstResolver;
   let queries = 0;
@@ -47,14 +50,26 @@ function modelHarness(initialProvider) {
   };
   return {
     ctx: {
-      modelDirectories: { directoryFor: () => directory },
+      ...(generation === 'current' ? { modelDirectories: { directoryFor: () => directory } } : {
+        connection: { api: { sessions: {
+          async models({ sessionId }) {
+            assert.equal(sessionId, 'session-1');
+            return { result: { ok: true, value: await directory.load() } };
+          },
+          async selectModel({ sessionId, ...selection }) {
+            assert.equal(sessionId, 'session-1');
+            try { await directory.select(selection); return { result: { ok: true } }; }
+            catch (error) { return { result: { ok: false, error: { message: error.message } } }; }
+          },
+        } } },
+      }),
       sessions: { list: { getSnapshot: () => state, subscribe(listener) { listeners.add(listener); return () => listeners.delete(listener); } } },
     },
     selections,
     modelQueries: () => queries,
     releaseFirstQuery: () => firstResolver(),
     setPreset(agentPreset) {
-      state = { ...state, byId: { ...state.byId, "session-1": { ...state.byId["session-1"], projectionValues: { agentPreset } } } };
+      state = { ...state, byId: { ...state.byId, "session-1": { ...state.byId["session-1"], ...presetFields(agentPreset) } } };
       for (const listener of listeners) listener();
     },
   };
@@ -95,10 +110,13 @@ test("disposing Claude synchronization prevents late directory responses from se
 
 test("a missing session directory cannot throw out of the Session-list subscriber", async () => {
   const harness = modelHarness("standard");
-  harness.ctx.modelDirectories.directoryFor = () => { throw new Error("session scope is not ready"); };
+  if (generation === 'current') harness.ctx.modelDirectories.directoryFor = () => { throw new Error("session scope is not ready"); };
+  else harness.ctx.connection.api.sessions.models = async () => ({ result: { ok: false } });
   const stop = installModelSelection(harness.ctx, "relay-claude", "relay-claude", "relay-codex");
   harness.setPreset("relay-claude");
   await new Promise(resolve => setTimeout(resolve, 5));
   assert.deepEqual(harness.selections, []);
   stop();
 });
+
+}

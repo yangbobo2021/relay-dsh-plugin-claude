@@ -12,6 +12,7 @@ import {
   scanClaudeWorkspace,
 } from './claude-session-import-client.mjs'
 import type { SessionImportProviderSlotDefinition } from 'relay-dsh-plugin-session-import/contracts'
+import { conversationEvents, withConversationRuntime } from './compatible-runtime.ts'
 
 type DshSlotContractAnchor = ChatNodeOwnerProps
 
@@ -24,16 +25,18 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
   }
 }
 
-export const inject = ['slots', 'theme', 'locale', 'remote', 'sessions', 'workspaces', 'connection', 'uiConversation', 'modelDirectories']
+export const inject = ['slots', 'theme', 'locale', 'remote', 'sessions', 'workspaces', 'connection']
 
 export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
   ctx.effect(() => ctx.locale.register('relay.claude', { zh, en }), 'relay-claude: dictionaries')
-  ctx.uiConversation.events.register(claudeActivityDefinition)
-  ctx.slots.inject('conversation.chat.node', () => ctx.slots.register({
-    name: 'conversation.chat.node', key: 'relay-claude-activity',
-  }, ClaudeActivityView))
   applySessionImport(ctx)
-  const unsubscribe = installModelSelection(ctx as ModelSelectionContext, 'relay-claude', 'relay-claude', 'relay-codex')
+  const unsubscribe = withConversationRuntime(ctx, inner => {
+    conversationEvents(inner).register(claudeActivityDefinition)
+    inner.slots.inject('conversation.chat.node', () => inner.slots.register({
+      name: 'conversation.chat.node', key: 'relay-claude-activity',
+    }, ClaudeActivityView))
+    return installModelSelection(inner as ModelSelectionContext, 'relay-claude', 'relay-claude', 'relay-codex')
+  })
   return async () => { unsubscribe() }
 }
 
