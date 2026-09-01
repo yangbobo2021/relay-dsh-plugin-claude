@@ -12,8 +12,9 @@ const candidates = process.env.DSH_ROOT ? [resolve(process.env.DSH_ROOT)] : [
 const dsh = candidates.find(path => existsSync(join(path, 'apps/cli/package.json')));
 if (!dsh) throw new Error('Set DSH_ROOT to a prepared official deepseek-harness checkout.');
 const version = JSON.parse(readFileSync(join(dsh, 'apps/cli/package.json'), 'utf8')).version;
-if (version !== '0.1.2-alpha.2') {
-  throw new Error(`Expected verified DSH 0.1.2-alpha.2, found ${version}. Select the matching official checkout.`);
+const verifiedVersions = new Set(['0.1.2-alpha.2', '0.1.2-alpha.3']);
+if (!verifiedVersions.has(version)) {
+  throw new Error(`Expected a verified DSH 0.1.2 prerelease, found ${version}. Select an audited official checkout.`);
 }
 const sourceRoot = join(dsh, 'node_modules/.pnpm/node_modules/@deepseek-ai');
 const targetRoot = join(root, 'node_modules/@deepseek-ai');
