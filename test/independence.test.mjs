@@ -21,7 +21,7 @@ test("Claude plugin remains independently installable", async () => {
       `${field} must not depend on a Relay application or feature plugin`,
     );
   }
-  assert.equal(manifest.dependencies["relay-dsh-plugin-session-import"], "0.2.0");
+  assert.equal(manifest.dependencies["relay-dsh-plugin-session-import"], "0.2.1");
 
   for (const file of await sourceFiles(root)) {
     const source = await readFile(file, "utf8");

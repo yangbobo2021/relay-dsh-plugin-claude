@@ -6,8 +6,8 @@ const manifest = JSON.parse(await readFile(new URL('../package.json', import.met
 const lock = JSON.parse(await readFile(new URL('../package-lock.json', import.meta.url), 'utf8'))
 
 test('Claude depends on and loads the neutral session import hub first', async () => {
-  assert.equal(manifest.dependencies['relay-dsh-plugin-session-import'], '0.2.0')
-  assert.equal(lock.packages[''].dependencies['relay-dsh-plugin-session-import'], '0.2.0')
+  assert.equal(manifest.dependencies['relay-dsh-plugin-session-import'], '0.2.1')
+  assert.equal(lock.packages[''].dependencies['relay-dsh-plugin-session-import'], '0.2.1')
   assert.match(lock.packages['node_modules/relay-dsh-plugin-session-import'].resolved, /#3e4f633c6845f6d91d8f04bd34719ba5c7ae4fe9$/)
   assert.ok(manifest.dsh.client.inject.includes('relay-dsh-plugin-session-import'))
 
