@@ -1,6 +1,6 @@
 {
   "name": "relay-dsh-plugin-claude",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Claude Code integration plugin for DeepSeek Harness, providing native Claude conversations powered by the Claude Agent SDK, with model selection, approvals, questions, tools, and session continuation.",
   "keywords": [
     "dsh-plugin",
@@ -58,7 +58,7 @@
     "lib/host-plugin.js.map",
     "lib/typert.host.js",
     "lib/typert.host.js.map",
-    "docs/dsh-0.1.2-alpha.2.md",
+    "docs/dsh-0.1.2-alpha.3.md",
     "dsh-compat.mjs",
     "dsh-client-compat.mjs",
     "dsh-client-compat.d.mts"
@@ -93,7 +93,7 @@
     "@anthropic-ai/claude-agent-sdk": "^0.3.241",
     "@anthropic-ai/sdk": "^0.120.0",
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "relay-dsh-plugin-session-import": "0.2.0",
+    "relay-dsh-plugin-session-import": "0.2.1",
     "sharp": "^0.35.3",
     "zod": "4.4.3"
   },
