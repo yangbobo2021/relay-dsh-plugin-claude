@@ -1,12 +1,12 @@
 # Claude Code Conversations for DeepSeek Harness
 
-> **Now supports the latest DSH `0.1.2-alpha.3`.** Plugin `0.2.1` is verified on DSH `0.1.2-alpha.3`, `0.1.2-alpha.2`, and `0.1.1-rc.2`. [Install it and try the latest DSH](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [Compatibility details](docs/dsh-0.1.2-alpha.3.md).
+> **Now supports DSH `0.1.2-rc.1` while retaining `0.1.2-alpha.3` compatibility.** Plugin `0.2.2` is verified on both releases. [Install it from npm](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [Compatibility evidence](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.2-rc.1-20260903).
 
-> **Release channels:** `latest` → `0.2.1`; `next` → `0.2.1-rc.1`.
+> **Release channels:** `latest` → `0.2.2`; `next` → `0.2.1-rc.1`.
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add relay-dsh-plugin-claude@0.2.1
-npx @deepseek-ai/dsh@0.1.2-alpha.3 web
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@0.2.2
+npx @deepseek-ai/dsh@0.1.2-rc.1 web
 ```
 
 [![npm version](https://img.shields.io/npm/v/relay-dsh-plugin-claude?label=npm)](https://www.npmjs.com/package/relay-dsh-plugin-claude)
@@ -39,8 +39,8 @@ Session. The install requires Node.js 22.13 or newer and `pnpm` on `PATH`. Then
 stop DSH Web, install the tested stable release, and restart DSH:
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add relay-dsh-plugin-claude@latest
-npx @deepseek-ai/dsh@0.1.2-alpha.3 web
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
+npx @deepseek-ai/dsh@0.1.2-rc.1 web
 ```
 
 Open **New Session**, select a workspace, choose **Claude Code** from the mode
@@ -115,7 +115,7 @@ The published npm package name is
 Use `@latest` to install the current stable release:
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add relay-dsh-plugin-claude@latest
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
 ```
 
 At the time of writing, `latest` resolves to stable version `0.2.1`. The linked
@@ -128,7 +128,7 @@ CI publishing and official DSH compatibility checks. The current candidate also
 contains the latest model-selection synchronization fix:
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add relay-dsh-plugin-claude@next
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@next
 ```
 
 At the time of writing, `next` resolves to `0.2.1-rc.1`.
@@ -138,14 +138,14 @@ At the time of writing, `next` resolves to `0.2.1-rc.1`.
 Install the current `main` branch when testing an unreleased change:
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#main
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#main
 ```
 
 `main` can change at any time. For a reproducible GitHub install, pin a Tag or
 full Commit SHA instead. For example:
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.1
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.2
 ```
 
 The official DSH CLI initializes the `web` Profile if it does not exist, asks
@@ -154,12 +154,12 @@ adds the plugin's bundle layer. No Relay checkout is required. The first
 installation can take longer while platform-specific Claude Agent SDK packages
 are downloaded; wait for pnpm's final `Done` message or an explicit error. If
 you already installed the `dsh` command, replace the
-`npx @deepseek-ai/dsh@0.1.2-alpha.3` prefix with `dsh` in any command above.
+`npx @deepseek-ai/dsh@0.1.2-rc.1` prefix with `dsh` in any command above.
 
 ### 3. Start or restart DSH Web
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 web
+npx @deepseek-ai/dsh@0.1.2-rc.1 web
 ```
 
 If you use an installed command, run `dsh web` instead. Bundle membership is read
@@ -309,7 +309,7 @@ dsh plugin --profile web update relay-dsh-plugin-claude
 dsh plugin --profile web remove relay-dsh-plugin-claude
 ```
 
-Use the `npx @deepseek-ai/dsh@0.1.2-alpha.3` prefix instead of `dsh` when you do not
+Use the `npx @deepseek-ai/dsh@0.1.2-rc.1` prefix instead of `dsh` when you do not
 have a persistent DSH command.
 
 ## Troubleshooting
@@ -364,7 +364,7 @@ Report bugs and feature requests in this repository's
 Stable `0.2.1` targets DSH `0.1.1-rc.2`, `0.1.2-alpha.2`, and `0.1.2-alpha.3`; install it from npm `latest` or Git tag `v0.2.1`.
 
 ```sh
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add relay-dsh-plugin-claude@latest
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
 # Git tag alternative, after publication:
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.1
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.2
 ```

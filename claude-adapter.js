@@ -1,4 +1,5 @@
 import { LlmAdapter } from "@deepseek-ai/dsh-llm";
+import { sessionEvents } from "./dsh-compat.mjs";
 import {
   materializeDshToolImages,
   promoteFinalAnswerImages,
@@ -232,7 +233,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
     const text = content.filter(block => block.type === "text").map(block => block.text).join("\n").trim();
     const agent = this.agents.get(sessionId);
     if (!agent) throw new Error(`Relay Claude adapter has no attached agent for ${sessionId}`);
-    const nativePermissions = permissionConfiguration(agent.session.events);
+    const nativePermissions = permissionConfiguration(sessionEvents(agent.session));
     const config = this.configure(sessionId, {
       ...(options.provider === CLAUDE_PROVIDER ? { model: options.model } : {}),
       ...(options.provider === CLAUDE_PROVIDER ? { effort: options.reasoningEffort } : {}),
@@ -769,8 +770,9 @@ function subscribeRuntimeActivity(runtime, listener) {
 }
 
 function effectivePreset(session) {
-  for (let index = session.events.length - 1; index >= 0; index -= 1) {
-    const event = session.events[index];
+  const events = sessionEvents(session);
+  for (let index = events.length - 1; index >= 0; index -= 1) {
+    const event = events[index];
     if (event.type === "agent-preset/selected") return event.data.agentPreset;
   }
   return session.header.agentPreset;

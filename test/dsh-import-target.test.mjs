@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+import { sessionEvents } from "../dsh-compat.mjs";
+
 import { Session, SessionId } from "@deepseek-ai/dsh-session";
 
 import {
@@ -43,7 +45,7 @@ test("Claude history projects ordered text, reasoning, and completed tool activi
   assert.deepEqual(JSON.parse(messages[2].content[0].arguments), { command: "pwd" });
   assert.equal(messages[3].content[0].content[0].text, "/workspace/relay\n");
   assert.equal(messages[4].content[0].text, "Done.");
-  assert.equal(session.events.at(-1).type, "session/end-seed");
+  assert.equal(sessionEvents(session).at(-1).type, "session/end-seed");
 });
 
 test("Claude history projects the public SDK terminal user-string message shape", () => {
