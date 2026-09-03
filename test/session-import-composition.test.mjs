@@ -8,7 +8,7 @@ const lock = JSON.parse(await readFile(new URL('../package-lock.json', import.me
 test('Claude depends on and loads the neutral session import hub first', async () => {
   assert.equal(manifest.dependencies['relay-dsh-plugin-session-import'], manifest.version)
   assert.equal(lock.packages[''].dependencies['relay-dsh-plugin-session-import'], manifest.version)
-  assert.match(lock.packages['node_modules/relay-dsh-plugin-session-import'].resolved, /#6d63ceb10b292303f96136d933f5042d2419feb2$/)
+  assert.match(lock.packages['node_modules/relay-dsh-plugin-session-import'].resolved, /#1b789b387e334f65ba364b1ed5fb91c861c5d045$/)
   assert.ok(manifest.dsh.client.inject.includes('relay-dsh-plugin-session-import'))
 
   const patch = await readFile(new URL('../cordis.patch.yml', import.meta.url), 'utf8')
