@@ -1,8 +1,8 @@
 # 在 DeepSeek Harness 中使用 Claude Code 对话
 
-> **候选版本 `0.2.3-rc.2` 已在官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1` 上验证。** 导入历史现在会提供新版 DSH 要求的结算 stream，同时保持 rc.2 有效；peer 元数据已声明两个精确版本。[从 npm 安装](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [兼容性证据](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915)。
+> **稳定版 `0.2.3` 已在官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1` 上验证。** 导入历史现在会提供新版 DSH 要求的结算 stream，同时保持 rc.2 有效；peer 元数据已声明两个精确版本。[从 npm 安装](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [兼容性证据](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915)。
 
-> **发布通道：** `latest` → `0.2.2`；`next` → `0.2.3-rc.2`。
+> **发布通道：** `latest` → `0.2.3`；`next` → `0.2.3-rc.2`。
 
 ```bash
 npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@next
@@ -331,10 +331,10 @@ npm pack
 
 ### 已发布稳定版安装
 
-稳定版 `0.2.2` 面向 DSH `0.1.1-rc.2` 以及截至 `0.1.2-rc.1` 的 `0.1.2` 预览版本线；可通过 npm `latest` 或 Git Tag `v0.2.2` 安装。
+稳定版 `0.2.3` 进一步支持官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1`；可通过 npm `latest` 或 Git Tag `v0.2.3` 安装。
 
 ```sh
 npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
 # Git tag alternative, after publication:
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.2
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.3
 ```
