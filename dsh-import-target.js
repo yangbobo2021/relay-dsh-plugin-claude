@@ -123,6 +123,7 @@ export function buildClaudeHistorySeed(projection, updatedAt, config) {
         append("assistant/message", {
           turn,
           step,
+          stream: [],
           message: freezeMessage({
             id: MessageId(entry.id),
             role: "assistant",
@@ -135,6 +136,7 @@ export function buildClaudeHistorySeed(projection, updatedAt, config) {
         append("assistant/message", {
           turn,
           step,
+          stream: [],
           message: freezeMessage({
             id: MessageId(entry.requestId),
             role: "assistant",

@@ -1,12 +1,12 @@
 # Claude Code Conversations for DeepSeek Harness
 
-> **Now supports DSH `0.1.2-rc.1` while retaining `0.1.2-alpha.3` compatibility.** Plugin `0.2.2` is verified on both releases. [Install it from npm](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [Compatibility evidence](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.2-rc.1-20260903).
+> **Release candidate `0.2.3-rc.2` is verified on official DSH `0.1.5-rc.2` and `0.1.6-alpha.1`.** Imported history now supplies the settlement stream required by current DSH while remaining valid on rc.2; peer metadata declares both exact releases. [Install it from npm](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [Compatibility evidence](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915).
 
-> **Release channels:** `latest` → `0.2.2`; `next` → `0.2.3-rc.1`.
+> **Release channels:** `latest` → `0.2.2`; `next` → `0.2.3-rc.2`.
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@0.2.2
-npx @deepseek-ai/dsh@0.1.2-rc.1 web
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@next
+npx @deepseek-ai/dsh@0.1.6-alpha.1 web
 ```
 
 [![npm version](https://img.shields.io/npm/v/relay-dsh-plugin-claude?label=npm)](https://www.npmjs.com/package/relay-dsh-plugin-claude)
@@ -131,7 +131,7 @@ contains the latest model-selection synchronization fix:
 npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@next
 ```
 
-At the time of writing, `next` resolves to `0.2.3-rc.1`.
+At the time of writing, `next` resolves to `0.2.3-rc.2`.
 
 #### GitHub development build
 
@@ -145,7 +145,7 @@ npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/rel
 full Commit SHA instead. For example:
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.3-rc.1
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.3-rc.2
 ```
 
 The official DSH CLI initializes the `web` Profile if it does not exist, asks
