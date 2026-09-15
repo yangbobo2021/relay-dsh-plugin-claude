@@ -1,8 +1,8 @@
 # Claude Code Conversations for DeepSeek Harness
 
-> **Release candidate `0.2.3-rc.2` is verified on official DSH `0.1.5-rc.2` and `0.1.6-alpha.1`.** Imported history now supplies the settlement stream required by current DSH while remaining valid on rc.2; peer metadata declares both exact releases. [Install it from npm](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [Compatibility evidence](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915).
+> **Stable `0.2.3` is verified on official DSH `0.1.5-rc.2` and `0.1.6-alpha.1`.** Imported history now supplies the settlement stream required by current DSH while remaining valid on rc.2; peer metadata declares both exact releases. [Install it from npm](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [Compatibility evidence](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915).
 
-> **Release channels:** `latest` → `0.2.2`; `next` → `0.2.3-rc.2`.
+> **Release channels:** `latest` → `0.2.3`; `next` → `0.2.3-rc.2`.
 
 ```bash
 npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@next
@@ -361,10 +361,10 @@ Report bugs and feature requests in this repository's
 
 ### Published stable installation
 
-Stable `0.2.2` targets DSH `0.1.1-rc.2` and the `0.1.2` preview line through `0.1.2-rc.1`; install it from npm `latest` or Git tag `v0.2.2`.
+Stable `0.2.3` additionally supports official DSH `0.1.5-rc.2` and `0.1.6-alpha.1`; install it from npm `latest` or Git tag `v0.2.3`.
 
 ```sh
 npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
 # Git tag alternative, after publication:
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.2
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.3
 ```
