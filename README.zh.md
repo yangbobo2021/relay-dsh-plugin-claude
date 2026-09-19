@@ -1,11 +1,11 @@
 # 在 DeepSeek Harness 中使用 Claude Code 对话
 
-> **稳定版 `0.2.3` 已在官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1` 上验证。** 导入历史现在会提供新版 DSH 要求的结算 stream，同时保持 rc.2 有效；peer 元数据已声明两个精确版本。[从 npm 安装](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [兼容性证据](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915)。
+> **稳定版 `0.2.4` 已在官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1` 上验证。** 恢复失败时会保留原 Claude Session 绑定，不会创建替代会话；源码 peer 元数据已声明两个精确版本。[从 npm 安装](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [兼容性证据](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915)。
 
-> **发布通道：** `latest` → `0.2.3`；`next` → `0.2.4-rc.1`。
+> **发布通道：** `latest` → `0.2.4`；`next` → `0.2.4-rc.1`。
 
 ```bash
-npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@next
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@0.2.4
 npx @deepseek-ai/dsh@0.1.6-alpha.1 web
 ```
 
@@ -15,7 +15,7 @@ npx @deepseek-ai/dsh@0.1.6-alpha.1 web
 [![GitHub Stars](https://img.shields.io/github/stars/yangbobo2021/relay-dsh-plugin-claude?style=flat)](https://github.com/yangbobo2021/relay-dsh-plugin-claude/stargazers)
 [![MIT 许可证](https://img.shields.io/github/license/yangbobo2021/relay-dsh-plugin-claude)](LICENSE)
 [![DSH 兼容版本](https://img.shields.io/badge/DSH-0.1.1--rc.2%20%7C%200.1.2--alpha.2%20%7C%200.1.2--alpha.3-2f7d68)](https://github.com/deepseek-ai/deepseek-harness)
-[![npm 来源证明](https://img.shields.io/badge/npm_provenance-verified-2f9e44)](https://www.npmjs.com/package/relay-dsh-plugin-claude/v/0.2.2)
+[![npm 来源证明](https://img.shields.io/badge/npm_provenance-verified-2f9e44)](https://www.npmjs.com/package/relay-dsh-plugin-claude/v/0.2.4)
 
 [English](README.md) | 中文
 
@@ -38,8 +38,8 @@ Agent SDK Session。本插件可独立安装，不需要下载 Relay 仓库。
 安装经过测试的稳定版本并重新启动：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
-npx @deepseek-ai/dsh@0.1.2-rc.1 web
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@latest
+npx @deepseek-ai/dsh@0.1.6-alpha.1 web
 ```
 
 打开 **New Session**，选择工作区，再从模式菜单中选择 **Claude Code** 并发送
@@ -110,10 +110,10 @@ claude
 使用 `@latest` 安装当前稳定版本：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@latest
 ```
 
-本文更新时，`latest` 指向稳定版 `0.2.2`。最新版本请以链接中的 npm 页面
+本文更新时，`latest` 指向稳定版 `0.2.4`。最新版本请以链接中的 npm 页面
 为准。
 
 #### npm 预发布版（DSH 预览阶段推荐）
@@ -122,7 +122,7 @@ npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude
 候选版本。当前候选版本还包含最新的模型选择同步修复：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@next
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@next
 ```
 
 本文更新时，`next` 指向 `0.2.4-rc.1`。
@@ -132,14 +132,14 @@ npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude
 如需测试尚未发布的修改，可以直接安装当前 `main` 分支：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#main
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#main
 ```
 
 `main` 会持续变化。如需可复现的 GitHub 安装，请固定 Tag 或完整 Commit
 SHA。例如：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.4-rc.1
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.4
 ```
 
 官方 DSH CLI 会在需要时初始化 `web` Profile，通过 `pnpm` 安装所选软件包和
@@ -147,12 +147,12 @@ Claude Agent SDK 依赖，并将插件加入 Bundle 配置。用户不需要下�
 仓库。首次安装还会下载 Claude Agent SDK 的平台相关软件包，可能需要更长
 时间；请等待 pnpm 最终显示 `Done` 或明确错误。如果已经安装了持久可用的
 `dsh` 命令，可以将上述任一命令开头的
-`npx @deepseek-ai/dsh@0.1.2-rc.1` 替换为 `dsh`。
+`npx @deepseek-ai/dsh@0.1.6-alpha.1` 替换为 `dsh`。
 
 ### 3. 启动或重启 DSH Web
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 web
+npx @deepseek-ai/dsh@0.1.6-alpha.1 web
 ```
 
 如果使用已经安装的命令，则执行 `dsh web`。DSH 只在启动时读取 Bundle
@@ -188,8 +188,10 @@ thinking，以及已有结果的文本工具活动。未知或私有块会被跳
 不会被修改。
 
 SDK 列表不提供持久的 running/idle 状态。通过 DSH 继续会话时，应避免另一个
-Claude 客户端同时写入同一个 Session。如果恢复失败，DSH 会保留原始绑定供
-重试，绝不会静默创建替代 Session。CLI fallback 不支持导入。完整契约和交付
+Claude 客户端同时写入同一个 Session。如果恢复失败，DSH 会保留原生或导入的
+原始绑定供重试，绝不会静默创建替代 Session。原生绑定报告
+`CLAUDE_SESSION_RESUME_FAILED`，导入绑定报告更具体的
+`CLAUDE_IMPORTED_SESSION_RESUME_FAILED`。CLI fallback 不支持导入。完整契约和交付
 用例见
 [`docs/spec/claude-native-session-import.md`](docs/spec/claude-native-session-import.md)。
 
@@ -251,14 +253,14 @@ PNG；工作区中不会产生同名 PNG，也不会加载外部资源或执行�
 ## 插件边界及与 Relay 的关系
 
 本仓库在 [Relay](https://github.com/yangbobo2021/Relay) 项目中完成设计与
-兼容性验证。Relay 是面向长时间运行 Agent、外部事件投递、可复用 DSH
-工作台视图和多种对话后端的开源项目。
+兼容性验证。Relay 是面向长时间运行 Agent、外部事件投递和多种对话后端的
+开源项目。
 
 本插件可以独立安装。唯一依赖的 Relay 包是由包管理器自动安装的中立“会话
 导入中心”；运行时不依赖 Relay 应用、Relay Events 或其他功能插件，也不会
-替换 DSH 官方布局或安装 Files、Terminal 视图。用户可以只安装 Claude；需要
-时，Relay 项目则可以进一步组合 Codex、Claude、事件、Wait、Monitor 和工作台
-扩展。
+替换 DSH 官方工作区 UI。Workbench、Files、Terminal 已退役，当前 DSH 直接
+提供这些能力。用户可以只安装 Claude；需要时，Relay 项目可以进一步组合
+Codex、Claude、事件、Wait 和 Monitor。
 
 可以访问或 Star Relay 仓库，关注这些更完整的工作：
 <https://github.com/yangbobo2021/Relay>。
@@ -279,7 +281,7 @@ dsh plugin --profile web remove relay-dsh-plugin-claude
 ```
 
 如果没有持久安装 `dsh` 命令，请将命令开头的 `dsh` 替换为
-`npx @deepseek-ai/dsh@0.1.2-rc.1`。
+`npx @deepseek-ai/dsh@0.1.6-alpha.1`。
 
 ## 常见问题
 
@@ -331,10 +333,10 @@ npm pack
 
 ### 已发布稳定版安装
 
-稳定版 `0.2.3` 进一步支持官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1`；可通过 npm `latest` 或 Git Tag `v0.2.3` 安装。
+稳定版 `0.2.4` 面向官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1`；可通过 npm `latest` 或 Git Tag `v0.2.4` 安装。
 
 ```sh
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-claude@latest
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@latest
 # Git tag alternative, after publication:
-npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.3
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.4
 ```

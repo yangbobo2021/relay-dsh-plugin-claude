@@ -20,7 +20,9 @@ test("native Claude Session import specification locks the public SDK and fail-c
   assert.match(normalized, /must not parse Claude's private JSONL storage/);
   assert.match(normalized, /`includeWorktrees: false`, and `includeProgrammatic: false`/);
   assert.match(normalized, /must not label a candidate as completed/);
-  assert.match(normalized, /keeps the binding, and creates no replacement Session/);
+  assert.match(normalized, /keeps the binding, creates no replacement Session, and reports an error for retry/);
+  assert.match(normalized, /Native bindings report `CLAUDE_SESSION_RESUME_FAILED`/);
+  assert.match(normalized, /imported bindings retain the more specific `CLAUDE_IMPORTED_SESSION_RESUME_FAILED` code/);
   assert.match(normalized, /one-time DSH presentation snapshot/);
 });
 
