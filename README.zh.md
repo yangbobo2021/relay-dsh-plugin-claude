@@ -2,7 +2,7 @@
 
 > **稳定版 `0.2.4` 已在官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1` 上验证。** 恢复失败时会保留原 Claude Session 绑定，不会创建替代会话；源码 peer 元数据已声明两个精确版本。[从 npm 安装](https://www.npmjs.com/package/relay-dsh-plugin-claude) · [兼容性证据](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915)。
 
-> **发布通道：** `latest` → `0.2.4`；`next` → `0.2.4-rc.1`。
+> **发布通道：** `latest` → `0.2.4`；`next` → `0.2.5-rc.1`。
 
 ```bash
 npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@0.2.4
@@ -125,7 +125,7 @@ npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-cla
 npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-claude@next
 ```
 
-本文更新时，`next` 指向 `0.2.4-rc.1`。
+本文更新时，`next` 指向 `0.2.5-rc.1`。
 
 #### GitHub 开发版
 
@@ -139,7 +139,7 @@ npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/
 SHA。例如：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.4
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add github:yangbobo2021/relay-dsh-plugin-claude#v0.2.5-rc.1
 ```
 
 官方 DSH CLI 会在需要时初始化 `web` Profile，通过 `pnpm` 安装所选软件包和
