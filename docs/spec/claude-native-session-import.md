@@ -89,10 +89,12 @@ persisted before the next state is attempted.
 
 Restart, duplicate request, concurrent request, and retry must converge on the
 same DSH Session and native Session. Opening or sending the next DSH turn resumes
-the exact imported native Session ID. If resume fails because the source is busy,
-missing, or temporarily unavailable, the plugin reports
-`CLAUDE_IMPORTED_SESSION_RESUME_FAILED`, keeps the binding, and creates no
-replacement Session.
+the exact bound native Session ID. If resume fails because the source is busy,
+missing, or temporarily unavailable, the plugin keeps the binding, creates no
+replacement Session, and reports an error for retry. Native bindings report
+`CLAUDE_SESSION_RESUME_FAILED`; imported bindings retain the more specific
+`CLAUDE_IMPORTED_SESSION_RESUME_FAILED` code. The failed resume must not delete
+or rewrite the persisted binding.
 
 ## Web route
 

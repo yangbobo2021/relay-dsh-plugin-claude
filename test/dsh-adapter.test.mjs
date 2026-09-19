@@ -531,6 +531,98 @@ test("DSH-to-Claude links and configuration survive host restart", async (contex
   assert.equal(secondRuntime.resumed, 1);
 });
 
+test("native Claude bindings survive resume failure without creating a replacement", async (context) => {
+  const directory = await mkdtemp(join(tmpdir(), "relay-claude-native-resume-failure-"));
+  context.after(() => rm(directory, { recursive: true, force: true }));
+  const path = join(directory, "links.json");
+  const firstRuntime = new FakeRuntime();
+  const first = new ClaudeDshAdapter({
+    runtime: firstRuntime,
+    ready: Promise.resolve(),
+    linkStore: new ClaudeLinkStore(path),
+  });
+  const claudeSessionId = await first.ensureSession("dsh-native-1");
+  const before = JSON.parse(await readFile(path, "utf8"));
+
+  let failuresRemaining = 1;
+  const runtime = new FakeRuntime();
+  runtime.resumeSession = async (sessionId) => {
+    runtime.resumed += 1;
+    assert.equal(sessionId, claudeSessionId);
+    if (failuresRemaining > 0) {
+      failuresRemaining -= 1;
+      throw new Error("simulated transient 403");
+    }
+    runtime.sessions.set(sessionId, { id: sessionId, turns: [] });
+    return runtime.sessions.get(sessionId);
+  };
+  const restored = new ClaudeDshAdapter({
+    runtime,
+    ready: Promise.resolve(),
+    linkStore: new ClaudeLinkStore(path),
+  });
+
+  await assert.rejects(restored.ensureSession("dsh-native-1"), error => {
+    assert.equal(error.code, "CLAUDE_SESSION_RESUME_FAILED");
+    assert.equal(error.claudeSessionId, claudeSessionId);
+    assert.match(error.message, /original binding was kept for retry/);
+    return true;
+  });
+  assert.equal(restored.sessionFor("dsh-native-1"), claudeSessionId);
+  assert.equal(runtime.created, 0);
+  assert.deepEqual(JSON.parse(await readFile(path, "utf8")), before);
+  assert.equal(await restored.ensureSession("dsh-native-1"), claudeSessionId);
+  assert.equal(runtime.resumed, 2);
+  assert.equal(runtime.created, 0);
+});
+
+test("native Claude bindings survive a send-stage failure", async () => {
+  const runtime = new FakeRuntime();
+  runtime.sendMessage = async (sessionId) => {
+    runtime.sent.push({ sessionId });
+    throw new Error("simulated SDK query 403");
+  };
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve() });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  await assert.rejects(collect(adapter.stream({
+    provider: "relay-claude",
+    model: "sonnet",
+    sessionId: agent.id,
+    messages: [{
+      role: "user",
+      source: { kind: "user" },
+      content: [{ type: "text", text: "continue the original conversation" }],
+    }],
+  })), /simulated SDK query 403/);
+  assert.equal(adapter.sessionFor(agent.id), "claude-1");
+  assert.deepEqual(runtime.sent, [{ sessionId: "claude-1" }]);
+});
+
+test("native Claude bindings survive an asynchronous failed turn", async () => {
+  const runtime = new FakeRuntime({ status: "failed" });
+  const adapter = new ClaudeDshAdapter({ runtime, ready: Promise.resolve() });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  const chunks = await collect(adapter.stream({
+    provider: "relay-claude",
+    model: "sonnet",
+    sessionId: agent.id,
+    messages: [{
+      role: "user",
+      source: { kind: "user" },
+      content: [{ type: "text", text: "continue after an asynchronous failure" }],
+    }],
+  }));
+  const finish = chunks.find(chunk => chunk.type === "finish");
+
+  assert.equal(finish.reason.kind, "error");
+  assert.equal(adapter.sessionFor(agent.id), "claude-1");
+  assert.equal(runtime.created, 1);
+});
+
 test("imported Claude bindings are one-to-one, durable, and never silently replaced", async (context) => {
   const directory = await mkdtemp(join(tmpdir(), "relay-claude-import-links-"));
   context.after(() => rm(directory, { recursive: true, force: true }));

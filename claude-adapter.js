@@ -147,8 +147,10 @@ export class ClaudeDshAdapter extends LlmAdapter {
             { code: "CLAUDE_IMPORTED_SESSION_RESUME_FAILED", claudeSessionId: linked },
           );
         }
-        this.logger.warn(`Relay could not resume Claude session ${linked}; creating a replacement: ${error.message}`);
-        this.links.delete(sessionId);
+        throw Object.assign(
+          new Error(`Relay could not resume Claude Session ${linked}; the original binding was kept for retry`, { cause: error }),
+          { code: "CLAUDE_SESSION_RESUME_FAILED", claudeSessionId: linked },
+        );
       }
     }
     const created = await this.runtime.createSession(settings);

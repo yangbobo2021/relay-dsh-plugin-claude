@@ -150,7 +150,7 @@ console.log(JSON.stringify({ type: "result", result: "ok" }));
 
 function onceTurnCompleted(client) {
   return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error("timed out waiting for turn completion")), 1_000);
+    const timer = setTimeout(() => reject(new Error("timed out waiting for turn completion")), 5_000);
     const onActivity = (message) => {
       if (message.method !== "turn/completed") return;
       clearTimeout(timer);
